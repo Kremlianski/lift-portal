@@ -3,8 +3,9 @@ package net.scalapro.liftportal.util
 
 object Space {
 
-  def getSlug(id: Int):String = s"space_${id}"
+  def getId(id: Int):String = s"space_${id}"
 
-  def getId(slag: String):Int = slag.replaceFirst("space_", "").toInt
+  def getId(id: String):Int = id.replaceFirst("space_", "").toInt
 
+  def getMarkup(id: Int):String = s"<div class='exxo-space' id='space_${id}'></div>"
 }
