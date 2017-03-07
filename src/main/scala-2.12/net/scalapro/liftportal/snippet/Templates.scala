@@ -3,9 +3,10 @@ package net.scalapro.liftportal.snippet
 import net.liftweb.common.Full
 import net.liftweb.http.S
 
-import scala.xml.{NodeSeq, Unparsed}
 import net.liftweb.util.Helpers._
-import net.scalapro.liftportal.model.cms.{PageTemplate, PageTemplatesTable}
+
+import net.scalapro.liftportal.cms.views.TemplateV
+
 import net.scalapro.liftportal.util.DB
 
 import scala.concurrent.Await
@@ -13,20 +14,19 @@ import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
-//import net.scalapro.liftportal.util.FutureBinds._
-import scala.util.{Failure, Success}
 
-import scala.xml.{Elem, Node, XML}
+import net.scalapro.liftportal.util.Tags
+import net.scalapro.liftportal.util.Tags._
 
 
 object Templates {
 
-  private def removeTemplate(id:String): Unit = {
-    if(id == "1") {
-      S.error("error","You can't remove the default template!")
+  private def removeTemplate(id: String): Unit = {
+    if (id == "1") {
+      S.error("error", "You can't remove the default template!")
       return
     }
-    val q = PageTemplatesTable.filter(_.id === id.toLong)
+    val q = TemplateV.view.filter(_.id === id.toInt)
     val action = q.delete
     val db = DB.getDatabase
     try {
@@ -39,7 +39,11 @@ object Templates {
       S.redirectTo("templates")
     }
   }
+
+
   def render = {
+
+
 
     S.param("d") match {
       case Full(x) => removeTemplate(x)
@@ -47,29 +51,18 @@ object Templates {
     }
     val db = DB.getDatabase
     try {
-      val q = PageTemplatesTable.map(o=>o)
-      val action= q.result
-//      println(action.statements.head)
+      val q = TemplateV.view.map(o => o)
+      val action = q.result
 
       Await.result(
         db.run(action) // Future[Seq[String]]
           .map { p =>
 
           ".rows" #> p.map(x => {
-             <tr>
-              <td>
-                <a href={"edit-template?t="+x.id.getOrElse("")+""}>
-                  {x.name}
-                </a>
-              </td>
-              <td>
-              {x.description.getOrElse("")}
-              </td>
-               <td>
-                 <a href={"?d="+x.id.getOrElse("")+""}>
-                   Remove
-                 </a>
-               </td>
+            <tr>
+              {Tags.td(x.name, None, Some("edit-template?t=" + x.id.getOrElse("") + ""))}
+              {Tags.td(x.description.getOrElse(""))}
+              {Tags.td("Remove", None, "?d=" + x.id.getOrElse("") + "")}
             </tr>
           }
           )
