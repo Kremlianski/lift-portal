@@ -15,7 +15,7 @@ object ContainerV {
 
   class ContainersV(tag: Tag) extends Table[ContainerV](tag, "containers_v") {
 
-    def id = column[Option[Int]]("id")
+    def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
     def name = column[String]("name")
 
@@ -26,7 +26,7 @@ object ContainerV {
     def kind = column[String]("kind")
 
 
-    def * = (id, name, description, markup, kind) <>
+    def * = (id.?, name, description, markup, kind) <>
       ((ContainerV.apply _).tupled, ContainerV.unapply)
   }
 
@@ -35,13 +35,13 @@ object ContainerV {
   def createView():DBIO[Int] =
 
     sqlu"""
-        create view containers_v as
-        select * from containers where in_role()
+        CREATE VIEW containers_v AS
+        SELECT * FROM containers WHERE in_role()
       """
   def dropView():DBIO[Int] =
 
     sqlu"""
-       drop view containers_v
+       DROP VIEW containers_v
       """
 
 

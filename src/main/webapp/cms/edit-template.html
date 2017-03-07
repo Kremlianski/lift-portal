@@ -8,7 +8,9 @@
           crossorigin="anonymous">
 </head>
 <body>
-
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-7">
 <div class="lift:EditTemplate?form=post">
     <span class="lift:Msg?id=error&errorClass=error">error</span>
     <h1 class="title"></h1>
@@ -17,19 +19,25 @@
             <div class="panel-body">
 
     <div class="form-group">
-        <label for="name">Template name</label>
+        <label for="name">Name</label>
         <input type="text" name="name" id="name" class="form-control">
     </div>
     <div class="form-group">
-        <label for="descr">Template name</label>
+        <label for="descr">Description</label>
         <input type="text" name="descr" id="descr" class="form-control">
     </div>
     <div class="form-group">
-        <label for="text">Template name</label>
+        <label for="text">Markup</label>
         <textarea name="text" class="form-control" rows="18" id="text"></textarea>
     </div>
     <input type="submit" value="Submit" class="btn btn-default">
             </div>
+        </div>
+    </div>
+</div>
+        </div>
+        <div class="col-md-5">
+            <span class="lift:embed?what=cms/_space-form"></span>
         </div>
     </div>
 </div>

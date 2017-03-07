@@ -17,7 +17,7 @@ object TemplateV {
   class TemplatesV(tag: Tag) extends Table[TemplateV](tag, "templates_v") {
 
 
-    def id = column[Option[Int]]("id")
+    def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
     def name = column[String]("name")
 
@@ -26,7 +26,7 @@ object TemplateV {
     def markup = column[String]("markup", SqlType("TEXT"))
 
 
-    def * = (id, name, description, markup) <> ((TemplateV.apply _).tupled, TemplateV.unapply)
+    def * = (id.?, name, description, markup) <> ((TemplateV.apply _).tupled, TemplateV.unapply)
 
   }
 
@@ -36,12 +36,12 @@ object TemplateV {
   def createView():DBIO[Int] =
 
     sqlu"""
-        create view templates_v as
-        select * from templates where in_role()
+        CREATE VIEW templates_v AS
+        SELECT * FROM templates WHERE in_role()
       """
   def dropView():DBIO[Int] =
 
     sqlu"""
-       drop view templates_v
+       DROP VIEW templates_v
       """
 }

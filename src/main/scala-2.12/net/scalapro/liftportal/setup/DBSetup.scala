@@ -56,42 +56,39 @@ object DBSetup {
         Widget.table.schema
 
 
+    val createSeq = DBIO.seq(
 
+      cmsSchema.create,
 
+      SQLFunctions.create,
 
-    def createAll = db.run(
+      Views.create,
 
-      DBIO.seq(
-        cmsSchema.create,
-
-        SQLFunctions.create,
-
-        Views.create,
-
-        Template.table += Template(None, "default", None, defaultTemplate)
-
-      )
-    )
-
-    def dropAll = db.run(
-
-      DBIO.seq(
-
-        Views.drop,
-
-        SQLFunctions.drop,
-
-        cmsSchema.drop
-      )
+      Template.table += Template(None, "default", None, defaultTemplate)
 
     )
 
+    val dropSeq =  DBIO.seq(
+
+      Views.drop,
+
+      SQLFunctions.drop,
+
+      cmsSchema.drop
+    )
 
 
-    try {
-      Await.result(createAll, Duration.Inf)
+    def createAll = db.run(createSeq)
 
-    } finally db.close
+    def dropAll = db.run(dropSeq)
+
+    def recreateAll = db.run(dropSeq >> createSeq)
+
+
+
+    try Await.result(recreateAll, Duration.Inf)
+
+    finally db.close
   }
 
 }

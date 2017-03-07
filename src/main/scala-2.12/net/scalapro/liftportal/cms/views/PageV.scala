@@ -19,7 +19,7 @@ object PageV {
 
   class PagesV(tag: Tag) extends Table[PageV](tag, "pages_v") {
 
-    def id = column[Option[Int]]("id", O.PrimaryKey, O.AutoInc)
+    def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
     def template_id = column[Int]("template_id")
 
@@ -37,7 +37,7 @@ object PageV {
     def slag = column[String]("slag")
 
 
-    def * = (id, template_id, title, description, keywords, pageType, pageClass, slag) <>
+    def * = (id.?, template_id, title, description, keywords, pageType, pageClass, slag) <>
       ((PageV.apply _).tupled, PageV.unapply)
 
   }
@@ -47,13 +47,13 @@ object PageV {
   def createView():DBIO[Int] =
 
       sqlu"""
-        create view pages_v as
-        select * from pages where in_role()
+        CREATE VIEW pages_v AS
+        SELECT * FROM pages WHERE in_role()
       """
   def dropView():DBIO[Int] =
 
     sqlu"""
-       drop view pages_v
+       DROP VIEW pages_v
       """
 }
 

@@ -2,7 +2,7 @@ package net.scalapro.liftportal.snippet
 
 import net.liftweb.http.{S, SHtml, StatefulSnippet}
 import net.liftweb.util.Helpers._
-import net.scalapro.liftportal.model.cms.{PageTemplate, PageTemplatesTable}
+import net.scalapro.liftportal.cms.views.TemplateV
 import net.scalapro.liftportal.util.DB
 
 import scala.concurrent.Await
@@ -32,7 +32,7 @@ class EditTemplate extends StatefulSnippet {
 
     val db = DB.getDatabase
     try {
-      val q = PageTemplatesTable.filter(_.id === i.toLong) //The Query
+      val q = TemplateV.view.filter(_.id === i.toInt) //The Query
 
 
       Await.result(
@@ -73,16 +73,20 @@ class EditTemplate extends StatefulSnippet {
 
     val db = DB.getDatabase
     try {
+
+      val q = TemplateV.view.insertOrUpdate(TemplateV(
+        id match {
+          case "0" => None
+          case x: String => Some(x.toInt)
+        },
+        name,
+        Some(description),
+        markup
+      ))
+
+//      println(q.statements  )
       Await.result(
-        db.run(PageTemplatesTable.insertOrUpdate(PageTemplate(
-          id match {
-            case "0" => None
-            case x: String => Some(x.toLong)
-          },
-          name,
-          Some(description),
-          markup
-        )))
+        db.run(q)
         , Duration.Inf)
     }
     finally {
