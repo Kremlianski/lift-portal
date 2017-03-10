@@ -67,7 +67,7 @@ class EditTemplate extends StatefulSnippet {
 
   private def process(){
     if(name == "") {
-      S.error("error","You must define the name!")
+      S.error("error", <div class="alert alert-danger" role="alert">You must define the name!</div>)
       return
     }
 

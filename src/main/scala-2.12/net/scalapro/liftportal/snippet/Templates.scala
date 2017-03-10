@@ -60,7 +60,7 @@ object Templates {
           ".rows" #> p.map(x => {
             <tr>
               {Tags.td(x.name, None, Some("edit-template?t=" + x.id.getOrElse("") + ""))}{Tags.td(x.description.getOrElse(""))}<td>
-              <a href={"?d=" + x.id.getOrElse("") + ""} class="btn btn-default">
+              <a href={"?d=" + x.id.getOrElse("") + ""} class="btn btn-default btn-sm">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
               </a>
             </td>
