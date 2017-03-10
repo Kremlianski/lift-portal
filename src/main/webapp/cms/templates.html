@@ -12,12 +12,38 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="lift:Templates">
 
-<div class="lift:Templates">
-    <span class="lift:Msg?id=error&errorClass=error">error</span>
-<table class="table table-bordered tables-striped"><tr class="rows"></tr></table>
-    <div>
-        <a class="btn btn-default" href="edit-template">New template</a>
+                <h1>Templates</h1>
+                <span class="lift:Msg?id=error&errorClass=error">error</span>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                        <table class="table table-bordered table-striped">
+                            <caption>List of templates</caption>
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="rows"></tr>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+                <div>
+                    <a class="btn btn-primary" href="edit-template">New template</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
