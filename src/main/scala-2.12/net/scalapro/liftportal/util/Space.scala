@@ -1,7 +1,7 @@
 package net.scalapro.liftportal.util
 
 
-object Space {
+object SpaceUtil {
 
   def getId(id: Int):String = s"space_${id}"
 

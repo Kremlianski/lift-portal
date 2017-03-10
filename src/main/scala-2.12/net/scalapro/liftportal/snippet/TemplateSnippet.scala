@@ -2,7 +2,7 @@ package net.scalapro.liftportal.snippet
 
 import scala.xml.{NodeSeq, Unparsed}
 import net.liftweb.util.Helpers._
-import net.scalapro.liftportal.model.cms.PageTemplatesTable
+import net.scalapro.liftportal.cms.views.TemplateV
 import net.scalapro.liftportal.util.DB
 import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
@@ -39,7 +39,7 @@ object TemplateSnippet {
   def render = {
     val db = DB.getDatabase
     try {
-      val q = PageTemplatesTable.filter(_.id === 1.toLong).map(_.markup) //The Query
+      val q = TemplateV.view.filter(_.id === 1).map(_.markup) //The Query
 
 
       Await.result(

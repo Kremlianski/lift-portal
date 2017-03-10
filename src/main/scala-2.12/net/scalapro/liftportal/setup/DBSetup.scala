@@ -86,7 +86,7 @@ object DBSetup {
 
 
 
-    try Await.result(recreateAll, Duration.Inf)
+    try Await.result(createAll, Duration.Inf)
 
     finally db.close
   }

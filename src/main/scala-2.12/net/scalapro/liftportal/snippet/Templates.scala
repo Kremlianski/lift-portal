@@ -44,7 +44,6 @@ object Templates {
   def render = {
 
 
-
     S.param("d") match {
       case Full(x) => removeTemplate(x)
       case _ =>

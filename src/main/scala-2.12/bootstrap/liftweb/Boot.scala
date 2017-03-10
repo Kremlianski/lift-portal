@@ -1,6 +1,6 @@
 package bootstrap.liftweb
 
-import net.liftweb.http.{Html5Properties, LiftRules, Req}
+import net.liftweb.http.{ContentSecurityPolicy, ContentSourceRestriction, Html5Properties, LiftRules, Req, SecurityRules}
 import net.liftweb.sitemap.{Menu, SiteMap}
 import net.scalapro.liftportal.setup.DBSetup
 
@@ -23,6 +23,19 @@ class Boot {
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
 
     LiftRules.setSiteMap(SiteMap(entries: _*))
+
+
+    LiftRules.securityRules = () => {
+      SecurityRules(content = Some(ContentSecurityPolicy(
+        scriptSources = List(ContentSourceRestriction.Self,
+                    ContentSourceRestriction.UnsafeInline,
+          ContentSourceRestriction.UnsafeEval
+        ),
+        styleSources = List(ContentSourceRestriction.Self,
+          ContentSourceRestriction.UnsafeInline
+        )
+      )))
+    }
 
     DBSetup.setup
   }
