@@ -2,7 +2,7 @@
 
 ## Content Management System based on Scala, Lift, PostgreSQL, TypeScript and Slick
 
-+ **Scala** is wonderful language!
++ **Scala** is a wonderful language!
 
 + **Lift** is the best web framework I've met in my life!
 
