@@ -12,6 +12,6 @@
 
 + Plus my experience of doing the same things with Java and JavaScript.
 
-Summarizing all mentioned above I hope to get an exelent CMS. Wish me a luck!
+Summarizing all mentioned above I hope to get an excellent CMS. Wish me a luck!
 
 ## Development stage. There is nothing to see yet...
