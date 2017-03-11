@@ -39,6 +39,13 @@ object Space {
     def page_fk = foreignKey("page_fk", page_id, Page.table)(_.id,
       onUpdate = ForeignKeyAction.Cascade, onDelete = ForeignKeyAction.Cascade)
 
+
+    def container_index = index("container_index", container_id)
+
+    def template_index = index("template_index", template_id)
+
+    def page_index = index("page_index", page_id)
+
   }
 
 

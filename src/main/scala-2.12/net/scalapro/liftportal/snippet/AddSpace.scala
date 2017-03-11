@@ -22,20 +22,18 @@ object AddSpace  {
 
   def render: CssSel = {
 
-    S.param("t") match {
-      case Full(x) => id = ("t", x)
-      case _ =>
+    (S.param("t"), S.param("c")) match {
+      case (Full(x), _) => id = ("t", x)
+      case (_, Full(x)) => id = ("c", x)
+      case _ => id = ("", "0")
     }
 
-    S.param("c") match {
-      case Full(x) => id = ("c", x)
-      case _ =>
-    }
 
+    t.set(id)
 
     if(id._2 == "0") return "*" #> ""
 
-    t.set(id)
+
 
       "#spaces *" #> net.liftweb.http.Templates("cms"::"_space-table"::Nil) &
       ".title *" #> "Add a Space" &
