@@ -84,7 +84,6 @@ class EditTemplate extends StatefulSnippet {
         markup
       ))
 
-//      println(q.statements  )
       Await.result(
         db.run(q)
         , Duration.Inf)

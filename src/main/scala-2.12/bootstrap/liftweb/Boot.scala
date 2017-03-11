@@ -13,7 +13,10 @@ class Boot {
     val entries = List(
       Menu.i("Home") / "index",
       Menu.i("Edit Template") /"cms"/ "edit-template",
-      Menu.i("Template") /"cms"/ "templates"
+      Menu.i("Edit Container") /"cms"/ "edit-container",
+      Menu.i("Templates") /"cms"/ "templates",
+      Menu.i("Containers") /"cms"/ "containers"
+
     )
 
     // Use HTML5 for rendering

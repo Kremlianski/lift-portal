@@ -1,6 +1,6 @@
 package net.scalapro.liftportal.cms.tables
 
-import net.liftweb.http.FieldBinding.Default
+
 import slick.jdbc.PostgresProfile.api._
 import slick.sql.SqlProfile.ColumnOption.Nullable
 
