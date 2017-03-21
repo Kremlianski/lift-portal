@@ -16,4 +16,3 @@ libraryDependencies += "org.postgresql" % "postgresql" % "9.4.1212.jre7"
 libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.6.4"
 
 enablePlugins(TomcatPlugin)
-

@@ -1,8 +1,11 @@
 package bootstrap.liftweb
 
+import net.liftweb.common.Full
 import net.liftweb.http.{ContentSecurityPolicy, ContentSourceRestriction, Html5Properties, LiftRules, Req, SecurityRules}
-import net.liftweb.sitemap.{Menu, SiteMap}
+import net.liftweb.sitemap.Loc.Hidden
+import net.liftweb.sitemap.{**, Menu, SiteMap}
 import net.scalapro.liftportal.setup.DBSetup
+import net.scalapro.liftportal.view.TemplateView
 
 class Boot {
   def boot {
@@ -15,9 +18,15 @@ class Boot {
       Menu.i("Edit Template") /"cms"/ "edit-template",
       Menu.i("Edit Container") /"cms"/ "edit-container",
       Menu.i("Templates") /"cms"/ "templates",
-      Menu.i("Containers") /"cms"/ "containers"
+      Menu.i("Containers") /"cms"/ "containers",
+      Menu.i("Template") /"cms"/ "template"/ ** >> Hidden
 
     )
+
+    LiftRules.viewDispatch.append{
+      case List("cms", "template", id) =>
+        Left(() => Full(TemplateView.edit(id)))
+    }
 
     // Use HTML5 for rendering
     LiftRules.htmlProperties.default.set((r: Req) =>

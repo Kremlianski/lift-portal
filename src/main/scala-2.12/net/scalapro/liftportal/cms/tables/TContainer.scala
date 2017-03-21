@@ -44,7 +44,7 @@ object TContainer {
     def space_fk = foreignKey("space_fk", space_id, Space.table)(_.id,
       onUpdate = ForeignKeyAction.Cascade, onDelete = ForeignKeyAction.Cascade)
 
-    def t_container_fk = foreignKey("t_container_fk", t_container_id, PContainer.table)(_.id,
+    def t_container_fk = foreignKey("t_container_fk", t_container_id, TContainer.table)(_.id,
       onUpdate = ForeignKeyAction.Cascade, onDelete = ForeignKeyAction.Cascade)
   }
 
