@@ -5,4 +5,6 @@ project/target/
 cms.odg
 cms.txt
 one.sql
+.vscode/
+node_modules/
 

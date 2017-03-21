@@ -1,7 +1,7 @@
 package bootstrap.liftweb
 
 import net.liftweb.common.Full
-import net.liftweb.http.{ContentSecurityPolicy, ContentSourceRestriction, Html5Properties, LiftRules, Req, SecurityRules}
+import net.liftweb.http.{ContentSecurityPolicy, ContentSourceRestriction, Html5Properties, LiftRules, Req, ResourceServer, SecurityRules}
 import net.liftweb.sitemap.Loc.Hidden
 import net.liftweb.sitemap.{**, Menu, SiteMap}
 import net.scalapro.liftportal.setup.DBSetup
@@ -36,6 +36,11 @@ class Boot {
 
     LiftRules.setSiteMap(SiteMap(entries: _*))
 
+    ResourceServer.allow {
+      case "css" :: _ => true
+      case "js" :: _ => true
+      case "lib" :: _ => true
+    }
 
     LiftRules.securityRules = () => {
       SecurityRules(content = Some(ContentSecurityPolicy(
