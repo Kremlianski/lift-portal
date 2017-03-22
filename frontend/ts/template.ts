@@ -21,8 +21,8 @@
         groups.forEach((name, index) => {
             Sortable.create(items.item(index), {
                 group: {
-                    name: name,
-                    put: groups
+                    name: 'space',
+                    put: ['editor', 'space']
                 } ,
                 animation: 100,
                 
