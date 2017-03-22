@@ -36,7 +36,8 @@ object TemplateView {
   private val transform = {
 
     //Add the Editor Panel
-
+    "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/bundle.js"></script> andThen
     "body -*" #> <div id="editor-panel"><div id="widget">Snippet</div></div>
+
   }
 }

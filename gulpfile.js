@@ -8,15 +8,17 @@ const source = require('vinyl-source-stream');
 const watchify = require("watchify");
 const tsify = require("tsify");
 const gutil = require("gulp-util");
-const dist = "build/js";
+const dist = "src/main/resources/toserve/";
 const uglify = require('gulp-uglify');
 const sourcemaps = require('gulp-sourcemaps');
 const buffer = require('vinyl-buffer');
 
+
+
 const watchedBrowserify = watchify(browserify({
     basedir: '.',
     debug: true,
-    entries: ['src/ts/main.tsx'],
+    entries: ['frontend/ts/template.ts'],
     cache: {},
     packageCache: {}
 }).plugin(tsify)
@@ -34,9 +36,9 @@ function bundle() {
         .pipe(source('bundle.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(dist));
+        .pipe(gulp.dest(dist + 'js/'));
 }
 
 gulp.task("js", bundle);
