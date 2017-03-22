@@ -11,17 +11,14 @@
     var items = document.getElementsByClassName('space');
     var groups = ['editor'];
     for (var i = 0; i < items.length; i++) {
-        groups.push('space' + i);
-    }
-    groups.forEach(function (name, index) {
-        Sortable.create(items.item(index), {
+        Sortable.create(items.item(i), {
             group: {
                 name: 'space',
                 put: ['editor', 'space']
             },
             animation: 100
         });
-    });
+    }
 });
 
 },{}]},{},[1])

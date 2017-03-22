@@ -15,19 +15,15 @@
         let groups: string[] = ['editor']
 
         for(let i = 0; i < items.length; i++) {
-            groups.push('space'+i)
-        }
-
-        groups.forEach((name, index) => {
-            Sortable.create(items.item(index), {
+            Sortable.create(items.item(i), {
                 group: {
                     name: 'space',
                     put: ['editor', 'space']
                 } ,
-                animation: 100,
+                animation: 100
                 
             })
-        })
+        }
         
     }
 )
