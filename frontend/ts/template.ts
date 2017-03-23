@@ -9,6 +9,10 @@ declare interface SEvent {
     newIndex?: number
 }
 
+function sort(space:string, ids: string[]) {
+    console.log(space, " ", ids)
+}
+
 (function(fn:()=>void) {
   if (document.readyState != 'loading') fn()
   else document.addEventListener('DOMContentLoaded', fn)
@@ -56,6 +60,14 @@ declare interface SEvent {
                         const space = $(item).find('.space').get(0)
                         if(space) createSpace(space)
                     }
+                },
+                onUpdate: function(event: SEvent) {
+                    const ids: string[] = []
+                    $(event.to).children().each(
+                        function(){
+                            ids.push(this.id)
+                        })
+                    sort(event.to.id, ids)
                 },
                 onStart: function(event: SEvent) {
                     $(event.item)
