@@ -25,6 +25,6 @@ class SpaceSnippet {
 
   def render = {
     val id = S.attr("id").openOr("0")
-    "*" #> <div class="space" id={id}><div></div></div>
+    "*" #> <div class="space" id={id}></div>
   }
 }

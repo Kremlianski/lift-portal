@@ -4,6 +4,7 @@
 (function (fn) {
     if (document.readyState != 'loading') fn();else document.addEventListener('DOMContentLoaded', fn);
 })(function () {
+    var containerStr = '\n        <div class="panel-heading">\n            <h3 class="panel-title">Widget</h3>\n        </div>\n        <div class="panel-body">\n            <div class="space"></div>\n        </div>\n        ';
     Sortable.create(document.getElementById('editor-panel'), {
         group: { name: 'editor', pull: 'clone' },
         animation: 100
@@ -11,12 +12,31 @@
     var items = document.getElementsByClassName('space');
     var groups = ['editor'];
     for (var i = 0; i < items.length; i++) {
-        Sortable.create(items.item(i), {
+        createSpace(items.item(i));
+    }
+    function createSpace(item) {
+        Sortable.create(item, {
             group: {
                 name: 'space',
                 put: ['editor', 'space']
             },
-            animation: 100
+            animation: 100,
+            // handle: ".my-handle",
+            onAdd: function onAdd(event) {
+                if (event.from.id == 'editor-panel') {
+                    var _item = event.item;
+                    $(_item).removeAttr('id').addClass('panel panel-primary widget').html(containerStr);
+                    var space = $(_item).find('.space').get(0);
+                    if (space) createSpace(space);
+                }
+            },
+            onStart: function onStart(event) {
+                $(event.item).addClass('dragging');
+            },
+            onEnd: function onEnd(event) {
+                $(event.item).removeClass('dragging');
+            },
+            draggable: '.widget'
         });
     }
 });
