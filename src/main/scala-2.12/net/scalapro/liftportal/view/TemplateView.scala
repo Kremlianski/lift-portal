@@ -1,10 +1,16 @@
 package net.scalapro.liftportal.view
 
+import net.liftweb.http.SHtml
+import net.liftweb.http.js.JE.{Call, JsVal, JsVar}
+import net.liftweb.http.js.JsCmds.{Alert, Function, Script}
+import net.liftweb.http.js.jquery.JqJsCmds.JqSetHtml
 import net.liftweb.util.Helpers._
 import net.scalapro.liftportal.cms.views.TemplateV
 import net.scalapro.liftportal.util.DB
+
 import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
+
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.xml.{NodeSeq, XML}
@@ -35,10 +41,19 @@ object TemplateView {
 
   private val transform = {
 
-    //Add the Editor Panel
-    "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/bundle.js"></script> andThen
-    "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/lib/Sortable.min.js"></script> andThen
-    "body -*" #> <div id="editor-panel"><div id="widget">Snippet</div></div>
 
-  }
+      //Add the Editor Panel
+      "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/bundle.js"></script> andThen
+        "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/lib/Sortable.min.js"></script> andThen
+        "body -*" #> <div id="editor-panel"><div id="widget">Snippet</div></div> andThen
+        "body -*" #> <lift:head>{
+          Script(
+            Function("sortableUpdateServerCallback", List("paramName"),
+              SHtml.ajaxCall(
+                JsVar("paramName"),
+                (paramName: String) => {JqSetHtml("editor-panel", <div></div>)}
+              )._2.cmd
+            )
+          )}</lift:head>
+      }
 }

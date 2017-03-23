@@ -9,9 +9,31 @@ declare interface SEvent {
     newIndex?: number
 }
 
+
+// sorting within one space
 function sort(space:string, ids: string[]) {
     console.log(space, " ", ids)
 }
+
+
+//adding from editor
+function add (space: string, item_id: string, ids: string[]) {
+
+}
+
+
+//removing from template
+function remove (space: string, item_id: string, ids: string[]) {
+
+}
+
+
+//moving from one space to another
+function move (from: string, to: string, item_id: string, ids: string[]) {
+
+}
+
+
 
 (function(fn:()=>void) {
   if (document.readyState != 'loading') fn()
