@@ -1,6 +1,6 @@
 const gulp = require('gulp'),
-  less = require('gulp-less'),
-  csso = require('gulp-csso')
+    less = require('gulp-less'),
+    csso = require('gulp-csso')
 
 
 const browserify = require("browserify");
@@ -16,16 +16,16 @@ const buffer = require('vinyl-buffer');
 
 
 const watchedBrowserify = watchify(browserify({
-    basedir: '.',
-    debug: true,
-    entries: ['frontend/ts/template.ts'],
-    cache: {},
-    packageCache: {}
-}).plugin(tsify)
-.transform('babelify', {
-    presets: ['es2015'],
-    extensions: ['.ts', '.tsx']
-})
+        basedir: '.',
+        debug: true,
+        entries: ['frontend/ts/template.ts'],
+        cache: {},
+        packageCache: {}
+    }).plugin(tsify)
+    .transform('babelify', {
+        presets: ['es2015'],
+        extensions: ['.ts', '.tsx', '.js']
+    })
 );
 
 
@@ -35,7 +35,7 @@ function bundle() {
         .bundle()
         .pipe(source('bundle.js'))
         .pipe(buffer())
-        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(sourcemaps.init({ loadMaps: true }))
         // .pipe(uglify())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(dist + 'js/'));
@@ -50,11 +50,11 @@ watchedBrowserify.on("log", gutil.log);
 
 
 
-  gulp.task('css', function () {
-  return gulp.src('frontend/less/*')
-    .pipe(less())
-    // .pipe(csso())
-    .pipe(gulp.dest('src/main/resources/toserve/css/'))
+gulp.task('css', function() {
+    return gulp.src('frontend/less/*')
+        .pipe(less())
+        // .pipe(csso())
+        .pipe(gulp.dest('src/main/resources/toserve/css/'))
 
 })
 

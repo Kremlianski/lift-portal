@@ -1,6 +1,4 @@
 
-
-
 declare interface SEvent {
     from: HTMLElement
     to: HTMLElement
@@ -9,6 +7,8 @@ declare interface SEvent {
     newIndex?: number
 }
 
+
+declare function ajaxRemove(param:JSON):void
 
 // sorting within one space
 function sort(space:string, ids: string[]) {
@@ -40,16 +40,17 @@ function move (from: string, to: string, item_id: string, ids: string[]) {
   else document.addEventListener('DOMContentLoaded', fn)
 })(
     function() {
-
+        
         const containerStr: string = `
         <div class="panel-heading">
-            <h3 class="panel-title">Widget</h3>
+            <button class="btn btn-primary btn-sm close-button">
+               <span class="glyphicon glyphicon-remove"></span>
+            </button>
         </div>
         <div class="panel-body">
             <div class="space"></div>
         </div>
         `
-
         Sortable.create(document.getElementById('editor-panel'), {
             group: {name:'editor', pull: 'clone'},
             animation: 100
@@ -70,7 +71,6 @@ function move (from: string, to: string, item_id: string, ids: string[]) {
                     put: ['editor', 'space']
                 } ,
                 animation: 100,
-                // handle: ".my-handle",
                 onAdd: function(event: SEvent) {
                     if(event.from.id == 'editor-panel') {
                         const item = event.item
@@ -78,6 +78,11 @@ function move (from: string, to: string, item_id: string, ids: string[]) {
                         .removeAttr('id')
                         .addClass('panel panel-primary widget')
                         .html(containerStr)
+                        .find('.close-button')
+                        .on('click', function(){
+                            item.remove()
+                            ajaxRemove(JSON.parse(JSON.stringify([1,2,3])))
+                        })
 
                         const space = $(item).find('.space').get(0)
                         if(space) createSpace(space)

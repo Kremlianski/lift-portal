@@ -14,7 +14,7 @@ function move(from, to, item_id, ids) {}
 (function (fn) {
     if (document.readyState != 'loading') fn();else document.addEventListener('DOMContentLoaded', fn);
 })(function () {
-    var containerStr = '\n        <div class="panel-heading">\n            <h3 class="panel-title">Widget</h3>\n        </div>\n        <div class="panel-body">\n            <div class="space"></div>\n        </div>\n        ';
+    var containerStr = '\n        <div class="panel-heading">\n            <button class="btn btn-primary btn-sm close-button">\n               <span class="glyphicon glyphicon-remove"></span>\n            </button>\n        </div>\n        <div class="panel-body">\n            <div class="space"></div>\n        </div>\n        ';
     Sortable.create(document.getElementById('editor-panel'), {
         group: { name: 'editor', pull: 'clone' },
         animation: 100
@@ -31,11 +31,13 @@ function move(from, to, item_id, ids) {}
                 put: ['editor', 'space']
             },
             animation: 100,
-            // handle: ".my-handle",
             onAdd: function onAdd(event) {
                 if (event.from.id == 'editor-panel') {
                     var _item = event.item;
-                    $(_item).removeAttr('id').addClass('panel panel-primary widget').html(containerStr);
+                    $(_item).removeAttr('id').addClass('panel panel-primary widget').html(containerStr).find('.close-button').on('click', function () {
+                        _item.remove();
+                        ajaxRemove(JSON.parse(JSON.stringify([1, 2, 3])));
+                    });
                     var space = $(_item).find('.space').get(0);
                     if (space) createSpace(space);
                 }

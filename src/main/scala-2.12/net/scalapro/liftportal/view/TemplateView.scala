@@ -1,9 +1,11 @@
 package net.scalapro.liftportal.view
 
-import net.liftweb.http.SHtml
+import net.liftweb.common.{Empty, Full}
+import net.liftweb.http.{JsContext, JsonContext, SHtml}
 import net.liftweb.http.js.JE.{Call, JsVal, JsVar}
 import net.liftweb.http.js.JsCmds.{Alert, Function, Script}
 import net.liftweb.http.js.jquery.JqJsCmds.JqSetHtml
+import net.liftweb.json.JsonAST.JValue
 import net.liftweb.util.Helpers._
 import net.scalapro.liftportal.cms.views.TemplateV
 import net.scalapro.liftportal.util.DB
@@ -48,10 +50,12 @@ object TemplateView {
         "body -*" #> <div id="editor-panel"><div id="widget">Snippet</div></div> andThen
         "body -*" #> <lift:head>{
           Script(
-            Function("sortableUpdateServerCallback", List("paramName"),
-              SHtml.ajaxCall(
-                JsVar("paramName"),
-                (paramName: String) => {JqSetHtml("editor-panel", <div></div>)}
+            Function("ajaxRemove", List("param"),
+              SHtml.jsonCall(
+                JsVar("param"),
+                new JsContext(Full("success"),
+                  Full("error")),
+                (param: JValue) => {Call("Template.r").cmd}
               )._2.cmd
             )
           )}</lift:head>
