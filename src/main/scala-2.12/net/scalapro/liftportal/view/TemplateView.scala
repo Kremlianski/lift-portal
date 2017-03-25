@@ -45,8 +45,9 @@ object TemplateView {
 
 
       //Add the Editor Panel
-      "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/bundle.js"></script> andThen
-        "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/lib/Sortable.min.js"></script> andThen
+      "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/bundle.js"></script> &
+        "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/lib/Sortable.min.js"></script> &
+        "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/lib/Rx.min.js"></script> &
         "body -*" #> <div id="editor-panel"><div id="widget">Snippet</div></div> andThen
         "body -*" #> <lift:head>{
           Script(
