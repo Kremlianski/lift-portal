@@ -7,7 +7,6 @@ declare interface SEvent {
     newIndex?: number
 }
 
-
 declare function ajaxRemove(param:JSON):void
 
 // sorting within one space
@@ -21,11 +20,12 @@ function add (space: string, item_id: string, ids: string[]) {
 
 }
 
-
 //removing from template
 function remove (space: string, item_id: string, ids: string[]) {
 
 }
+
+   
 
 
 //moving from one space to another
@@ -33,14 +33,12 @@ function move (from: string, to: string, item_id: string, ids: string[]) {
 
 }
 
-
-
 (function(fn:()=>void) {
   if (document.readyState != 'loading') fn()
   else document.addEventListener('DOMContentLoaded', fn)
 })(
     function() {
-        
+    
         const containerStr: string = `
         <div class="panel-heading">
             <button class="btn btn-primary btn-sm close-button">
