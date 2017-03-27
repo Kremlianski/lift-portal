@@ -4,10 +4,10 @@ import slick.jdbc.PostgresProfile.api._
 import slick.sql.SqlProfile.ColumnOption.Nullable
 
 case class PContainer (
-                        id: Option[Int],
+                        id: String,
                         container_id: Int,
                         page_id: Int,
-                        p_container_id: Int,
+                        p_container_id: String,
                         space_id: Int,
                         ord: Int,
                         container_class: Option[String]
@@ -16,13 +16,13 @@ object PContainer {
 
   class PContainers(tag: Tag) extends Table[PContainer](tag, "p_containers") {
 
-    def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
+    def id = column[String]("id", O.PrimaryKey)
 
     def container_id = column[Int]("container_id")
 
     def page_id = column[Int]("page_id")
 
-    def p_container_id = column[Int]("p_container_id")
+    def p_container_id = column[String]("p_container_id")
 
     def space_id = column[Int]("space_id")
 
@@ -31,7 +31,7 @@ object PContainer {
     def container_class = column[Option[String]]("container_class", Nullable)
 
 
-    def * = (id.?, container_id, page_id, p_container_id, space_id, ord, container_class) <>
+    def * = (id, container_id, page_id, p_container_id, space_id, ord, container_class) <>
       ((PContainer.apply _).tupled, PContainer.unapply)
 
 

@@ -5,11 +5,11 @@ import slick.sql.SqlProfile.ColumnOption.{Nullable, SqlType}
 
 
 case class TWidget (
-                        id: Option[Int],
+                        id: String,
                         widget_id: Int,
                         template_id: Int,
                         space_id: Int,
-                        t_container_id: Int,
+                        t_container_id: String,
                         params: Option[String],
                         ord: Int,
                         widget_class: Option[String]
@@ -18,7 +18,7 @@ object TWidget {
 
   class TWidgets(tag: Tag) extends Table[TWidget](tag, "t_widgets") {
 
-    def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
+    def id = column[String]("id", O.PrimaryKey)
 
     def widget_id = column[Int]("widget_id")
 
@@ -26,7 +26,7 @@ object TWidget {
 
     def space_id = column[Int]("space_id")
 
-    def t_container_id = column[Int]("t_container_id")
+    def t_container_id = column[String]("t_container_id")
 
     def ord = column[Int]("ord")
 
@@ -35,7 +35,7 @@ object TWidget {
     def params = column[Option[String]]("params", SqlType("TEXT"))
 
 
-    def * = (id.?, widget_id, template_id, space_id, t_container_id, params, ord, widget_class) <>
+    def * = (id, widget_id, template_id, space_id, t_container_id, params, ord, widget_class) <>
       ((TWidget.apply _).tupled, TWidget.unapply)
 
     def widget_fk = foreignKey("widget_fk", widget_id, Widget.table)(_.id,
@@ -47,7 +47,7 @@ object TWidget {
     def space_fk = foreignKey("space_fk", space_id, Space.table)(_.id,
       onUpdate = ForeignKeyAction.Cascade, onDelete = ForeignKeyAction.Cascade)
 
-    def t_container_fk = foreignKey("t_container_fk", t_container_id, PContainer.table)(_.id,
+    def t_container_fk = foreignKey("t_container_fk", t_container_id, TContainer.table)(_.id,
       onUpdate = ForeignKeyAction.Cascade, onDelete = ForeignKeyAction.Cascade)
   }
 

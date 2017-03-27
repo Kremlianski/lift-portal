@@ -3,9 +3,10 @@ package net.scalapro.liftportal.view
 import net.liftweb.common.{Empty, Full}
 import net.liftweb.http.{JsContext, JsonContext, SHtml}
 import net.liftweb.http.js.JE.{Call, JsRaw, JsVal, JsVar}
-import net.liftweb.http.js.JsCmds.{Alert, Function, Script}
+import net.liftweb.http.js.JsCmds.{Alert, Function, Script, Noop}
 import net.liftweb.http.js.jquery.JqJsCmds.JqSetHtml
 import net.liftweb.json.JsonAST.JValue
+import net.liftweb.json.JsonDSL._
 import net.liftweb.util.Helpers._
 import net.scalapro.liftportal.cms.views.TemplateV
 import net.scalapro.liftportal.util.DB
@@ -52,23 +53,25 @@ object TemplateView {
     </div> andThen
       "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/bundle.js"></script> &
         "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/lib/Sortable.min.js"></script> &
-        "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/lib/Rx.min.js"></script> &
         "body -*" #> <lift:head>
           {Script(
 
 
-            Function("ajaxRemove", List("param"),
+            Function("ajaxLoad", List("param"),
               SHtml.jsonCall(
                 JsVar("param"),
-                new JsContext(Full("success"),
-                  Full("error")),
+                new JsonContext(
+                  Full("ajaxSuccess"),
+                  Full("ajaxError")
+                ),
                 (param: JValue) => {
-                  Call("Template.r").cmd
+                  // .............. load container
+                  param
                 }
               )._2.cmd
             ) & JsRaw(
               """
-                |var subject = new Rx.Subject();
+                |console.log("loaded");
               """.stripMargin).cmd
           )}
         </lift:head>

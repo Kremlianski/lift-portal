@@ -26,6 +26,15 @@ function remove (space: string, item_id: string, ids: string[]) {
 }
 
    
+(<any> window).ajaxSuccess = function(data: any){
+    console.log(data)
+
+};
+
+
+(<any> window).ajaxError = function(){
+    
+};
 
 
 //moving from one space to another
@@ -38,7 +47,7 @@ function move (from: string, to: string, item_id: string, ids: string[]) {
   else document.addEventListener('DOMContentLoaded', fn)
 })(
     function() {
-    
+        
         const containerStr: string = `
         <div class="panel-heading">
             <button class="btn btn-primary btn-sm close-button">
@@ -79,7 +88,6 @@ function move (from: string, to: string, item_id: string, ids: string[]) {
                         .find('.close-button')
                         .on('click', function(){
                             item.remove()
-                            ajaxRemove(JSON.parse(JSON.stringify([1,2,3])))
                         })
 
                         const space = $(item).find('.space').get(0)

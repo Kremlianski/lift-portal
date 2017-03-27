@@ -8,6 +8,7 @@ import slick.jdbc.PostgresProfile.api._
 import scala.concurrent.duration.Duration
 import net.scalapro.liftportal.cms.tables._
 import net.scalapro.liftportal.cms.SQLFunctions
+import net.scalapro.liftportal.cms.Sequences
 import net.scalapro.liftportal.cms.views._
 
 
@@ -68,6 +69,8 @@ object DBSetup {
 
       Views.create,
 
+      Sequences.create,
+
       Template.table += Template(None, "default", None, defaultTemplate)
 
     )
@@ -77,6 +80,8 @@ object DBSetup {
       Views.drop,
 
       SQLFunctions.drop,
+
+      Sequences.drop,
 
       cmsSchema.drop
     )

@@ -4,11 +4,11 @@ import slick.jdbc.PostgresProfile.api._
 import slick.sql.SqlProfile.ColumnOption.{Nullable, SqlType}
 
 case class PWidget (
-                     id: Option[Int],
+                     id: String,
                      widget_id: Int,
                      template_id: Int,
                      space_id: Int,
-                     p_container_id: Int,
+                     p_container_id: String,
                      params: Option[String],
                      ord: Int,
                      widget_class: Option[String]
@@ -17,7 +17,7 @@ object PWidget {
 
   class PWidgets(tag: Tag) extends Table[PWidget](tag, "p_widgets") {
 
-    def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
+    def id = column[String]("id", O.PrimaryKey)
 
     def widget_id = column[Int]("widget_id")
 
@@ -25,7 +25,7 @@ object PWidget {
 
     def space_id = column[Int]("space_id")
 
-    def p_container_id = column[Int]("p_container_id")
+    def p_container_id = column[String]("p_container_id")
 
     def ord = column[Int]("ord")
 
@@ -34,7 +34,7 @@ object PWidget {
     def params = column[Option[String]]("params", SqlType("TEXT"))
 
 
-    def * = (id.?, widget_id, page_id, space_id, p_container_id, params, ord, widget_class) <>
+    def * = (id, widget_id, page_id, space_id, p_container_id, params, ord, widget_class) <>
       ((PWidget.apply _).tupled, PWidget.unapply)
 
     def widget_fk = foreignKey("widget_fk", widget_id, Widget.table)(_.id,

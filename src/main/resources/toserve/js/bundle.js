@@ -9,6 +9,10 @@ function sort(space, ids) {
 function add(space, item_id, ids) {}
 //removing from template
 function remove(space, item_id, ids) {}
+window.ajaxSuccess = function (data) {
+    console.log(data);
+};
+window.ajaxError = function () {};
 //moving from one space to another
 function move(from, to, item_id, ids) {}
 (function (fn) {
@@ -36,7 +40,6 @@ function move(from, to, item_id, ids) {}
                     var _item = event.item;
                     $(_item).removeAttr('id').addClass('panel panel-primary widget').html(containerStr).find('.close-button').on('click', function () {
                         _item.remove();
-                        ajaxRemove(JSON.parse(JSON.stringify([1, 2, 3])));
                     });
                     var space = $(_item).find('.space').get(0);
                     if (space) createSpace(space);
