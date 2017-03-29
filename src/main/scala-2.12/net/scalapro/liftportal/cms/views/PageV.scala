@@ -19,7 +19,7 @@ object PageV {
 
   class PagesV(tag: Tag) extends Table[PageV](tag, "pages_v") {
 
-    def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
+       def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
     def template_id = column[Int]("template_id")
 

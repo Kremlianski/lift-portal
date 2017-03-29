@@ -1,6 +1,6 @@
 package net.scalapro.liftportal.view
 
-import net.liftweb.common.{Empty, Full}
+import net.liftweb.common.{Box, Empty, Full}
 import net.liftweb.http.{JsContext, JsonContext, SHtml}
 import net.liftweb.http.js.JE.{Call, JsRaw, JsVal, JsVar}
 import net.liftweb.http.js.JsCmds.{Alert, Function, Noop, Replace, Script, SetHtml}
@@ -44,6 +44,11 @@ object TemplateView {
     }
   }
 
+
+
+
+
+
   private def transform = {
     //Add the Editor Panel
     "body -*" #> <div id="editor-panel">
@@ -58,10 +63,16 @@ object TemplateView {
               SHtml.ajaxCall(
                 JsVar("id"),
                 id => {
+
+                  val transformAjax= {
+                    "data-xx-role=c [data-xx-c]" #> {id} andThen
+                      "data-xx-role=c [data-xx-role]" #> (Empty: Box[String])
+                  }
+
                   val s:String =
                     """
                       |
-                      |<div class="container-fluid">
+                      |<div class="container-fluid" data-xx-role="c">
                       |    <div class="row">
                       |        <div class="col-md-6"><div class="lift:SpaceSnippet?id=3"></div></div>
                       |        <div class="col-md-6"><div class="lift:SpaceSnippet?id=4"></div></div>
@@ -70,7 +81,7 @@ object TemplateView {
                       |
                     """.stripMargin
 
-                  val container =  XML.loadString(s)
+                  val container = transformAjax(XML.loadString(s))
 
 
                   Replace("target", container)&

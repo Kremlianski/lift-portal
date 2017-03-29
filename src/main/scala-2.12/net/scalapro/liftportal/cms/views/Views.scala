@@ -7,11 +7,13 @@ object Views {
   def create =
     PageV.createView() >>
       ContainerV.createView() >>
-      TemplateV.createView()
+      TemplateV.createView() >>
+      TempContainerV.createView()
 
   def drop =
     PageV.dropView() >>
       ContainerV.dropView() >>
-      TemplateV.dropView()
+      TemplateV.dropView() >>
+      TempContainerV.dropView()
 }
 
