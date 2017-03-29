@@ -44,19 +44,17 @@ object TemplateView {
     }
   }
 
-
-  def tempContainer(id: Int):TempContainerV = {
+  def containers(): Seq[ContainerV] = {
     val db = DB.getDatabase
     try {
-      val q = TempContainerV.view.filter(_.id === id) //The Query
+      val q = ContainerV.view //The Query
 
 
       val result = Await.result(
-        db.run(q.result) // Future[Seq[TempContainerV]]
-          .map(i => i.head)
+        db.run(q.result) // Future[Seq[ContainerV]]
+          .map(i => i)
         , Duration(2, "second")
       )
-
       result
 
     }
@@ -67,14 +65,53 @@ object TemplateView {
 
 
 
+  def tempContainer(id: Int): TempContainerV = {
+    val db = DB.getDatabase
+    try {
+      val q = TempContainerV.view.filter(_.id === id) //The Query
 
+
+      val result = Await.result(
+        db.run(q.result) // Future[Seq[TempContainerV]]
+          .map(i => i.head)
+        , Duration(2, "second")
+      )
+      result
+
+    }
+    finally {
+      db.close
+    }
+  }
+
+
+  private def selectContainer(): NodeSeq = {
+    val s: Seq[ContainerV] = containers()
+    val ns = <div>
+      <select id="containers">
+        <option>-------------</option>{s.map(i =>
+        <option value={i.id.getOrElse(0).toString}>
+          {i.name}
+        </option>)}
+      </select>
+    </div>
+    ns
+  }
 
 
   private def transform = {
     //Add the Editor Panel
-    "body -*" #> <div id="editor-panel">
-      <div id="widget">Snippet</div>
-    </div> andThen
+    "body -*" #>
+      <div class="row" id="top-panel">
+        <div id="editor-panel" class="col-md-6">
+          <div id="widget">Snippet</div>
+        </div>
+        <div id="controlles-panel" class="col-md-6">
+        </div>
+      </div> andThen
+      "#controlles-panel *+" #> {
+        selectContainer
+      } andThen
       "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/bundle.js"></script> &
         "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/lib/Sortable.min.js"></script> &
         "body -*" #> <lift:head>
@@ -85,11 +122,13 @@ object TemplateView {
                 JsVar("id"),
                 id => {
 
-                  val containerV = tempContainer(2)
+                  val containerV = tempContainer(1)
 
 
-                  val transformAjax= {
-                    "data-xx-role=c [data-xx-c]" #> {containerV.tempId} andThen
+                  val transformAjax = {
+                    "data-xx-role=c [data-xx-c]" #> {
+                      containerV.tempId
+                    } andThen
                       "data-xx-role=c [data-xx-role]" #> (Empty: Box[String])
                   }
 
@@ -97,16 +136,15 @@ object TemplateView {
                   val container = transformAjax(XML.loadString(containerV.markup))
 
 
-                  Replace("target", container)&
-                  JsRaw(
+                  Replace("target", container) &
+                    JsRaw(
                       "createSpaces();"
 
-                  ).cmd
+                    ).cmd
                 }
               ).cmd
             )
-          )
-          }
+          )}
         </lift:head>
   }
 }
