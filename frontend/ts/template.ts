@@ -1,4 +1,5 @@
 
+//declarations
 declare interface SEvent {
     from: HTMLElement
     to: HTMLElement
@@ -7,7 +8,6 @@ declare interface SEvent {
     newIndex?: number
 }
 
-declare function ajaxRemove(param:JSON):void
 
 declare function createSpace(item: Element): void
 
@@ -15,6 +15,9 @@ declare function createSpaces():void
 
 declare function loadHtml(id: string):void
 
+
+
+//global functions
 
 ;(<any> window).createSpaces = function():void {
 
@@ -71,7 +74,7 @@ declare function loadHtml(id: string):void
                     function(){
                         ids.push(this.id)
                     })
-                sort(event.to.id, ids)
+                // sort(event.to.id, ids)
             },
             onStart: function(event: SEvent) {
                 $(event.item)
@@ -86,44 +89,8 @@ declare function loadHtml(id: string):void
         }
 
 
-
-
-
-
-// sorting within one space
-function sort(space:string, ids: string[]) {
-    console.log(space, " ", ids)
-}
-
-
-//adding from editor
-function add (space: string, item_id: string, ids: string[]) {
-
-}
-
-//removing from template
-function remove (space: string, item_id: string, ids: string[]) {
-
-}
-
-   
-(<any> window).ajaxSuccess = function(data: any){
-    console.log(data)
-
-};
-
-
-(<any> window).ajaxError = function(){
-    
-};
-
-
-//moving from one space to another
-function move (from: string, to: string, item_id: string, ids: string[]) {
-
-}
-
-(function(fn:()=>void) {
+//the "main" method
+;(function(fn:()=>void) {
   if (document.readyState != 'loading') fn()
   else document.addEventListener('DOMContentLoaded', fn)
 })(

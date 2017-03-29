@@ -32,7 +32,7 @@ window.createSpace = function (item) {
             $(event.to).children().each(function () {
                 ids.push(this.id);
             });
-            sort(event.to.id, ids);
+            // sort(event.to.id, ids)
         },
         onStart: function onStart(event) {
             $(event.item).addClass('dragging');
@@ -43,20 +43,6 @@ window.createSpace = function (item) {
         draggable: '.widget'
     });
 };
-// sorting within one space
-function sort(space, ids) {
-    console.log(space, " ", ids);
-}
-//adding from editor
-function add(space, item_id, ids) {}
-//removing from template
-function remove(space, item_id, ids) {}
-window.ajaxSuccess = function (data) {
-    console.log(data);
-};
-window.ajaxError = function () {};
-//moving from one space to another
-function move(from, to, item_id, ids) {}
 (function (fn) {
     if (document.readyState != 'loading') fn();else document.addEventListener('DOMContentLoaded', fn);
 })(function () {
