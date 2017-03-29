@@ -44,7 +44,7 @@ object TemplateView {
     }
   }
 
-  private val transform = {
+  private def transform = {
     //Add the Editor Panel
     "body -*" #> <div id="editor-panel">
       <div id="widget">Snippet</div>
@@ -61,7 +61,7 @@ object TemplateView {
                   val s:String =
                     """
                       |
-                      |<div id="exxo-template" class="container-fluid">
+                      |<div class="container-fluid">
                       |    <div class="row">
                       |        <div class="col-md-6"><div class="lift:SpaceSnippet?id=3"></div></div>
                       |        <div class="col-md-6"><div class="lift:SpaceSnippet?id=4"></div></div>
