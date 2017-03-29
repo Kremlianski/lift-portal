@@ -8,9 +8,9 @@ import net.liftweb.http.js.jquery.JqJsCmds.JqSetHtml
 import net.liftweb.json.JsonAST.JValue
 import net.liftweb.json.JsonDSL._
 import net.liftweb.util.Helpers._
-import net.scalapro.liftportal.cms.views.TemplateV
+import net.scalapro.liftportal.cms.views.{TempContainerV, TemplateV}
 import net.scalapro.liftportal.util.DB
-
+import net.scalapro.liftportal.cms.views._
 import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
 
@@ -45,6 +45,27 @@ object TemplateView {
   }
 
 
+  def tempContainer(id: Int):TempContainerV = {
+    val db = DB.getDatabase
+    try {
+      val q = TempContainerV.view.filter(_.id === id) //The Query
+
+
+      val result = Await.result(
+        db.run(q.result) // Future[Seq[TempContainerV]]
+          .map(i => i.head)
+        , Duration(2, "second")
+      )
+
+      result
+
+    }
+    finally {
+      db.close
+    }
+  }
+
+
 
 
 
@@ -64,24 +85,16 @@ object TemplateView {
                 JsVar("id"),
                 id => {
 
+                  val containerV = tempContainer(2)
+
+
                   val transformAjax= {
-                    "data-xx-role=c [data-xx-c]" #> {id} andThen
+                    "data-xx-role=c [data-xx-c]" #> {containerV.tempId} andThen
                       "data-xx-role=c [data-xx-role]" #> (Empty: Box[String])
                   }
 
-                  val s:String =
-                    """
-                      |
-                      |<div class="container-fluid" data-xx-role="c">
-                      |    <div class="row">
-                      |        <div class="col-md-6"><div class="lift:SpaceSnippet?id=3"></div></div>
-                      |        <div class="col-md-6"><div class="lift:SpaceSnippet?id=4"></div></div>
-                      |    </div>
-                      |</div>
-                      |
-                    """.stripMargin
 
-                  val container = transformAjax(XML.loadString(s))
+                  val container = transformAjax(XML.loadString(containerV.markup))
 
 
                   Replace("target", container)&
