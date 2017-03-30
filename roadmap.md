@@ -22,6 +22,9 @@ in form of **widgets**
 
 
 ### Template
+It consists from markup and contains spaces and a special container for page. Spaces contain widgets. A template includes general markup for a group of pages.
+
+
 
 
 
