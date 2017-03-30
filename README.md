@@ -15,3 +15,6 @@
 Summarizing all mentioned above I hope to get an excellent CMS. Wish me a luck!
 
 ## Development stage. There is nothing to see yet...
+
+
+SEE [cms.md](https://github.com/Kremlianski/lift-portal/blob/master/cms.md) for overview
