@@ -54,7 +54,7 @@ declare function loadHtml(id: string):void
             onAdd: function(event: SEvent) {
                 if(event.from.id == 'editor-panel') {
                     const item = event.item
-                    const id = $(item).parent().attr('id')
+        
                     $(item)
                     .removeAttr('id')
                     .addClass('panel panel-primary widget')
@@ -64,7 +64,7 @@ declare function loadHtml(id: string):void
                         item.remove()
                     })
 
-                loadHtml(id)
+                loadHtml($('#widget').attr('data-xx-w'))
                  createSpaces()
                 }
             },
@@ -102,6 +102,10 @@ declare function loadHtml(id: string):void
         })
 
         createSpaces()
+
+        $('#containers').on('change', function(){
+            $('#widget').attr('data-xx-w', this.value)
+        })
 
         
         

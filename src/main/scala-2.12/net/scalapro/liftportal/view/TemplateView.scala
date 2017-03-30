@@ -87,9 +87,9 @@ object TemplateView {
 
   private def selectContainer(): NodeSeq = {
     val s: Seq[ContainerV] = containers()
-    val ns = <div>
-      <select id="containers">
-        <option>-------------</option>{s.map(i =>
+    val ns = <div class="form-group">
+      <select id="containers"  class="form-control">
+        <option value="0">-------------</option>{s.map(i =>
         <option value={i.id.getOrElse(0).toString}>
           {i.name}
         </option>)}
@@ -102,12 +102,14 @@ object TemplateView {
   private def transform = {
     //Add the Editor Panel
     "body -*" #>
+    <div class="container-fluid">
       <div class="row" id="top-panel">
         <div id="editor-panel" class="col-md-6">
-          <div id="widget">Snippet</div>
+          <div id="widget" data-xx-w="0">Snippet</div>
         </div>
         <div id="controlles-panel" class="col-md-6">
         </div>
+      </div>
       </div> andThen
       "#controlles-panel *+" #> {
         selectContainer
@@ -122,7 +124,7 @@ object TemplateView {
                 JsVar("id"),
                 id => {
 
-                  val containerV = tempContainer(1)
+                  val containerV = tempContainer(id.toInt)
 
 
                   val transformAjax = {

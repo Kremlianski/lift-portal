@@ -19,11 +19,10 @@ window.createSpace = function (item) {
         onAdd: function onAdd(event) {
             if (event.from.id == 'editor-panel') {
                 var _item = event.item;
-                var id = $(_item).parent().attr('id');
                 $(_item).removeAttr('id').addClass('panel panel-primary widget').html(containerStr).find('.close-button').on('click', function () {
                     _item.remove();
                 });
-                loadHtml(id);
+                loadHtml($('#widget').attr('data-xx-w'));
                 createSpaces();
             }
         },
@@ -51,6 +50,9 @@ window.createSpace = function (item) {
         animation: 100
     });
     createSpaces();
+    $('#containers').on('change', function () {
+        $('#widget').attr('data-xx-w', this.value);
+    });
 });
 
 },{}]},{},[1])
