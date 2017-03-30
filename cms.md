@@ -1,4 +1,4 @@
-# Roadmap
+# CMS
 
 ## Structure
 
@@ -25,6 +25,19 @@ in form of **widgets**
 It consists from markup and contains spaces and a special container for page. Spaces contain widgets. A template includes general markup for a group of pages.
 
 
+### Page
+It is wrapped by a template. Technically it's a box for content. It includes containers and widgets. 
+
+
+### Container
+It's a fragment of XML markup ant it contains spaces. I is used to form page markup.
+
+
+### Widget
+It's used for dynamic content. Every widget should have parameters specified by user.
+
+### Space 
+Space is a snippet, that can contain containers and widgets. A user can place new element to a space by JavaScript interface.
 
 
 
