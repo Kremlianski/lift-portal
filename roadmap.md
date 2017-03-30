@@ -1,1 +1,4 @@
 # Roadmap
+
+## Structure
+
