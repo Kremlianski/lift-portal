@@ -23,7 +23,7 @@ window.createSpace = function (item) {
                     _item.remove();
                 });
                 loadHtml($('#widget').attr('data-xx-w'));
-                createSpaces();
+                //  createSpaces()
             }
         },
         onUpdate: function onUpdate(event) {
@@ -53,6 +53,23 @@ window.createSpace = function (item) {
     $('#containers').on('change', function () {
         $('#widget').attr('data-xx-w', this.value);
     });
+    var spaces = [];
+    $('#calculate').on('click', function () {
+        calculate();
+        console.log(spaces);
+        spaces = [];
+    });
+    function calculate() {
+        $('.space').each(function () {
+            var id = $(this).attr('data-xx-sid');
+            var container = $(this).attr('data-xx-c');
+            var content = [];
+            $('[data-xx-cid]', this).each(function () {
+                content.push($(this).attr('data-xx-cid'));
+            });
+            spaces.push({ id: id, container: container, content: content });
+        });
+    }
 });
 
 },{}]},{},[1])

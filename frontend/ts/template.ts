@@ -9,6 +9,13 @@ declare interface SEvent {
 }
 
 
+interface Space {
+    id: string
+    container?: string
+    content?: string[]
+
+}
+
 declare function createSpace(item: Element): void
 
 declare function createSpaces():void
@@ -106,6 +113,32 @@ declare function loadHtml(id: string):void
             $('#widget').attr('data-xx-w', this.value)
         })
 
+        let spaces:Space[] = []
+
+        $('#calculate').on('click', function(){
+            calculate()
+
+            console.log(spaces)
+            spaces = []
+        })
+
+        function calculate() {
+            $('.space').each(function(){
+                const id = $(this).attr('data-xx-sid')
+                const container = $(this).attr('data-xx-c')
+                
+                const content: string[] = []
+                
+                $('[data-xx-cid]', this).each(function(){
+                   content.push($(this).attr('data-xx-cid'))
+                })
+
+                spaces.push({id, container, content})
+
+               }
+            )
+        }
+        
         
         
     }

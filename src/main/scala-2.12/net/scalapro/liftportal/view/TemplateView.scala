@@ -94,6 +94,7 @@ object TemplateView {
           {i.name}
         </option>)}
       </select>
+      <button class="btn btn-primary" id="calculate">calculate</button>
     </div>
     ns
   }
