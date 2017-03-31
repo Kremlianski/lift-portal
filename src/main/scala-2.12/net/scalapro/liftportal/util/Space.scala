@@ -7,5 +7,5 @@ object SpaceUtil {
 
   def getId(id: String):Int = id.replaceFirst("space_", "").toInt
 
-  def getMarkup(id: Int):String = s"""<div class="lift:SpaceSnippet?id=${id}"></div>"""
+  def getMarkup(id: Int):String = s"""<div class="space" lift="SpaceSnippet?id=${id}"></div>"""
 }

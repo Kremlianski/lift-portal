@@ -23,7 +23,7 @@ window.createSpace = function (item) {
                     _item.remove();
                 });
                 loadHtml($('#widget').attr('data-xx-w'));
-                //  createSpaces()
+                createSpaces();
             }
         },
         onUpdate: function onUpdate(event) {
