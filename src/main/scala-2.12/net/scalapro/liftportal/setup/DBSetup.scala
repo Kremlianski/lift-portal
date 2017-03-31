@@ -35,12 +35,12 @@ object DBSetup {
       |    <script type="text/javascript" src="/classpath/lib/jquery.min.js"></script>
       |</head>
       |<body>
-      |<div id="exxo-template" class="container-fluid">
+      |<div class="container-fluid">
       |    <div class="row">
-      |        <div class="col-md-6"><div class="lift:SpaceSnippet?id=1"></div></div>
-      |        <div class="col-md-6"><div class="lift:SpaceSnippet?id=2"></div></div>
+      |        <div class="col-md-6"></div>
+      |        <div class="col-md-6"></div>
       |    </div>
-      |    <div id="exxo-content"></div>
+      |    <div id="xx-page"></div>
       |</div>
       |</body>
       |</html>

@@ -1,3 +1,7 @@
+#xx-page {
+  min-height: 300px;
+  background-color: yellow;
+}
 .space {
   background-color: #dedede;
   min-height: 20px;

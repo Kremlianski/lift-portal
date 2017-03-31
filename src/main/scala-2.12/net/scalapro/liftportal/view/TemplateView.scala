@@ -128,11 +128,12 @@ object TemplateView {
 
 
                   val transformAjax = {
-                    "data-xx-role=c [data-xx-c]" #> {
+                    "data-xx-role=c [data-xx-cid]" #> {
                       containerV.tempId
                     } andThen
                       "data-xx-role=c [data-xx-role]" #> (Empty: Box[String])
-                  }
+                  } andThen
+                      ".space [data-xx-c]" #> {containerV.tempId}
 
 
                   val container = transformAjax(XML.loadString(containerV.markup))

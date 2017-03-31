@@ -65,7 +65,7 @@ declare function loadHtml(id: string):void
                     })
 
                 loadHtml($('#widget').attr('data-xx-w'))
-                 createSpaces()
+                //  createSpaces()
                 }
             },
             onUpdate: function(event: SEvent) {
@@ -95,7 +95,6 @@ declare function loadHtml(id: string):void
   else document.addEventListener('DOMContentLoaded', fn)
 })(
     function() {
-        
         Sortable.create(document.getElementById('editor-panel'), {
             group: {name:'editor', pull: 'clone'},
             animation: 100
