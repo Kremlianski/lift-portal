@@ -58,6 +58,8 @@ declare function loadHtml(id: string):void
                 put: ['editor', 'space']
             } ,
             animation: 100,
+            ghostClass: "ghost",
+            // delay: 10,
             onAdd: function(event: SEvent) {
                 if(event.from.id == 'editor-panel') {
                     const item = event.item
@@ -104,7 +106,8 @@ declare function loadHtml(id: string):void
     function() {
         Sortable.create(document.getElementById('editor-panel'), {
             group: {name:'editor', pull: 'clone'},
-            animation: 100
+            animation: 100,
+            ghostClass: "ghost"
         })
 
         createSpaces()

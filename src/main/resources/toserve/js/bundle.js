@@ -16,6 +16,8 @@ window.createSpace = function (item) {
             put: ['editor', 'space']
         },
         animation: 100,
+        ghostClass: "ghost",
+        // delay: 10,
         onAdd: function onAdd(event) {
             if (event.from.id == 'editor-panel') {
                 var _item = event.item;
@@ -47,7 +49,8 @@ window.createSpace = function (item) {
 })(function () {
     Sortable.create(document.getElementById('editor-panel'), {
         group: { name: 'editor', pull: 'clone' },
-        animation: 100
+        animation: 100,
+        ghostClass: "ghost"
     });
     createSpaces();
     $('#containers').on('change', function () {

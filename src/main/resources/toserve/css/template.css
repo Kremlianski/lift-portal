@@ -15,7 +15,7 @@
 }
 #widget {
   width: 200px;
-  padding: 10px;
+  padding: 0;
   background-color: white;
   border: 1px solid black;
   border-radius: 4px;
@@ -37,4 +37,8 @@
 #top-panel {
   background-color: gray;
   margin-bottom: 20px;
+}
+.ghost {
+  overflow: hidden;
+  height: 4px;
 }
