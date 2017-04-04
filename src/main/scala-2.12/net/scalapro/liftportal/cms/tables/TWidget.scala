@@ -38,8 +38,6 @@ object TWidget {
     def * = (id, widget_id, template_id, space_id, t_container_id, params, ord, widget_class) <>
       ((TWidget.apply _).tupled, TWidget.unapply)
 
-    def widget_fk = foreignKey("widget_fk", widget_id, Widget.table)(_.id,
-      onUpdate = ForeignKeyAction.Cascade, onDelete = ForeignKeyAction.Cascade)
 
     def template_fk = foreignKey("template_fk", template_id, Template.table)(_.id,
       onUpdate = ForeignKeyAction.Cascade, onDelete = ForeignKeyAction.Cascade)
@@ -47,8 +45,6 @@ object TWidget {
     def space_fk = foreignKey("space_fk", space_id, Space.table)(_.id,
       onUpdate = ForeignKeyAction.Cascade, onDelete = ForeignKeyAction.Cascade)
 
-    def t_container_fk = foreignKey("t_container_fk", t_container_id, TContainer.table)(_.id,
-      onUpdate = ForeignKeyAction.Cascade, onDelete = ForeignKeyAction.Cascade)
   }
 
 

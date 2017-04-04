@@ -37,9 +37,6 @@ object PWidget {
     def * = (id, widget_id, page_id, space_id, p_container_id, params, ord, widget_class) <>
       ((PWidget.apply _).tupled, PWidget.unapply)
 
-    def widget_fk = foreignKey("widget_fk", widget_id, Widget.table)(_.id,
-      onUpdate = ForeignKeyAction.Cascade, onDelete = ForeignKeyAction.Cascade)
-
     def page_fk = foreignKey("page_fk", page_id, Page.table)(_.id,
       onUpdate = ForeignKeyAction.Cascade, onDelete = ForeignKeyAction.Cascade)
 

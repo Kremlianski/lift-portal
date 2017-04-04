@@ -14,7 +14,7 @@ import net.scalapro.liftportal.cms.views._
 
 object DBSetup {
 
-  private val setup_? = false
+  private val setup_? = true
 
 
   def setup: Unit = {
@@ -55,13 +55,14 @@ object DBSetup {
         PContainer.table.schema ++
         Space.table.schema ++
         PWidget.table.schema ++
-        TContainer.table.schema ++
         Template.table.schema ++
-        TWidget.table.schema ++
-        Widget.table.schema
+        TWidget.table.schema
+
 
 
     val createSeq = DBIO.seq(
+
+      Sequences.create,
 
       cmsSchema.create,
 
@@ -69,7 +70,7 @@ object DBSetup {
 
       Views.create,
 
-      Sequences.create,
+
 
       Template.table += Template(None, "default", None, defaultTemplate)
 
