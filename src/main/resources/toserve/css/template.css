@@ -38,7 +38,11 @@
   background-color: gray;
   margin-bottom: 20px;
 }
-.ghost {
+#widget.ghost,
+.widget.ghost {
   overflow: hidden;
   height: 4px;
+  border: 2px solid red;
+  border-radius: 4px;
+  width: 90%;
 }
