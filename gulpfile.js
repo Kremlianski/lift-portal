@@ -33,7 +33,7 @@ function bundle() {
     // process.env.NODE_ENV = 'production';
     return watchedBrowserify
         .bundle()
-        .pipe(source('bundle.js'))
+        .pipe(source('template.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
         // .pipe(uglify())

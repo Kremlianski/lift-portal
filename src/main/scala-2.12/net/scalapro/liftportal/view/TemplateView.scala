@@ -115,7 +115,7 @@ object TemplateView {
       "#controlles-panel *+" #> {
         selectContainer
       } andThen
-      "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/bundle.js"></script> &
+      "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/template.js"></script> &
         "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/lib/Sortable.min.js"></script> &
         "body -*" #> <lift:head>
           {Script(
