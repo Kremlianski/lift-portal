@@ -6,6 +6,7 @@ import net.liftweb.sitemap.Loc.Hidden
 import net.liftweb.sitemap.{**, Menu, SiteMap}
 import net.scalapro.liftportal.setup.DBSetup
 import net.scalapro.liftportal.view.TemplateView
+import net.scalapro.liftportal.cms.tables.Widgets
 
 class Boot {
   def boot {
@@ -53,7 +54,7 @@ class Boot {
         )
       )))
     }
-
+    Widgets.register
     DBSetup.setup
   }
 }
