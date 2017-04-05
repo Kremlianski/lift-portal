@@ -28,5 +28,4 @@ object Widgets {
     add(Widget(1, "Text Element", "TextWidget", "Write any text", "Template"))
   }
 
-
 }
