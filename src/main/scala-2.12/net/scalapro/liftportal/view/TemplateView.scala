@@ -126,13 +126,25 @@ object TemplateView {
                 id => {
                   val classSnippet = "lift:WidgetSnippet?"+id
                   val container = <div class={classSnippet}></div>
+                  val delim = id.indexOf(';')
 
 
+                  var i:Int = 0
+
+                  if(delim >=0) i = id.substring(3, delim).toInt
+                  else i = id.substring(3).toInt
+
+                  val func:String = Widgets.get(i).jsFunc
+
+                  if(func != ""){
                   Replace("target", container) &
                     JsRaw(
-                      "console.log('!')"
-
-                    ).cmd
+                      s"${func}(${i})"
+                       ).cmd
+                }
+                  else {
+                    Replace("target", container)
+                  }
                 }
               ).cmd
             )

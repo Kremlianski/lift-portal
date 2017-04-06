@@ -21,10 +21,15 @@ declare function createSpace(item: Element): void
 declare function createSpaces():void
 
 declare function loadHtml(id: string):void
+declare function menuInit(id: string):void
 
 
 
 //global functions
+
+;(<any> window).menuInit = function(id: string):void { 
+    alert(id)
+}
 
 ;(<any> window).createSpaces = function():void {
 
@@ -73,7 +78,7 @@ declare function loadHtml(id: string):void
                         item.remove()
                     })
 
-                loadHtml('id=' + $('#widget').attr('data-xx-w'))
+                loadHtml('id=' + $('#widget').attr('data-xx-w') + ';b=4')
                 //  createSpaces()
                 }
             },
