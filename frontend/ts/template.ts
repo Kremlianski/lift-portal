@@ -28,7 +28,7 @@ declare function menuInit(id: string):void
 //global functions
 
 ;(<any> window).menuInit = function(id: string):void { 
-    alert(id)
+    //alert(id)
 }
 
 ;(<any> window).createSpaces = function():void {

@@ -2,7 +2,7 @@
 'use strict';
 
 window.menuInit = function (id) {
-    alert(id);
+    //alert(id)
 };
 window.createSpaces = function () {
     $('.space').filter(function () {
