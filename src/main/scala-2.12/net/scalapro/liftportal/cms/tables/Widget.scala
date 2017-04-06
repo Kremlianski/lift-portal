@@ -26,6 +26,7 @@ object Widgets {
 
   def register(): Unit = {
     add(Widget(1, "Text Element", "TextWidget", "Write any text", "Template"))
+    add(Widget(2, "Text Element 2", "MenuWidget", "Place your menu", "Template"))
   }
 
 }

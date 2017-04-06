@@ -24,7 +24,7 @@ window.createSpace = function (item) {
                 $(_item).removeAttr('id').addClass('panel panel-primary widget').html(containerStr).find('.close-button').on('click', function () {
                     _item.remove();
                 });
-                loadHtml($('#widget').attr('data-xx-w'));
+                loadHtml('id=' + $('#widget').attr('data-xx-w'));
                 //  createSpaces()
             }
         },

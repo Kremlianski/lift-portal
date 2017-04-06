@@ -73,7 +73,7 @@ declare function loadHtml(id: string):void
                         item.remove()
                     })
 
-                loadHtml($('#widget').attr('data-xx-w'))
+                loadHtml('id=' + $('#widget').attr('data-xx-w'))
                 //  createSpaces()
                 }
             },

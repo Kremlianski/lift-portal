@@ -102,7 +102,6 @@ object TemplateView {
 
 
   private def transform = {
-    //Add the Editor Panel
     "body -*" #>
     <div class="container-fluid">
       <div class="row" id="top-panel">
@@ -125,25 +124,13 @@ object TemplateView {
               SHtml.ajaxCall(
                 JsVar("id"),
                 id => {
-
-                  val containerV = tempContainer(id.toInt)
-
-
-                  val transformAjax = {
-                    "data-xx-role=c [data-xx-cid]" #> {
-                      containerV.tempId
-                    } andThen
-                      "data-xx-role=c [data-xx-role]" #> (Empty: Box[String])
-                  } andThen
-                      ".space [data-xx-c]" #> {containerV.tempId}
-
-
-                  val container = transformAjax(XML.loadString(containerV.markup))
+                  val classSnippet = "lift:WidgetSnippet?"+id
+                  val container = <div class={classSnippet}></div>
 
 
                   Replace("target", container) &
                     JsRaw(
-                      "createSpaces();"
+                      "console.log('!')"
 
                     ).cmd
                 }
