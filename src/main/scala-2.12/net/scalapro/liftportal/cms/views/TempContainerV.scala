@@ -3,6 +3,7 @@ package net.scalapro.liftportal.cms.views
 import slick.jdbc.PostgresProfile.api._
 import slick.sql.SqlProfile.ColumnOption.SqlType
 
+
 /**
   * Created by kreml on 29.03.2017.
   */
