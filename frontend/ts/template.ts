@@ -49,6 +49,9 @@ declare function menuInit(id: string):void
 
     const containerStr: string = `
         <div class="panel-heading">
+            <button class="btn btn-primary btn-sm edit-button">
+               <span class="glyphicon glyphicon-cog"></span>
+            </button>
             <button class="btn btn-primary btn-sm close-button">
                <span class="glyphicon glyphicon-remove"></span>
             </button>
@@ -78,6 +81,16 @@ declare function menuInit(id: string):void
                         item.remove()
                     })
 
+                    $(item).find('.edit-button')
+                    .on('click', function(){
+                        const widget = $(item).find('[data-xx-wid]')
+                        let str = ''
+                        if(widget.hasClass('xx-new')) {
+                            str=`&new=1`
+                        }
+                        alert(`?id=${widget.attr('data-xx-wid')}${str}`)
+                        //window.location()
+                    })
                 loadHtml('id=' + $('#widget').attr('data-xx-w') + ';b=4')
                 //  createSpaces()
                 }
