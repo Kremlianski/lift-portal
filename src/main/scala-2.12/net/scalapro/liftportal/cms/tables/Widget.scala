@@ -20,7 +20,7 @@ object Widgets {
     widgets += (widget.id -> widget)
   }
 
-  def get(): Map[Int, Widget] = widgets
+  def get(): Seq[Widget] = widgets.values.toSeq
 
   def get(key: Int): Widget = widgets(key)
 

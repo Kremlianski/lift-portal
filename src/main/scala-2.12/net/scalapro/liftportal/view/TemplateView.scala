@@ -18,6 +18,7 @@ import scala.collection.immutable.WrappedString
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.xml.{NodeSeq, Text, XML}
+import net.scalapro.liftportal.cms.tables.{Widgets, Widget}
 
 /**
   * Created by kreml on 21.03.2017.
@@ -86,11 +87,11 @@ object TemplateView {
 
 
   private def selectContainer(): NodeSeq = {
-    val s: Seq[ContainerV] = containers()
+    val s: Seq[Widget] = Widgets.get
     val ns = <div class="form-group">
       <select id="containers"  class="form-control">
         <option value="0">-------------</option>{s.map(i =>
-        <option value={i.id.getOrElse(0).toString}>
+        <option value={i.id.toString}>
           {i.name}
         </option>)}
       </select>
