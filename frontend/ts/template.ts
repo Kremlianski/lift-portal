@@ -9,11 +9,16 @@ declare interface SEvent {
 }
 
 
-interface Space {
+interface SpaceTemplate {
     id: string
-    container?: string
-    content?: string[]
+    content?: Widget[]
 
+}
+
+interface Widget {
+    wtype: string
+    wid: string
+    isNew?: boolean
 }
 
 declare function createSpace(item: Element): void
@@ -46,6 +51,9 @@ declare function menuInit(id: string):void
 }
 
 ;(<any> window).createSpace = function(item:Element):void {
+
+
+    
 
     const containerStr: string = `
         <div class="panel-heading">
@@ -134,34 +142,35 @@ declare function menuInit(id: string):void
             $('#widget').attr('data-xx-w', this.value)
         })
 
-        let spaces:Space[] = []
+        let spaces:SpaceTemplate[] = []
 
         $('#calculate').on('click', function(){
             calculate()
-
             console.log(spaces)
             spaces = []
         })
 
         function calculate() {
-            $('.space').each(function(){
+            $('.space').each(function() {
                 const id = $(this).attr('data-xx-sid')
                 const container = $(this).attr('data-xx-c')
                 
-                const content: string[] = []
+                const content: Widget[] = []
                 
-                $('[data-xx-cid]', this).each(function(){
-                   content.push($(this).attr('data-xx-cid'))
+                $('[data-xx-wid]', this).each(function(){
+                    const element:Element = this
+                    content.push({ 
+                          wtype: $(element).attr('data-xx-widget'),
+                          wid: $(element).attr('data-xx-wid'),
+                          isNew: $(element).hasClass('xx-new')
+                        })
                 })
 
-                spaces.push({id, container, content})
+                spaces.push({id,  content})
 
                }
             )
         }
-        
-        
-        
     }
 )
 

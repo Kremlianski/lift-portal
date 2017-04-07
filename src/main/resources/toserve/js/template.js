@@ -79,10 +79,15 @@ window.createSpace = function (item) {
             var id = $(this).attr('data-xx-sid');
             var container = $(this).attr('data-xx-c');
             var content = [];
-            $('[data-xx-cid]', this).each(function () {
-                content.push($(this).attr('data-xx-cid'));
+            $('[data-xx-wid]', this).each(function () {
+                var element = this;
+                content.push({
+                    wtype: $(element).attr('data-xx-widget'),
+                    wid: $(element).attr('data-xx-wid'),
+                    isNew: $(element).hasClass('xx-new')
+                });
             });
-            spaces.push({ id: id, container: container, content: content });
+            spaces.push({ id: id, content: content });
         });
     }
 });
