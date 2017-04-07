@@ -77,7 +77,6 @@ window.createSpace = function (item) {
     function calculate() {
         $('.space').each(function () {
             var id = $(this).attr('data-xx-sid');
-            var container = $(this).attr('data-xx-c');
             var content = [];
             $('[data-xx-wid]', this).each(function () {
                 var element = this;

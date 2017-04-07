@@ -29,6 +29,9 @@ declare function loadHtml(id: string):void
 declare function menuInit(id: string):void
 
 
+declare function save(widgets: Widget[]):void
+
+
 
 //global functions
 
@@ -153,17 +156,16 @@ declare function menuInit(id: string):void
         function calculate() {
             $('.space').each(function() {
                 const id = $(this).attr('data-xx-sid')
-                const container = $(this).attr('data-xx-c')
-                
                 const content: Widget[] = []
                 
                 $('[data-xx-wid]', this).each(function(){
+
                     const element:Element = this
                     content.push({ 
-                          wtype: $(element).attr('data-xx-widget'),
-                          wid: $(element).attr('data-xx-wid'),
-                          isNew: $(element).hasClass('xx-new')
-                        })
+                        wtype: $(element).attr('data-xx-widget'),
+                        wid: $(element).attr('data-xx-wid'),
+                        isNew: $(element).hasClass('xx-new')
+                    })
                 })
 
                 spaces.push({id,  content})
