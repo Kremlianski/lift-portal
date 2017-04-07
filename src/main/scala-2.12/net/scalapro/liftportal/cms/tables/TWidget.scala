@@ -9,10 +9,9 @@ case class TWidget (
                         widget_id: Int,
                         template_id: Int,
                         space_id: Int,
-                        t_container_id: String,
-                        params: Option[String],
                         ord: Int,
-                        widget_class: Option[String]
+                        widget_class: Option[String],
+                        params: Option[String]
                       )
 object TWidget {
 
@@ -26,16 +25,15 @@ object TWidget {
 
     def space_id = column[Int]("space_id")
 
-    def t_container_id = column[String]("t_container_id")
 
     def ord = column[Int]("ord")
 
-    def widget_class = column[Option[String]]("container_class", Nullable)
+    def widget_css_class = column[Option[String]]("widget_css_class", Nullable)
 
     def params = column[Option[String]]("params", SqlType("TEXT"))
 
 
-    def * = (id, widget_id, template_id, space_id, t_container_id, params, ord, widget_class) <>
+    def * = (id, widget_id, template_id, space_id, ord, widget_css_class, params) <>
       ((TWidget.apply _).tupled, TWidget.unapply)
 
 

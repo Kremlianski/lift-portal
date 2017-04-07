@@ -14,7 +14,7 @@ import net.scalapro.liftportal.cms.views._
 
 object DBSetup {
 
-  private val setup_? = false
+  private val setup_? = true
 
 
   def setup: Unit = {
