@@ -12,6 +12,7 @@ import net.liftweb.util.Helpers._
 import net.scalapro.liftportal.cms.views.{TempContainerV, TemplateV}
 import net.scalapro.liftportal.util.DB
 import net.scalapro.liftportal.cms.views._
+
 import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
 
@@ -19,7 +20,7 @@ import scala.collection.immutable.WrappedString
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.xml.{NodeSeq, Text, XML}
-import net.scalapro.liftportal.cms.tables.{Widgets, Widget}
+import net.scalapro.liftportal.cms.tables.{TWidget, Widget, Widgets}
 
 /**
   * Created by kreml on 21.03.2017.
@@ -121,7 +122,15 @@ object TemplateView {
   }
 
   private def updateDB(spaces: List[SpaceTemplate]): Unit = {
-
+    val result = spaces.map(x=>{
+      val spaceId = x.id
+      x.content.zipWithIndex.map(y=>{
+        val widget = y._1
+        val order = y._2
+        TWidget(widget.wid, widget.wtype.toInt, 1, spaceId.toInt, order, None, None)
+      })
+    }).flatten
+    println(result)
   }
 
   private def transform = {
