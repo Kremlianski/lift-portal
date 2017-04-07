@@ -120,6 +120,9 @@ object TemplateView {
     ns
   }
 
+  private def updateDB(spaces: List[SpaceTemplate]): Unit = {
+
+  }
 
   private def transform = {
     "body -*" #>
@@ -171,7 +174,8 @@ object TemplateView {
               SHtml.jsonCall(JsVar("widgets"), widgets => {
                 val spaces = widgets.extract[List[SpaceTemplate]]
 
-                println(spaces)
+                updateDB(spaces)
+
                 Noop
               }).cmd
             )
