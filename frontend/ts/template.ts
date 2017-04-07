@@ -29,7 +29,7 @@ declare function loadHtml(id: string):void
 declare function menuInit(id: string):void
 
 
-declare function save(widgets: Widget[]):void
+declare function save(widgets: SpaceTemplate[]):void
 
 
 
@@ -149,7 +149,7 @@ declare function save(widgets: Widget[]):void
 
         $('#calculate').on('click', function(){
             calculate()
-            console.log(spaces)
+            save(spaces)
             spaces = []
         })
 

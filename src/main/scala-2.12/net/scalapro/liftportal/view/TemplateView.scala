@@ -7,6 +7,7 @@ import net.liftweb.http.js.JsCmds.{Alert, Function, Noop, Replace, Script, SetHt
 import net.liftweb.http.js.jquery.JqJsCmds.JqSetHtml
 import net.liftweb.json.JsonAST.JValue
 import net.liftweb.json.JsonDSL._
+import net.liftweb.json._
 import net.liftweb.util.Helpers._
 import net.scalapro.liftportal.cms.views.{TempContainerV, TemplateV}
 import net.scalapro.liftportal.util.DB
@@ -23,7 +24,26 @@ import net.scalapro.liftportal.cms.tables.{Widgets, Widget}
 /**
   * Created by kreml on 21.03.2017.
   */
+
+
+
 object TemplateView {
+
+  case class WidgetTemplate (
+
+                              wtype: String,
+                              wid: String,
+                              isNew: Boolean = false
+                            )
+  case class SpaceTemplate (
+                             id: String,
+                             content: Seq[WidgetTemplate]
+                           )
+
+
+
+
+  implicit val formats = DefaultFormats
   def edit(id: String): NodeSeq = {
     val db = DB.getDatabase
     try {
@@ -147,6 +167,13 @@ object TemplateView {
                   }
                 }
               ).cmd
+            ) & Function("save", List("widgets"),
+              SHtml.jsonCall(JsVar("widgets"), widgets => {
+                val spaces = widgets.extract[List[SpaceTemplate]]
+
+                println(spaces)
+                Noop
+              }).cmd
             )
           )}
         </lift:head>
