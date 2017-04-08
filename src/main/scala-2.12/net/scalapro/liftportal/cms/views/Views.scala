@@ -8,12 +8,14 @@ object Views {
     PageV.createView() >>
       ContainerV.createView() >>
       TemplateV.createView() >>
-      TempContainerV.createView()
+      TempContainerV.createView() >>
+      TWidgetV.createView()
 
   def drop =
     PageV.dropView() >>
       ContainerV.dropView() >>
       TemplateV.dropView() >>
-      TempContainerV.dropView()
+      TempContainerV.dropView() >>
+      TWidgetV.dropView()
 }
 
