@@ -127,10 +127,19 @@ object TemplateView {
       x.content.zipWithIndex.map(y=>{
         val widget = y._1
         val order = y._2
-        TWidget(widget.wid, widget.wtype.toInt, 1, spaceId.toInt, order, None, None)
+        TWidgetV(widget.wid, widget.wtype.toInt, 1, spaceId.toInt, order, None, None)
       })
     }).flatten
-    println(result)
+
+    val db = DB.getDatabase
+    val action = db.run(DBIO.seq(
+
+      TWidgetV.view ++= result
+
+    ))
+    try Await.result(action, Duration.Inf)
+
+    finally db.close
   }
 
   private def transform = {
