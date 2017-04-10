@@ -9,13 +9,15 @@ object Views {
       ContainerV.createView() >>
       TemplateV.createView() >>
       TempContainerV.createView() >>
-      TWidgetV.createView()
+      TWidgetV.createView() >>
+      TemplateWidgetsV.createView()
 
   def drop =
     PageV.dropView() >>
       ContainerV.dropView() >>
       TemplateV.dropView() >>
       TempContainerV.dropView() >>
-      TWidgetV.dropView()
+      TWidgetV.dropView() >>
+      TemplateWidgetsV.dropView()
 }
 
