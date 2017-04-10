@@ -74,7 +74,10 @@ object TemplateView {
 
       def makeTemplate = {
 
-        println(template)
+
+        val m = template.groupBy(_.space)
+
+        println(m)
         val body = "body "
         (body + "[class]") #> "super-class"
       }

@@ -5,12 +5,12 @@ import slick.sql.SqlProfile.ColumnOption.{Nullable, SqlType}
   * Created by kreml on 10.04.2017.
   */
 case class TemplateWidgetsV (
-                      id: String,
-                      widget_id: Int,
-                      template_id: Int,
-                      space_id: Int,
+                      t_widget: String,
+                      widget: Int,
+                      template: Int,
+                      space: Int,
                       ord: Int,
-                      widget_class: Option[String],
+                      css_class: Option[String],
                       params: Option[String],
                       markup: String
                     )
@@ -41,7 +41,7 @@ object TemplateWidgetsV {
 
   val view = TableQuery(new TemplatesWidgetsV(_))
 
-  
+
 
   def createView():DBIO[Int] =
 
