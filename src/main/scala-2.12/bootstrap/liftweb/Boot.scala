@@ -20,13 +20,13 @@ class Boot {
       Menu.i("Edit Container") /"cms"/ "edit-container",
       Menu.i("Templates") /"cms"/ "templates",
       Menu.i("Containers") /"cms"/ "containers",
-      Menu.i("Template") /"cms"/ "template"/ ** >> Hidden
+      Menu.i("Template") /"cms"/ "template" >> Hidden
 
     )
 
     LiftRules.viewDispatch.append{
-      case List("cms", "template", id) =>
-        Left(() => Full(TemplateView.edit(id)))
+      case List("cms", "template") =>
+        Left(() => Full(TemplateView.edit))
     }
 
     // Use HTML5 for rendering

@@ -1,7 +1,7 @@
 package net.scalapro.liftportal.view
 
 import net.liftweb.common.{Box, Empty, Full}
-import net.liftweb.http.{JsContext, JsonContext, SHtml}
+import net.liftweb.http.{JsContext, JsonContext, S, SHtml}
 import net.liftweb.http.js.JE.{Call, JsRaw, JsVal, JsVar}
 import net.liftweb.http.js.JsCmds.{Alert, Function, Noop, Replace, Script, SetHtml}
 import net.liftweb.http.js.jquery.JqJsCmds.JqSetHtml
@@ -51,12 +51,15 @@ object TemplateView {
 
   private  def getTemplate(id: String): Seq[TemplateWidgetsV] = {
     val db = DB.getDatabase
-    val q = TemplateWidgetsV.view.filter(_.template === 1)
-    try Await.result(
-      db.run(q.result)
+    val q = TemplateWidgetsV.view.filter(_.template === id.toInt)
+    try {
+      println("start")
+      Await.result(
+        db.run(q.result)
 
-      , Duration(2, "second")
-    )
+        , Duration(2, "second")
+      )
+    }
     finally db.close
 
   }
@@ -64,9 +67,10 @@ object TemplateView {
 
 
 
-  def edit(id: String): NodeSeq = {
-    val db = DB.getDatabase
-    try {
+  def edit(): NodeSeq = {
+    val id = S.param("id").getOrElse("0")
+    println(id)
+
       val template = getTemplate(id)
 
       val markup = XML.loadString(template.head.markup)
@@ -75,26 +79,27 @@ object TemplateView {
       def makeTemplate = {
 
 
-        val spaces = template.groupBy(_.space)
-        val iterator = spaces.keys.iterator
-
-        def insertSpace: Unit = {
-          println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-
-          if(iterator.hasNext) {
-            val space = iterator.next
-            println(space)
-            println(spaces.get(space))
-            insertSpace
-          } else {
-            return
-          }
-
-        }
-
-        insertSpace
+//        val spaces = template.groupBy(_.space)
+//        val iterator = spaces.keys.iterator
+//
+//        def insertSpace: Unit = {
+//          println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+//
+//          if(iterator.hasNext) {
+//            val space = iterator.next
+//            println(space)
+//            println(spaces.get(space))
+//            insertSpace
+//          } else {
+//            return
+//          }
+//
+//        }
+//
+//        insertSpace
 
         val body = "body "
+        println("makeTemplate")
         (body + "[class]") #> "super-class"
       }
 
@@ -113,13 +118,13 @@ object TemplateView {
 //        , Duration(2, "second")
 //      )
 
-      transform(makeTemplate(markup).asInstanceOf[NodeSeq])
+      val r = transform(makeTemplate(markup).asInstanceOf[NodeSeq])
+//      println(r)
+      r
 
 
-    }
-    finally {
-      db.close
-    }
+
+
   }
 
   def containers(): Seq[ContainerV] = {
@@ -199,6 +204,7 @@ object TemplateView {
   }
 
   private def transform = {
+    println("transform")
     "body -*" #>
     <div class="container-fluid">
       <div class="row" id="top-panel">
