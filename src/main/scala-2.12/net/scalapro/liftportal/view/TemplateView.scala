@@ -21,6 +21,7 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.xml.{NodeSeq, Text, XML}
 import net.scalapro.liftportal.cms.tables.{TWidget, Widget, Widgets}
+import net.scalapro.liftportal.cms.views.TemplateWidgetsV.TemplatesWidgetsV
 
 /**
   * Created by kreml on 21.03.2017.
@@ -45,19 +46,55 @@ object TemplateView {
 
 
   implicit val formats = DefaultFormats
+
+
+
+  private  def getTemplate(id: String): Seq[TemplateWidgetsV] = {
+    val db = DB.getDatabase
+    val q = TemplateWidgetsV.view.filter(_.template === 1)
+    try Await.result(
+      db.run(q.result)
+
+      , Duration(2, "second")
+    )
+    finally db.close
+
+  }
+
+
+
+
   def edit(id: String): NodeSeq = {
     val db = DB.getDatabase
     try {
-      val q = TemplateV.view.filter(_.id === 1).map(_.markup) //The Query
+      val template = getTemplate(id)
+
+      val markup = XML.loadString(template.head.markup)
 
 
-      val result = Await.result(
-        db.run(q.result) // Future[Seq[String]]
-          .map(i => XML.loadString(i.head)) // parse XML
-        , Duration(2, "second")
-      )
+      def makeTemplate = {
 
-      transform(result)
+        println(template)
+        val body = "body "
+        (body + "[class]") #> "super-class"
+      }
+
+
+
+
+
+
+
+//      val q = TemplateV.view.filter(_.id === 1).map(_.markup) //The Query
+//
+//
+//      val result = Await.result(
+//        db.run(q.result) // Future[Seq[String]]
+//          .map(i => XML.loadString(i.head)) // parse XML
+//        , Duration(2, "second")
+//      )
+
+      transform(makeTemplate(markup).asInstanceOf[NodeSeq])
 
 
     }

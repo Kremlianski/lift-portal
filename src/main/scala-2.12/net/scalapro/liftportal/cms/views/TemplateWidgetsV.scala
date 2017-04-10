@@ -41,6 +41,8 @@ object TemplateWidgetsV {
 
   val view = TableQuery(new TemplatesWidgetsV(_))
 
+  
+
   def createView():DBIO[Int] =
 
     sqlu"""
