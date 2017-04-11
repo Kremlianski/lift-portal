@@ -41,7 +41,7 @@ window.createSpace = function (item) {
             if (event.from.id == 'editor-panel') {
                 var _item = event.item;
                 initWidget(_item);
-                loadHtml('id=' + $('#widget').attr('data-xx-w') + ';b=4');
+                loadHtml('id=' + $('#widget').attr('data-xx-w'));
                 //  createSpaces()
             }
         },
@@ -98,6 +98,7 @@ window.createSpace = function (item) {
     function init() {
         $('.widget-init').each(function () {
             initWidget(this);
+            $('#target').remove();
         });
     }
 });

@@ -113,7 +113,7 @@ declare function save(widgets: SpaceTemplate[]):void
                     const item = event.item
         
                     initWidget(item)
-                    loadHtml('id=' + $('#widget').attr('data-xx-w') + ';b=4')
+                    loadHtml('id=' + $('#widget').attr('data-xx-w'))
                 //  createSpaces()
                 }
             },
@@ -191,6 +191,7 @@ declare function save(widgets: SpaceTemplate[]):void
             $('.widget-init').each(function(){
 
                 initWidget(this)
+                $('#target').remove()
 
             })
 
