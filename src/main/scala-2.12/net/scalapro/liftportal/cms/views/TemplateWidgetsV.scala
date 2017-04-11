@@ -13,7 +13,11 @@ case class TemplateWidgetsV (
                       css_class: Option[String],
                       params: Option[String],
                       markup: String
-                    )
+                    ) {
+  def extractWidget(): TWidgetV = TWidgetV(t_widget, widget, template, space, ord, css_class, params)
+}
+
+
 object TemplateWidgetsV {
   class TemplatesWidgetsV(tag: Tag) extends Table[TemplateWidgetsV](tag, "template_widgets") {
 
@@ -40,8 +44,6 @@ object TemplateWidgetsV {
   }
 
   val view = TableQuery(new TemplatesWidgetsV(_))
-
-
 
   def createView():DBIO[Int] =
 

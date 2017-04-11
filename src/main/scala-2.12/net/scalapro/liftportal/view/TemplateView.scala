@@ -1,7 +1,7 @@
 package net.scalapro.liftportal.view
 
 import net.liftweb.common.{Box, Empty, Full}
-import net.liftweb.http.{JsContext, JsonContext, S, SHtml}
+import net.liftweb.http.{JsContext, JsonContext, RequestVar, S, SHtml}
 import net.liftweb.http.js.JE.{Call, JsRaw, JsVal, JsVar}
 import net.liftweb.http.js.JsCmds.{Alert, Function, Noop, Replace, Script, SetHtml}
 import net.liftweb.http.js.jquery.JqJsCmds.JqSetHtml
@@ -9,6 +9,7 @@ import net.liftweb.json.JsonAST.JValue
 import net.liftweb.json.JsonDSL._
 import net.liftweb.json._
 import net.liftweb.util.Helpers._
+import net.liftweb.util.PassThru
 import net.scalapro.liftportal.cms.views.{TempContainerV, TemplateV}
 import net.scalapro.liftportal.util.DB
 import net.scalapro.liftportal.cms.views._
@@ -22,10 +23,16 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.xml.{NodeSeq, Text, XML}
 import net.scalapro.liftportal.cms.tables.{TWidget, Widget, Widgets}
 import net.scalapro.liftportal.cms.views.TemplateWidgetsV.TemplatesWidgetsV
+import net.liftweb.util.CssSel
 
 /**
   * Created by kreml on 21.03.2017.
   */
+
+
+//stores the spaces with widgets
+object spacesStorage extends RequestVar[Map[Int,Seq[TWidgetV]]](Map.empty)
+
 
 
 
@@ -74,37 +81,37 @@ object TemplateView {
 
       val markup = XML.loadString(template.head.markup)
 
+      val widgets = template.map(_.extractWidget)
 
-      def makeTemplate = {
-
-
-        val spaces = template.groupBy(_.space)
-        val iterator = spaces.keys.iterator
-
-        def insertSpace: Unit = {
-          println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-
-          if(iterator.hasNext) {
-            val space = iterator.next
-            println(space)
-            println(spaces.get(space))
-            insertSpace
-          } else {
-            return
-          }
-
-        }
-
-        insertSpace
-
-        val body = "body "
-        (body + "[class]") #> "super-class"
-      }
+//
+//      def makeTemplate = {
+//
+//
+//        val spaces = widgets.groupBy(_.space_id)
+//        val iterator = spaces.keys.iterator
+//
+//        def insertSpace = {
+//          if(iterator.hasNext) {
+//            val space = iterator.next
+//            (("lift=SpaceSnippet?id="+space+ " *") #> Text(space.toString+"Fuck"))
+//          } else {
+//            PassThru
+//          }
+//
+//        }
+//
+//        insertSpace
+//
+////        val body = "body "
+////        (body + "[class]") #> "super-class"
+//      }
 
 
 
 
+          val spaces = widgets.groupBy(_.space_id)
 
+          spacesStorage(spaces)
 
 
 //      val q = TemplateV.view.filter(_.id === 1).map(_.markup) //The Query
@@ -116,7 +123,7 @@ object TemplateView {
 //        , Duration(2, "second")
 //      )
 
-      transform(makeTemplate(markup).asInstanceOf[NodeSeq])
+      transform(markup)
 
 
 

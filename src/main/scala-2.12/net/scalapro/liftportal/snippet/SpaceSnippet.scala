@@ -1,6 +1,7 @@
 package net.scalapro.liftportal.snippet
 
 import net.liftweb.http.S
+import net.scalapro.liftportal.view.spacesStorage
 
 import scala.xml.{NodeSeq, Unparsed}
 import net.liftweb.util.Helpers._
@@ -24,7 +25,14 @@ class SpaceSnippet {
 
 
   def render = {
+    val spaces = spacesStorage.is
     val id = S.attr("id").openOr("0")
+    
+    val space = spaces.get(id.toInt)
+
+    println(space)
+
+
     "*" #> <div class="space" data-xx-sid={id}></div>
   }
 }
