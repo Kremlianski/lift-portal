@@ -79,24 +79,24 @@ object TemplateView {
       def makeTemplate = {
 
 
-//        val spaces = template.groupBy(_.space)
-//        val iterator = spaces.keys.iterator
-//
-//        def insertSpace: Unit = {
-//          println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-//
-//          if(iterator.hasNext) {
-//            val space = iterator.next
-//            println(space)
-//            println(spaces.get(space))
-//            insertSpace
-//          } else {
-//            return
-//          }
-//
-//        }
-//
-//        insertSpace
+        val spaces = template.groupBy(_.space)
+        val iterator = spaces.keys.iterator
+
+        def insertSpace: Unit = {
+          println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
+          if(iterator.hasNext) {
+            val space = iterator.next
+            println(space)
+            println(spaces.get(space))
+            insertSpace
+          } else {
+            return
+          }
+
+        }
+
+        insertSpace
 
         val body = "body "
         println("makeTemplate")
