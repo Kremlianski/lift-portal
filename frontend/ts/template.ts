@@ -21,6 +21,8 @@ interface Widget {
     isNew?: boolean
 }
 
+declare function initWidget(item: Element): void
+
 declare function createSpace(item: Element): void
 
 declare function createSpaces():void
@@ -30,7 +32,6 @@ declare function menuInit(id: string):void
 
 
 declare function save(widgets: SpaceTemplate[]):void
-
 
 
 //global functions
@@ -53,10 +54,7 @@ declare function save(widgets: SpaceTemplate[]):void
 
 }
 
-;(<any> window).createSpace = function(item:Element):void {
-
-
-    
+;(<any> window).initWidget = function(item: Element):void {
 
     const containerStr: string = `
         <div class="panel-heading">
@@ -71,6 +69,33 @@ declare function save(widgets: SpaceTemplate[]):void
             <div id="target"></div>
         </div>
         `
+    $(item)
+    .removeAttr('id')
+    .removeClass('init-widget')
+    .addClass('panel panel-primary widget')
+    .html(containerStr)
+    .find('.close-button')
+    .on('click', function(){
+        item.remove()
+    })
+
+    $(item).find('.edit-button')
+    .on('click', function(){
+        const widget = $(item).find('[data-xx-wid]')
+        let str = ''
+        if(widget.hasClass('xx-new')) {
+            str=`&new=1`
+        }
+        alert(`?id=${widget.attr('data-xx-wid')}${str}`)
+        //window.location()
+    })
+}
+
+
+
+;(<any> window).createSpace = function(item:Element):void {
+
+    
         Sortable.create(item, {
             group: {
                 name: 'space',
@@ -83,26 +108,8 @@ declare function save(widgets: SpaceTemplate[]):void
                 if(event.from.id == 'editor-panel') {
                     const item = event.item
         
-                    $(item)
-                    .removeAttr('id')
-                    .addClass('panel panel-primary widget')
-                    .html(containerStr)
-                    .find('.close-button')
-                    .on('click', function(){
-                        item.remove()
-                    })
-
-                    $(item).find('.edit-button')
-                    .on('click', function(){
-                        const widget = $(item).find('[data-xx-wid]')
-                        let str = ''
-                        if(widget.hasClass('xx-new')) {
-                            str=`&new=1`
-                        }
-                        alert(`?id=${widget.attr('data-xx-wid')}${str}`)
-                        //window.location()
-                    })
-                loadHtml('id=' + $('#widget').attr('data-xx-w') + ';b=4')
+                    initWidget(item)
+                    loadHtml('id=' + $('#widget').attr('data-xx-w') + ';b=4')
                 //  createSpaces()
                 }
             },
@@ -172,6 +179,15 @@ declare function save(widgets: SpaceTemplate[]):void
 
                }
             )
+        }
+
+        function init():void {
+            $('.widget-init').each(function(){
+
+                initWidget(this)
+
+            })
+
         }
     }
 )

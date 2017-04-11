@@ -11,8 +11,22 @@ window.createSpaces = function () {
         createSpace(this);
     });
 };
-window.createSpace = function (item) {
+window.initWidget = function (item) {
     var containerStr = '\n        <div class="panel-heading">\n            <button class="btn btn-primary btn-sm edit-button">\n               <span class="glyphicon glyphicon-cog"></span>\n            </button>\n            <button class="btn btn-primary btn-sm close-button">\n               <span class="glyphicon glyphicon-remove"></span>\n            </button>\n        </div>\n        <div class="panel-body">\n            <div id="target"></div>\n        </div>\n        ';
+    $(item).removeAttr('id').removeClass('init-widget').addClass('panel panel-primary widget').html(containerStr).find('.close-button').on('click', function () {
+        item.remove();
+    });
+    $(item).find('.edit-button').on('click', function () {
+        var widget = $(item).find('[data-xx-wid]');
+        var str = '';
+        if (widget.hasClass('xx-new')) {
+            str = '&new=1';
+        }
+        alert('?id=' + widget.attr('data-xx-wid') + str);
+        //window.location()
+    });
+};
+window.createSpace = function (item) {
     Sortable.create(item, {
         group: {
             name: 'space',
@@ -24,18 +38,7 @@ window.createSpace = function (item) {
         onAdd: function onAdd(event) {
             if (event.from.id == 'editor-panel') {
                 var _item = event.item;
-                $(_item).removeAttr('id').addClass('panel panel-primary widget').html(containerStr).find('.close-button').on('click', function () {
-                    _item.remove();
-                });
-                $(_item).find('.edit-button').on('click', function () {
-                    var widget = $(_item).find('[data-xx-wid]');
-                    var str = '';
-                    if (widget.hasClass('xx-new')) {
-                        str = '&new=1';
-                    }
-                    alert('?id=' + widget.attr('data-xx-wid') + str);
-                    //window.location()
-                });
+                initWidget(_item);
                 loadHtml('id=' + $('#widget').attr('data-xx-w') + ';b=4');
                 //  createSpaces()
             }
@@ -87,6 +90,11 @@ window.createSpace = function (item) {
                 });
             });
             spaces.push({ id: id, content: content });
+        });
+    }
+    function init() {
+        $('.widget-init').each(function () {
+            initWidget(this);
         });
     }
 });

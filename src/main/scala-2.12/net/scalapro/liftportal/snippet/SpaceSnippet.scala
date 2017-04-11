@@ -19,11 +19,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
 import scala.xml.{Elem, Node, XML, Text}
+
 /**
   * Created by kreml on 21.03.2017.
   */
 class SpaceSnippet {
-
 
 
   def render = {
@@ -33,10 +33,15 @@ class SpaceSnippet {
     val space = spaces.get(id.toInt).getOrElse(Map.empty).asInstanceOf[Seq[TWidgetV]]
 
 
-
-
     "*" #> <div class="space" data-xx-sid={id}>
+      {space.map { i =>
 
+        val snippet = Widgets.get(i.widget_id).snippet
+        val classSnippet = "lift:" + snippet
+        <div class="widget-init">
+          <div class={classSnippet} data-xx-wid={i.id} data-xx-widget={i.widget_id.toString}></div>
+        </div>
+      }}
     </div>
 
   }
