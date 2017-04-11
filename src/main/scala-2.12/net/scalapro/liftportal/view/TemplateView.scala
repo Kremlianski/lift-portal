@@ -31,12 +31,17 @@ import net.liftweb.util.CssSel
 
 
 //stores the spaces with widgets
-object spacesStorage extends RequestVar[Map[Int,Seq[TWidgetV]]](Map.empty)
+
+
+
 
 
 
 
 object TemplateView {
+
+  type WidgetsMap = Map[Int,Seq[TWidgetV]]
+  object spacesStorage extends RequestVar[WidgetsMap](Map.empty)
 
   case class WidgetTemplate (
 
