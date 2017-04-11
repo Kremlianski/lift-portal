@@ -69,6 +69,8 @@ declare function save(widgets: SpaceTemplate[]):void
             <div id="target"></div>
         </div>
         `
+
+    const children = $(item).children().get(0)
     $(item)
     .removeAttr('id')
     .removeClass('init-widget')
@@ -78,6 +80,8 @@ declare function save(widgets: SpaceTemplate[]):void
     .on('click', function(){
         item.remove()
     })
+
+    if(children) $(item).find('.panel-body').append(children)
 
     $(item).find('.edit-button')
     .on('click', function(){
@@ -160,6 +164,8 @@ declare function save(widgets: SpaceTemplate[]):void
             spaces = []
         })
 
+        
+        init()
         function calculate() {
             $('.space').each(function() {
                 const id = $(this).attr('data-xx-sid')

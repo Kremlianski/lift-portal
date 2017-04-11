@@ -13,9 +13,11 @@ window.createSpaces = function () {
 };
 window.initWidget = function (item) {
     var containerStr = '\n        <div class="panel-heading">\n            <button class="btn btn-primary btn-sm edit-button">\n               <span class="glyphicon glyphicon-cog"></span>\n            </button>\n            <button class="btn btn-primary btn-sm close-button">\n               <span class="glyphicon glyphicon-remove"></span>\n            </button>\n        </div>\n        <div class="panel-body">\n            <div id="target"></div>\n        </div>\n        ';
+    var children = $(item).children().get(0);
     $(item).removeAttr('id').removeClass('init-widget').addClass('panel panel-primary widget').html(containerStr).find('.close-button').on('click', function () {
         item.remove();
     });
+    if (children) $(item).find('.panel-body').append(children);
     $(item).find('.edit-button').on('click', function () {
         var widget = $(item).find('[data-xx-wid]');
         var str = '';
@@ -77,6 +79,7 @@ window.createSpace = function (item) {
         save(spaces);
         spaces = [];
     });
+    init();
     function calculate() {
         $('.space').each(function () {
             var id = $(this).attr('data-xx-sid');
