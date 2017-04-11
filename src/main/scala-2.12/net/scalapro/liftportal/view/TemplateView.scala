@@ -53,7 +53,7 @@ object TemplateView {
     val db = DB.getDatabase
     val q = TemplateWidgetsV.view.filter(_.template === id.toInt)
     try {
-      println("start")
+
       Await.result(
         db.run(q.result)
 
@@ -68,8 +68,7 @@ object TemplateView {
 
 
   def edit(): NodeSeq = {
-    val id = S.param("id").getOrElse("0")
-    println(id)
+    val id = S.param("id").getOrElse("1")
 
       val template = getTemplate(id)
 
@@ -99,7 +98,6 @@ object TemplateView {
         insertSpace
 
         val body = "body "
-        println("makeTemplate")
         (body + "[class]") #> "super-class"
       }
 
@@ -118,9 +116,7 @@ object TemplateView {
 //        , Duration(2, "second")
 //      )
 
-      val r = transform(makeTemplate(markup).asInstanceOf[NodeSeq])
-//      println(r)
-      r
+      transform(makeTemplate(markup).asInstanceOf[NodeSeq])
 
 
 
@@ -204,7 +200,6 @@ object TemplateView {
   }
 
   private def transform = {
-    println("transform")
     "body -*" #>
     <div class="container-fluid">
       <div class="row" id="top-panel">
