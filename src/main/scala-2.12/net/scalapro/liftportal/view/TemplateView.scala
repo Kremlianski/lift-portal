@@ -131,8 +131,10 @@ object TemplateView {
           {i.name}
         </option>)}
       </select>
-      <button class="btn btn-primary" id="calculate">calculate</button>
-      {SHtml.link("", clearAll _, Text("clear"), "class"->"btn btn-default" )}
+      <button class="btn btn-primary" id="calculate">
+        <span class="glyphicon glyphicon-save"></span> save
+      </button>
+      {SHtml.link("", clearAll _, <span><span class="glyphicon glyphicon-remove"></span> clear</span>, "class"->"btn btn-danger" )}
     </div>
     ns
   }
