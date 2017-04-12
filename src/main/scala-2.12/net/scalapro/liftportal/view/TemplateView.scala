@@ -9,12 +9,11 @@ import net.liftweb.util.Helpers._
 import net.scalapro.liftportal.cms.views.{TempContainerV}
 import net.scalapro.liftportal.util.DB
 import net.scalapro.liftportal.cms.views._
-
 import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.xml.{NodeSeq, XML}
+import scala.xml.{NodeSeq, XML, Text}
 import net.scalapro.liftportal.cms.tables.{Widget, Widgets}
 
 
@@ -28,6 +27,7 @@ object TemplateView {
   type WidgetsMap = Map[Int, Seq[TWidgetV]]
 
   object spacesStorage extends RequestVar[WidgetsMap](Map.empty)
+  object templateId extends RequestVar[String]("1")
 
   case class WidgetTemplate(
 
@@ -62,7 +62,9 @@ object TemplateView {
 
 
   def edit(): NodeSeq = {
-    val id = S.param("id").getOrElse("1")
+
+
+    val id: String = S.param("id").getOrElse(templateId)
 
     val template = getTemplate(id)
 
@@ -130,6 +132,7 @@ object TemplateView {
         </option>)}
       </select>
       <button class="btn btn-primary" id="calculate">calculate</button>
+      {SHtml.link("", clearAll _, Text("clear"), "class"->"btn btn-default" )}
     </div>
     ns
   }
@@ -154,7 +157,10 @@ object TemplateView {
 
     finally db.close
   }
+  def clearAll(): Unit ={
 
+    S.redirectTo("template")
+  }
   private def transform = {
     "body -*" #>
       <div class="container-fluid">
@@ -168,6 +174,7 @@ object TemplateView {
       </div> andThen
       "#controlles-panel *+" #> {
         selectContainer
+
       } andThen
       "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/template.js"></script> &
         "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/lib/Sortable.min.js"></script> &

@@ -45,7 +45,7 @@ object SpaceTable  {
           <tr>
             {Tags.td(x.id.getOrElse("").toString)}
             {Tags.td(SpaceUtil.getMarkup(x.id.getOrElse(0)))}
-            <td>
+               <td>
               {SHtml.ajaxButton(<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>, Str(x.id.getOrElse(0).toString), drop _, "class"->"btn btn-default btn-sm")}
             </td>
 
