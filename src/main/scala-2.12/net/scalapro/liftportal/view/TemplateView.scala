@@ -13,7 +13,7 @@ import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.xml.{NodeSeq, XML, Text}
+import scala.xml.{NodeSeq, XML}
 import net.scalapro.liftportal.cms.tables.{Widget, Widgets}
 
 
@@ -64,15 +64,22 @@ object TemplateView {
   def edit(): NodeSeq = {
 
 
-    val id: String = S.param("id").getOrElse(templateId)
+    val id: String = S.param("id").getOrElse(templateId.is)
+
+    templateId(id)
 
     val template = getTemplate(id)
 
     val markup = XML.loadString(template.head.markup)
 
-    val widgets = template.map(_.extractWidget)
+    val widgets = template.map(i => i.extractWidget).filterNot(_ == None).map(_.get)
 
-    val spaces = widgets.groupBy(_.space_id)
+
+    val spaces = widgets.size == 0 match {
+      case false => widgets.groupBy(_.space_id)
+      case true => Map.empty[Int, Seq[TWidgetV]]
+    }
+
 
     spacesStorage(spaces)
 
@@ -140,14 +147,14 @@ object TemplateView {
   }
 
   private def updateDB(spaces: List[SpaceTemplate]): Unit = {
-    val result = spaces.map(x => {
+    val result = spaces.flatMap(x => {
       val spaceId = x.id
       x.content.zipWithIndex.map(y => {
         val widget = y._1
         val order = y._2
         TWidgetV(widget.wid, widget.wtype.toInt, 1, spaceId.toInt, order, None, None)
       })
-    }).flatten
+    })
 
     val db = DB.getDatabase
     val action = db.run(DBIO.seq(
@@ -160,6 +167,17 @@ object TemplateView {
     finally db.close
   }
   def clearAll(): Unit ={
+
+    val db = DB.getDatabase
+
+    val template = templateId.is
+    val q = TWidgetV.view.filter(_.template_id === template.toInt).delete
+
+
+    try Await.result(db.run(q), Duration.Inf)
+
+    finally db.close
+
 
     S.redirectTo("template")
   }

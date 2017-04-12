@@ -5,32 +5,57 @@ import slick.sql.SqlProfile.ColumnOption.{Nullable, SqlType}
   * Created by kreml on 10.04.2017.
   */
 case class TemplateWidgetsV (
-                      t_widget: String,
-                      widget: Int,
+                      t_widget: Option[String],
+                      widget: Option[Int],
                       template: Int,
-                      space: Int,
-                      ord: Int,
+                      space: Option[Int],
+                      ord: Option[Int],
                       css_class: Option[String],
                       params: Option[String],
                       markup: String
                     ) {
-  def extractWidget(): TWidgetV = TWidgetV(t_widget, widget, template, space, ord, css_class, params)
+
+  def extractWidget(): Option[TWidgetV] = {
+
+    val t_widget0 = t_widget match {
+      case Some(x) => x
+      case None => return None
+    }
+
+    val widget0 = widget match {
+      case Some(x) => x
+      case None => return None
+    }
+
+    val space0 = space match {
+      case Some(x) => x
+      case None => return None
+    }
+
+    val ord0 = ord match {
+      case Some(x) => x
+      case None => return None
+    }
+
+    Some(TWidgetV(t_widget0, widget0, template, space0, ord0, css_class, params))
+
+  }
 }
 
 
 object TemplateWidgetsV {
   class TemplatesWidgetsV(tag: Tag) extends Table[TemplateWidgetsV](tag, "template_widgets") {
 
-    def t_widget = column[String]("t_widget", O.PrimaryKey)
+    def t_widget = column[Option[String]]("t_widget", O.PrimaryKey)
 
-    def widget = column[Int]("widget")
+    def widget = column[Option[Int]]("widget")
 
     def template = column[Int]("template")
 
-    def space = column[Int]("space")
+    def space = column[Option[Int]]("space")
 
 
-    def ord = column[Int]("ord")
+    def ord = column[Option[Int]]("ord")
 
     def css_class = column[Option[String]]("css_class", Nullable)
 
