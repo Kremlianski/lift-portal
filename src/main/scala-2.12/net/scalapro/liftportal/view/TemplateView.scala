@@ -146,25 +146,30 @@ object TemplateView {
   }
 
 
-  private def deleteInsert(d: List[String], i: List[TWidgetV]): Unit = {
+  private def doUpdate(d: List[String], i: List[TWidgetV], up: List[TWidgetV]): Unit = {
 
 
     val q = TWidgetV.view.filter(_.id inSet d)
 
 
     val db = DB.getDatabase
+
+    val update = DBIO.sequence(
+      up.map(u => {
+        TWidgetV.view.filter( w => w.id === u.id).map(x => (x.space_id, x.ord)).update(u.space_id, u.ord)
+      }))
+
+
     val action = db.run(DBIO.seq(
 
       TWidgetV.view ++= i,
-      q.delete
+      q.delete,
+      update
 
     ))
     try Await.result(action, Duration.Inf)
 
     finally db.close
-
-
-
 
   }
 
@@ -193,20 +198,7 @@ object TemplateView {
     val toAdd = result.filter(i=>toAddIds.contains(i.id))
     val toUpdate = result.filter(i=>toUpdateIds.contains(i.id))
 
-
-
-
-    deleteInsert(toDeleteIds, toAdd)
-    val db = DB.getDatabase
-    val action = db.run(DBIO.sequence(
-      toUpdate.map(u => {
-        TWidgetV.view.filter( w => w.id === u.id).map(x => (x.space_id, x.ord)).update(u.space_id, u.ord)
-      })
-    ))
-
-    try Await.result(action, Duration.Inf)
-
-    finally db.close
+    doUpdate(toDeleteIds, toAdd, toUpdate)
   }
 
 
