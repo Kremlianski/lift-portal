@@ -147,10 +147,11 @@ object TemplateView {
 
 
   private def reduceDropped(r: List[TWidgetV]): Unit = {
-//    val db = DB.getDatabase
-//    val q = TWidgetV.view.filter(_.template_id = )
+    val db = DB.getDatabase
+    val items = r.map(_.id)
+    val q = TWidgetV.view.filter(_.id inSet items)
 
-    val tId = templateId.is
+
 
 
   }
@@ -191,7 +192,7 @@ object TemplateView {
 //    finally db.close
   }
 
-  
+
   def clearAll(): Unit ={
 
     val db = DB.getDatabase
