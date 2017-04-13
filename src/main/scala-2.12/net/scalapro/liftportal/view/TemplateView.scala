@@ -146,19 +146,28 @@ object TemplateView {
   }
 
 
-  private def reduceDropped(r: List[TWidgetV]): Unit = {
+  private def deleteInsert(d: List[String], i: List[TWidgetV]): Unit = {
+
+
+    val q = TWidgetV.view.filter(_.id inSet d)
+
+
     val db = DB.getDatabase
-    val items = r.map(_.id)
-    val q = TWidgetV.view.filter(_.id inSet items)
+    val action = db.run(DBIO.seq(
+
+      TWidgetV.view ++= i,
+      q.delete
+
+    ))
+    try Await.result(action, Duration.Inf)
+
+    finally db.close
 
 
 
 
   }
 
-  private def insert(r: List[TWidgetV]): Unit = {
-
-  }
 
 
   private def updateDB(spaces: List[SpaceTemplate]): Unit = {
@@ -171,14 +180,23 @@ object TemplateView {
         TWidgetV(widget.wid, widget.wtype.toInt, 1, spaceId.toInt, order, None, None)
       })
     })
+    val resultIds = result.map(_.id)
 
     val was = spacesStorage.is.values.flatten.asInstanceOf[List[TWidgetV]]
-    val toAdd = result diff was
-    val toDelete = was diff result
-    val toUpdate = was diff toDelete
+    val wasIds = was.map(_.id)
 
-    reduceDropped(toDelete)
-    insert(toAdd)
+
+    val toAddIds = resultIds diff wasIds
+    val toDeleteIds = wasIds diff resultIds
+    val toUpdateIds = wasIds diff toDeleteIds
+
+    val toAdd = result.filter(i=>toAddIds.contains(i.id))
+    val toUpdate = result.filter(i=>toUpdateIds.contains(i.id))
+
+
+
+
+    deleteInsert(toDeleteIds, toAdd)
 
 
 //    val db = DB.getDatabase
