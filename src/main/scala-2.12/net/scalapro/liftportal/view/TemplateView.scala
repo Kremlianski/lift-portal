@@ -197,17 +197,16 @@ object TemplateView {
 
 
     deleteInsert(toDeleteIds, toAdd)
+    val db = DB.getDatabase
+    val action = db.run(DBIO.sequence(
+      toUpdate.map(u => {
+        TWidgetV.view.filter( w => w.id === u.id).map(x => (x.space_id, x.ord)).update(u.space_id, u.ord)
+      })
+    ))
 
+    try Await.result(action, Duration.Inf)
 
-//    val db = DB.getDatabase
-//    val action = db.run(DBIO.seq(
-//
-//      TWidgetV.view ++= result
-//
-//    ))
-//    try Await.result(action, Duration.Inf)
-//
-//    finally db.close
+    finally db.close
   }
 
 
