@@ -1,6 +1,5 @@
 package net.scalapro.liftportal.view
 
-
 import net.liftweb.http.{RequestVar, S, SHtml}
 import net.liftweb.http.js.JE.{JsRaw, JsVar}
 import net.liftweb.http.js.JsCmds.{Function, Noop, Replace, Script}
@@ -146,7 +145,23 @@ object TemplateView {
     ns
   }
 
+
+  private def reduceDropped(r: List[TWidgetV]): Unit = {
+//    val db = DB.getDatabase
+//    val q = TWidgetV.view.filter(_.template_id = )
+
+    val tId = templateId.is
+
+
+  }
+
+  private def insert(r: List[TWidgetV]): Unit = {
+
+  }
+
+
   private def updateDB(spaces: List[SpaceTemplate]): Unit = {
+
     val result = spaces.flatMap(x => {
       val spaceId = x.id
       x.content.zipWithIndex.map(y => {
@@ -156,16 +171,27 @@ object TemplateView {
       })
     })
 
-    val db = DB.getDatabase
-    val action = db.run(DBIO.seq(
+    val was = spacesStorage.is.values.flatten.asInstanceOf[List[TWidgetV]]
+    val toAdd = result diff was
+    val toDelete = was diff result
+    val toUpdate = was diff toDelete
 
-      TWidgetV.view ++= result
+    reduceDropped(toDelete)
+    insert(toAdd)
 
-    ))
-    try Await.result(action, Duration.Inf)
 
-    finally db.close
+//    val db = DB.getDatabase
+//    val action = db.run(DBIO.seq(
+//
+//      TWidgetV.view ++= result
+//
+//    ))
+//    try Await.result(action, Duration.Inf)
+//
+//    finally db.close
   }
+
+  
   def clearAll(): Unit ={
 
     val db = DB.getDatabase
@@ -231,6 +257,8 @@ object TemplateView {
             ) & Function("save", List("widgets"),
               SHtml.jsonCall(JsVar("widgets"), widgets => {
                 val spaces = widgets.extract[List[SpaceTemplate]]
+
+
 
                 updateDB(spaces)
 
