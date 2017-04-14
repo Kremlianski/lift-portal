@@ -60,6 +60,7 @@ object DBSetup {
 
 
 
+
     val createSeq = DBIO.seq(
 
       Sequences.create,
@@ -94,9 +95,7 @@ object DBSetup {
 
     def recreateAll = db.run(dropSeq >> createSeq)
 
-
-
-    try Await.result(createAll, Duration.Inf)
+    try Await.result(dropAll, Duration.Inf)
 
     finally db.close
   }

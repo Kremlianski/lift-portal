@@ -21,7 +21,7 @@ import net.scalapro.liftportal.cms.tables.{Widget, Widgets}
   */
 
 
-object TemplateView {
+object TemplatePreView {
 
   type WidgetsMap = Map[Int, Seq[TWidgetV]]
 
@@ -141,7 +141,7 @@ object TemplateView {
         <span class="glyphicon glyphicon-save"></span> save
       </button>
       {SHtml.link("", clearAll _, <span><span class="glyphicon glyphicon-remove"></span> clear</span>, "class"->"btn btn-danger" )}
-      {SHtml.link("template-preview", ()=>{}, <span><span class="glyphicon glyphicon-new-window"></span> View</span>, "class"->"btn btn-primary" )}
+      {SHtml.link("template-preview", ()=>{}, <span><span class="glyphicon glyphicon-new-window"></span> preview</span>, "class"->"btn btn-primary" )}
     </div>
     ns
   }
@@ -280,3 +280,4 @@ object TemplateView {
         </lift:head>
   }
 }
+
