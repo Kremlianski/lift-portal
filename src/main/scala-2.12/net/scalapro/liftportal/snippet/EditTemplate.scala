@@ -29,7 +29,7 @@ class EditTemplate extends StatefulSnippet {
       case x => x
     }
 
-
+  // Something wrong. Why DB request when 0 !!!!!!!!!!!!!!!
     val db = DB.getDatabase
     try {
       val q = TemplateV.view.filter(_.id === i.toInt) //The Query
@@ -45,7 +45,10 @@ class EditTemplate extends StatefulSnippet {
             case "0" => ""
             case _ => pt.description.getOrElse("")
           }
-          markup = pt.markup
+          markup = id match {
+            case "0" => ""
+            case _ => pt.markup
+          }
 
           (id match {
             case "0" =>".title *" #> "Insert new Template"

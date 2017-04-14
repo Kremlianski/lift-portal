@@ -94,6 +94,7 @@ object TemplatePreView {
 
 
   private def transform = {
+    val id = templateId.is
     "body -*" #>
       <div class="container-fluid">
         <div class="row" id="top-panel">
@@ -101,7 +102,10 @@ object TemplatePreView {
           </div>
         </div>
       </div> andThen
-      "#controlles-panel *+" #> {SHtml.link("", close _, <span>
+      "#controlles-panel *+" #> {SHtml.link("", ()=> {
+        templateId(id)
+        close
+      }, <span>
         <span class="glyphicon glyphicon-arrow-left"></span> back</span>, "class"->"btn btn-primary" )}
   }
 }

@@ -67,6 +67,9 @@ object TemplateView {
 
     templateId(id)
 
+
+    println("edit: "+templateId.is)
+
     val template = getTemplate(id)
 
     val markup = XML.loadString(template.head.markup)
@@ -109,11 +112,8 @@ object TemplateView {
     }
   }
 
-  private def preview(): Unit = {
-    val id = templateId.is
-    S.redirectTo("template-preview", ()=>templateId(id))
-  }
-  private def selectContainer(): NodeSeq = {
+
+  private def selectContainer(id: String): NodeSeq = {
     val s: Seq[Widget] = Widgets.get
     val ns = <div class="form-group">
       <select id="containers" class="form-control">
@@ -125,8 +125,21 @@ object TemplateView {
       <button class="btn btn-primary" id="calculate">
         <span class="glyphicon glyphicon-save"></span> save
       </button>
-      {SHtml.link("", clearAll _, <span><span class="glyphicon glyphicon-remove"></span> clear</span>, "class"->"btn btn-danger" )}
-      {SHtml.link("", preview _, <span><span class="glyphicon glyphicon-new-window"></span> View</span>, "class"->"btn btn-primary" )}
+      {
+      SHtml.link("", () => {
+
+        templateId(id)
+        clearAll
+
+
+
+      }, <span><span class="glyphicon glyphicon-remove"></span> clear</span>, "class"->"btn btn-danger" )}
+      {
+      SHtml.link("template-preview", () => {
+
+        templateId(id)
+
+      }, <span><span class="glyphicon glyphicon-new-window"></span> View</span>, "class"->"btn btn-primary" )}
     </div>
     ns
   }
@@ -161,14 +174,14 @@ object TemplateView {
 
 
 
-  private def updateDB(spaces: List[SpaceTemplate]): Unit = {
+  private def updateDB(spaces: List[SpaceTemplate], id: String): Unit = {
 
     val result = spaces.flatMap(x => {
       val spaceId = x.id
       x.content.zipWithIndex.map(y => {
         val widget = y._1
         val order = y._2
-        TWidgetV(widget.wid, widget.wtype.toInt, 1, spaceId.toInt, order, None, None)
+        TWidgetV(widget.wid, widget.wtype.toInt, id.toInt, spaceId.toInt, order, None, None)
       })
     })
     val resultIds = result.map(_.id)
@@ -199,11 +212,12 @@ object TemplateView {
     try Await.result(db.run(q), Duration.Inf)
 
     finally db.close
-
-
-    S.redirectTo("template")
   }
   private def transform = {
+
+    val id = templateId.is
+
+
     "body -*" #>
       <div class="container-fluid">
         <div class="row" id="top-panel">
@@ -215,7 +229,7 @@ object TemplateView {
         </div>
       </div> andThen
       "#controlles-panel *+" #> {
-        selectContainer
+        selectContainer(id)
 
       } andThen
       "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/template.js"></script> &
@@ -256,7 +270,7 @@ object TemplateView {
 
 
 
-                updateDB(spaces)
+                updateDB(spaces, id)
 
                 Noop
               }).cmd
