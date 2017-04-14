@@ -88,24 +88,6 @@ object TemplateView {
 
   }
 
-  def containers(): Seq[ContainerV] = {
-    val db = DB.getDatabase
-    try {
-      val q = ContainerV.view //The Query
-
-
-      val result = Await.result(
-        db.run(q.result) // Future[Seq[ContainerV]]
-          .map(i => i)
-        , Duration(2, "second")
-      )
-      result
-
-    }
-    finally {
-      db.close
-    }
-  }
 
 
   def tempContainer(id: Int): TempContainerV = {
@@ -127,7 +109,10 @@ object TemplateView {
     }
   }
 
-
+  private def preview(): Unit = {
+    val id = templateId.is
+    S.redirectTo("template-preview", ()=>templateId(id))
+  }
   private def selectContainer(): NodeSeq = {
     val s: Seq[Widget] = Widgets.get
     val ns = <div class="form-group">
@@ -141,7 +126,7 @@ object TemplateView {
         <span class="glyphicon glyphicon-save"></span> save
       </button>
       {SHtml.link("", clearAll _, <span><span class="glyphicon glyphicon-remove"></span> clear</span>, "class"->"btn btn-danger" )}
-      {SHtml.link("template-preview", ()=>{}, <span><span class="glyphicon glyphicon-new-window"></span> View</span>, "class"->"btn btn-primary" )}
+      {SHtml.link("", preview _, <span><span class="glyphicon glyphicon-new-window"></span> View</span>, "class"->"btn btn-primary" )}
     </div>
     ns
   }
