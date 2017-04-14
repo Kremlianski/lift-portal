@@ -68,8 +68,6 @@ object TemplateView {
     templateId(id)
 
 
-    println("edit: "+templateId.is)
-
     val template = getTemplate(id)
 
     val markup = XML.loadString(template.head.markup)
