@@ -1,12 +1,9 @@
 package net.scalapro.liftportal.snippet
 
 import net.liftweb.common.Full
-import net.liftweb.http.S
-
+import net.liftweb.http.{S, SHtml}
 import net.liftweb.util.Helpers._
-
 import net.scalapro.liftportal.cms.views.TemplateV
-
 import net.scalapro.liftportal.util.DB
 
 import scala.concurrent.Await
@@ -14,9 +11,9 @@ import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
-
 import net.scalapro.liftportal.util.Tags
 import net.scalapro.liftportal.util.Tags._
+import net.scalapro.liftportal.util.Vars.templateId
 
 
 object Templates {
@@ -61,6 +58,18 @@ object Templates {
               <a href={"?d=" + x.id.getOrElse("") + ""} class="btn btn-default btn-sm">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
               </a>
+              {SHtml.link("template-preview", ()=>{
+                templateId(x.id.getOrElse(1).toString)
+              }, <span class="glyphicon glyphicon-search"></span>,
+                "class"->"btn btn-default btn-sm")
+              }
+
+              {SHtml.link("template", ()=>{
+                templateId(x.id.getOrElse(1).toString)
+              }, <span class="glyphicon glyphicon-th"></span>,
+                "class"->"btn btn-default btn-sm")
+              }
+
             </td>
             </tr>
           }
