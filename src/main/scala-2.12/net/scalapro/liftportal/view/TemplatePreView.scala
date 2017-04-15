@@ -98,8 +98,10 @@ object TemplatePreView {
       "#controlles-panel *+" #> {SHtml.link("", ()=> {
         templateId(id)
         close
-      }, <span>
-        <span class="glyphicon glyphicon-th"></span> back</span>, "class"->"btn btn-primary" )}
+      }, <span class="glyphicon glyphicon-th"></span>, "class"->"btn btn-primary", "title"->"add/remove widgets" )} &
+        "#controlles-panel *+" #> <a href="templates" class="btn btn-primary" title="templates">
+          <span class="glyphicon glyphicon-th-list"></span></a>
+
   }
 }
 
