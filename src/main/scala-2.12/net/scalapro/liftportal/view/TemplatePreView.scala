@@ -99,7 +99,7 @@ object TemplatePreView {
         templateId(id)
         close
       }, <span>
-        <span class="glyphicon glyphicon-arrow-left"></span> back</span>, "class"->"btn btn-primary" )}
+        <span class="glyphicon glyphicon-th"></span> back</span>, "class"->"btn btn-primary" )}
   }
 }
 

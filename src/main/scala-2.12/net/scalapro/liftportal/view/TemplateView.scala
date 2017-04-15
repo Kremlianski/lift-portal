@@ -135,7 +135,7 @@ object TemplateView {
 
         templateId(id)
 
-      }, <span><span class="glyphicon glyphicon-new-window"></span> View</span>, "class"->"btn btn-primary" )}
+      }, <span><span class="glyphicon glyphicon-search"></span> View</span>, "class"->"btn btn-primary" )}
     </div>
     ns
   }
