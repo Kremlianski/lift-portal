@@ -1,22 +1,15 @@
 package net.scalapro.liftportal.view
 
-import net.liftweb.http.{RequestVar, S, SHtml}
-import net.liftweb.http.js.JE.{JsRaw, JsVar}
-import net.liftweb.http.js.JsCmds.{Function, Noop, Replace, Script}
+import net.liftweb.http.{S, SHtml}
 import net.liftweb.json._
 import net.liftweb.util.Helpers._
-import net.scalapro.liftportal.cms.views.TempContainerV
 import net.scalapro.liftportal.util.DB
 import net.scalapro.liftportal.cms.views._
-
 import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
-
 import scala.concurrent.duration.Duration
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.xml.{NodeSeq, XML}
-import net.scalapro.liftportal.cms.tables.{Widget, Widgets}
-import net.scalapro.liftportal.view.TemplateView.{spacesStorage, templateId}
+import net.scalapro.liftportal.util.Vars.{templateId, spacesStorage}
 
 
 /**

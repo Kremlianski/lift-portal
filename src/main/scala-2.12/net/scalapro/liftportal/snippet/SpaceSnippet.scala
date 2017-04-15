@@ -19,6 +19,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
 import scala.xml.{Elem, Node, XML, Text}
+import net.scalapro.liftportal.util.Vars.spacesStorage
 
 /**
   * Created by kreml on 21.03.2017.

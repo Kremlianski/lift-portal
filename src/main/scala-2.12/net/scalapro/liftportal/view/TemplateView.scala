@@ -1,6 +1,6 @@
 package net.scalapro.liftportal.view
 
-import net.liftweb.http.{RequestVar, S, SHtml}
+import net.liftweb.http.{S, SHtml}
 import net.liftweb.http.js.JE.{JsRaw, JsVar}
 import net.liftweb.http.js.JsCmds.{Function, Noop, Replace, Script}
 import net.liftweb.json._
@@ -14,7 +14,7 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.xml.{NodeSeq, XML}
 import net.scalapro.liftportal.cms.tables.{Widget, Widgets}
-
+import net.scalapro.liftportal.util.Vars.{templateId, spacesStorage}
 
 /**
   * Created by kreml on 21.03.2017.
@@ -25,8 +25,6 @@ object TemplateView {
 
   type WidgetsMap = Map[Int, Seq[TWidgetV]]
 
-  object spacesStorage extends RequestVar[WidgetsMap](Map.empty)
-  object templateId extends RequestVar[String]("1")
 
   case class WidgetTemplate(
 
