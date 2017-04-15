@@ -12,7 +12,6 @@ import slick.jdbc.PostgresProfile.api._
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import net.scalapro.liftportal.util.Tags
-import net.scalapro.liftportal.util.Tags._
 import net.scalapro.liftportal.util.Vars.templateId
 
 
@@ -40,7 +39,7 @@ object Templates {
 
   def render = {
     S.param("d") match {
-      case Full(x) => removeTemplate(x)
+      case Full(x) => removeTemplate(templateId(x))
       case _ =>
     }
     val db = DB.getDatabase
@@ -54,23 +53,27 @@ object Templates {
 
           ".rows" #> p.map(x => {
             <tr>
-              {Tags.td(x.name, None, Some("edit-template?t=" + x.id.getOrElse("") + ""))}{Tags.td(x.description.getOrElse(""))}<td>
-              <a href={"?d=" + x.id.getOrElse("") + ""} class="btn btn-default btn-sm">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-              </a>
-              {SHtml.link("template-preview", ()=>{
-                templateId(x.id.getOrElse(1).toString)
-              }, <span class="glyphicon glyphicon-search"></span>,
-                "class"->"btn btn-default btn-sm")
-              }
+              {Tags.td(x.name, None, Some("edit-template?t=" + x.id.getOrElse("") + ""))}
+              {Tags.td(x.description.getOrElse(""))}
+              <td>
+                {SHtml.link("", ()=>{
+                  removeTemplate(x.id.getOrElse(1).toString)
+                }, <span class="glyphicon glyphicon-remove"></span>,
+                  "class"->"btn btn-default btn-sm")
+                }
+                {SHtml.link("template-preview", ()=>{
+                  templateId(x.id.getOrElse(1).toString)
+                }, <span class="glyphicon glyphicon-search"></span>,
+                  "class"->"btn btn-default btn-sm")
+                }
 
-              {SHtml.link("template", ()=>{
-                templateId(x.id.getOrElse(1).toString)
-              }, <span class="glyphicon glyphicon-th"></span>,
-                "class"->"btn btn-default btn-sm")
-              }
+                {SHtml.link("template", ()=>{
+                  templateId(x.id.getOrElse(1).toString)
+                }, <span class="glyphicon glyphicon-th"></span>,
+                  "class"->"btn btn-default btn-sm")
+                }
 
-            </td>
+              </td>
             </tr>
           }
           )
