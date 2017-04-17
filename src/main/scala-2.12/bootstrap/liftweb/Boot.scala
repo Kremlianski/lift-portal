@@ -5,7 +5,7 @@ import net.liftweb.http.{ContentSecurityPolicy, ContentSourceRestriction, Html5P
 import net.liftweb.sitemap.Loc.Hidden
 import net.liftweb.sitemap.{**, Menu, SiteMap}
 import net.scalapro.liftportal.setup.DBSetup
-import net.scalapro.liftportal.view.{TemplatePreView, TemplateView}
+import net.scalapro.liftportal.view.{TemplatePreView, TemplateView, PageView}
 import net.scalapro.liftportal.cms.tables.Widgets
 
 class Boot {
@@ -21,7 +21,8 @@ class Boot {
       Menu.i("Templates") /"cms"/ "templates",
       Menu.i("Containers") /"cms"/ "containers",
       Menu.i("Template") /"cms"/ "template" >> Hidden,
-      Menu.i("Template Preview") /"cms"/ "template-preview" >> Hidden
+      Menu.i("Template Preview") /"cms"/ "template-preview" >> Hidden,
+      Menu.i("Page Preview") /"cms"/ "page-preview" >> Hidden
 
     )
 
@@ -30,6 +31,8 @@ class Boot {
         Left(() => Full(TemplateView.edit))
       case List("cms", "template-preview") =>
         Left(() => Full(TemplatePreView.render))
+      case List("cms", "page-preview") =>
+        Left(() => Full(PageView.render))
     }
 
     // Use HTML5 for rendering

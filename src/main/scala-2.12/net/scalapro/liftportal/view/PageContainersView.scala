@@ -29,6 +29,8 @@ import scala.xml.{NodeSeq, Text, XML}
 
 
 object PageContainersView {
+
+
   def edit(id: String): NodeSeq = {
     val db = DB.getDatabase
     try {
