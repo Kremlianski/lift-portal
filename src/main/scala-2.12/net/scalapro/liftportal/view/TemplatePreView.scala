@@ -53,7 +53,7 @@ object TemplatePreView {
   }
 
 
-  def edit(): NodeSeq = {
+  def render(): NodeSeq = {
 
 
     val id: String = S.param("id").getOrElse(templateId.is)

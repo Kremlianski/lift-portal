@@ -29,7 +29,7 @@ class Boot {
       case List("cms", "template") =>
         Left(() => Full(TemplateView.edit))
       case List("cms", "template-preview") =>
-        Left(() => Full(TemplatePreView.edit))
+        Left(() => Full(TemplatePreView.render))
     }
 
     // Use HTML5 for rendering
