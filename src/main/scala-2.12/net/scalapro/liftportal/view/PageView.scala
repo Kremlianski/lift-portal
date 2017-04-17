@@ -11,7 +11,7 @@ object PageView {
   def render(): NodeSeq = {
     templateId("3")
 
-    <lift:surround with="cms/template-preview" at="xx-page">
+    <lift:surround with="cms/page-template-preview" at="xx-page">
       <div>The Page content will appear here!</div>
     </lift:surround>
   }
