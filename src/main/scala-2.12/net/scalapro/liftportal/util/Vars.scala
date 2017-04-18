@@ -9,4 +9,5 @@ import net.scalapro.liftportal.view.TemplatePreView.WidgetsMap
 object Vars {
   object spacesStorage extends RequestVar[WidgetsMap](Map.empty)
   object templateId extends RequestVar[String]("1")
+  object pageId extends RequestVar[String]("1")
 }
