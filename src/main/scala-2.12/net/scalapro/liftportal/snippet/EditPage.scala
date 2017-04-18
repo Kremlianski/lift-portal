@@ -12,7 +12,7 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 
 
-class EditTemplate extends StatefulSnippet {
+class EditPage extends StatefulSnippet {
   private var id: String = "0"
   private var name = ""
   private var markup = ""
