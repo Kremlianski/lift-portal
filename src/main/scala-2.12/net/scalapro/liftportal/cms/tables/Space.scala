@@ -8,8 +8,8 @@ case class Space (
                  id: Option[Int],
                  container_id: Option[Int],
                  template_id: Option[Int],
-                 page_id: Option[Int]
-
+                 page_id: Option[Int],
+                 main: Boolean = false
                  )
 
 object Space {
@@ -24,10 +24,12 @@ object Space {
 
     def page_id = column[Option[Int]]("page_id", Nullable, O.Default(None))
 
+    def main = column[Boolean]("main", O.Default(false))
 
 
 
-    def * = (id.?, container_id, template_id, page_id) <> ((Space.apply _).tupled, Space.unapply)
+
+    def * = (id.?, container_id, template_id, page_id, main) <> ((Space.apply _).tupled, Space.unapply)
 
 
     def container_fk = foreignKey("container_fk", container_id, Container.table)(_.id,

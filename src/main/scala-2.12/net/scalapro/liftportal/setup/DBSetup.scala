@@ -95,7 +95,10 @@ object DBSetup {
 
     def recreateAll = db.run(dropSeq >> createSeq)
 
-    try Await.result(dropAll, Duration.Inf)
+
+
+
+    try Await.result(createAll, Duration.Inf)
 
     finally db.close
   }
