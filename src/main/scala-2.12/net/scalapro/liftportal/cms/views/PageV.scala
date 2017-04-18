@@ -11,8 +11,7 @@ case class PageV(
                  description: Option[String],
                  keywords: Option[String],
                  pageType: String,
-                 pageClass: Option[String],
-                 slag: String
+                 pageClass: Option[String]
                )
 
 object PageV {
@@ -34,10 +33,9 @@ object PageV {
 
     def pageClass = column[Option[String]]("page_class")
 
-    def slag = column[String]("slag")
 
 
-    def * = (id.?, template_id, title, description, keywords, pageType, pageClass, slag) <>
+    def * = (id.?, template_id, title, description, keywords, pageType, pageClass) <>
       ((PageV.apply _).tupled, PageV.unapply)
 
   }

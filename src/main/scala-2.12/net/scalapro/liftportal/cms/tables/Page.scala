@@ -10,8 +10,7 @@ case class Page(
                  description: Option[String],
                  keywords: Option[String],
                  pageType: String,
-                 pageClass: Option[String],
-                 slag: String
+                 pageClass: Option[String]
                )
 
 object Page {
@@ -33,10 +32,10 @@ object Page {
 
     def pageClass = column[Option[String]]("page_class")
 
-    def slag = column[String]("slag")
 
 
-    def * = (id.?, template_id, title, description, keywords, pageType, pageClass, slag) <> ((Page.apply _).tupled, Page.unapply)
+
+    def * = (id.?, template_id, title, description, keywords, pageType, pageClass) <> ((Page.apply _).tupled, Page.unapply)
 
     def template_fk = foreignKey("template_fk", template_id, Template.table)(_.id,
       onUpdate = ForeignKeyAction.Cascade, onDelete = ForeignKeyAction.SetDefault)

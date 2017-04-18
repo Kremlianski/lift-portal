@@ -14,7 +14,7 @@ import net.scalapro.liftportal.cms.views._
 
 object DBSetup {
 
-  private val setup_? = false
+  private val setup_? = true
 
 
   def setup: Unit = {
@@ -94,9 +94,6 @@ object DBSetup {
     def dropAll = db.run(dropSeq)
 
     def recreateAll = db.run(dropSeq >> createSeq)
-
-
-
 
     try Await.result(createAll, Duration.Inf)
 
