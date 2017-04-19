@@ -48,7 +48,7 @@ object Templates {
       val action = q.result
 
       Await.result(
-        db.run(action) // Future[Seq[String]]
+        db.run(action)
           .map { p =>
 
           ".rows" #> p.map(x => {

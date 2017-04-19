@@ -1,8 +1,9 @@
 package net.scalapro.liftportal.snippet
 
+import net.liftweb.common.{Empty, Full}
 import net.liftweb.http.{S, SHtml, StatefulSnippet}
 import net.liftweb.util.Helpers._
-import net.scalapro.liftportal.cms.views.PageV
+import net.scalapro.liftportal.cms.views.{PageV, TemplateV}
 import net.scalapro.liftportal.util.DB
 
 import scala.concurrent.Await
@@ -62,6 +63,17 @@ class EditPage extends StatefulSnippet {
     false
   }
 
+  private def getTemplates = {
+    val db = DB.getDatabase
+    try {
+      val q = TemplateV.view.map(o => o)
+      val action = q.result
+      val templates = Await.result(db.run(action), Duration.Inf)
+      templates.map(x => (x.id.getOrElse(1).toString, x.name))
+    }
+    finally db.close
+  }
+
   def render = {
     id = S.param("t").openOr("0")
     val newbie = id match {
@@ -70,10 +82,11 @@ class EditPage extends StatefulSnippet {
     }
 
     (newbie match {
-      case true =>".title *" #> "Insert new Template"
-      case false =>".title *" #>  s"Edit the ${title} template"
+      case true =>".title *" #> "Insert new Page"
+      case false =>".title *" #>  s"Edit the ${title} page"
     }) &
       "name=name" #> SHtml.text(title, title = _) &
+      "#templates" #> SHtml.select(getTemplates, Full("1"), templateId = _, "class"->"form-control") &
       "name=text" #> SHtml.textarea(keywords, keywords = _) &
       "name=descr" #> SHtml.text(description, description = _) &
       "name=css-class" #> SHtml.text(cssClass, cssClass = _) &
@@ -84,7 +97,7 @@ class EditPage extends StatefulSnippet {
 
   private def process(){
     if(title == "") {
-      S.error("error", <div class="alert alert-danger" role="alert">You must define the name!</div>)
+      S.error("error", <div class="alert alert-danger" role="alert">You must define the title!</div>)
       return
     }
 
