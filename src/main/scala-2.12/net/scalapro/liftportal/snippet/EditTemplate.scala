@@ -102,7 +102,7 @@ class EditTemplate extends StatefulSnippet {
     }
     finally {
       db.close
-      S.redirectTo("pages")
+      S.redirectTo("templates")
     }
   }
 }

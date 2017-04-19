@@ -15,7 +15,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class EditPage extends StatefulSnippet {
   private var id: String = "0"
-  private var templateId: String = "0"
+  private var templateId: String = "1"
   private var title = ""
   private var cssClass = ""
   private var description = ""
@@ -47,6 +47,7 @@ class EditPage extends StatefulSnippet {
         db.run(q.result.head).map { pt => //PageTemplate
 
           title = pt.title
+          templateId = pt.template_id.toString
           description =  pt.description.getOrElse("")
           keywords =  pt.keywords.getOrElse("")
           cssClass =  pt.pageClass.getOrElse("")
@@ -75,7 +76,7 @@ class EditPage extends StatefulSnippet {
   }
 
   def render = {
-    id = S.param("t").openOr("0")
+    id = S.param("p").openOr("0")
     val newbie = id match {
       case "0" => insert
       case x => update(x)
@@ -86,8 +87,8 @@ class EditPage extends StatefulSnippet {
       case false =>".title *" #>  s"Edit the ${title} page"
     }) &
       "name=name" #> SHtml.text(title, title = _) &
-      "#templates" #> SHtml.select(getTemplates, Full("1"), templateId = _, "class"->"form-control") &
-      "name=text" #> SHtml.textarea(keywords, keywords = _) &
+      "#templates" #> SHtml.select(getTemplates, Full(templateId), templateId = _, "class"->"form-control") &
+      "name=keywords" #> SHtml.text(keywords, keywords = _) &
       "name=descr" #> SHtml.text(description, description = _) &
       "name=css-class" #> SHtml.text(cssClass, cssClass = _) &
       "type=submit" #> SHtml.onSubmitUnit(process)
@@ -123,7 +124,7 @@ class EditPage extends StatefulSnippet {
     }
     finally {
       db.close
-      S.redirectTo("templates")
+      S.redirectTo("pages")
     }
   }
 }
