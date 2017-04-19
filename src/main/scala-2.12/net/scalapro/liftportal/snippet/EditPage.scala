@@ -2,7 +2,7 @@ package net.scalapro.liftportal.snippet
 
 import net.liftweb.http.{S, SHtml, StatefulSnippet}
 import net.liftweb.util.Helpers._
-import net.scalapro.liftportal.cms.views.TemplateV
+import net.scalapro.liftportal.cms.views.PageV
 import net.scalapro.liftportal.util.DB
 
 import scala.concurrent.Await
@@ -14,50 +14,41 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class EditPage extends StatefulSnippet {
   private var id: String = "0"
-  private var name = ""
-  private var markup = ""
+  private var templateId: String = "0"
+  private var title = ""
+  private var cssClass = ""
   private var description = ""
+  private var keywords = ""
 
   def dispatch = {
     case "render" => render
   }
 
-  def render = {
-    id = S.param("p").openOr("0")
-    val i = id match {
-      case "0" => "1"
-      case x => x
-    }
+  private def insert: Boolean = {
 
-    // Something wrong. Why DB request when 0 !!!!!!!!!!!!!!!
+    title = ""
+    description = ""
+    keywords = ""
+    cssClass = ""
+
+
+    true
+  }
+
+  private def update(i: String): Boolean = {
+
     val db = DB.getDatabase
     try {
-      val q = TemplateV.view.filter(_.id === i.toInt) //The Query
+      val q = PageV.view.filter(_.id === i.toInt) //The Query
 
 
       Await.result(
         db.run(q.result.head).map { pt => //PageTemplate
-          name = id match {
-            case "0" => ""
-            case _ => pt.name
-          }
-          description = id match {
-            case "0" => ""
-            case _ => pt.description.getOrElse("")
-          }
-          markup = id match {
-            case "0" => ""
-            case _ => pt.markup
-          }
 
-          (id match {
-            case "0" =>".title *" #> "Insert new Template"
-            case _ =>".title *" #>  s"Edit the ${name} template"
-          }) &
-            "name=name" #> SHtml.text(name, name = _) &
-            "name=text" #> SHtml.textarea(markup, markup = _) &
-            "name=descr" #> SHtml.text(description, description = _) &
-            "type=submit" #> SHtml.onSubmitUnit(process)
+          title = pt.title
+          description =  pt.description.getOrElse("")
+          keywords =  pt.keywords.getOrElse("")
+          cssClass =  pt.pageClass.getOrElse("")
 
         }, Duration(2, "second")
       )
@@ -66,10 +57,33 @@ class EditPage extends StatefulSnippet {
     finally {
       db.close
     }
+
+
+    false
+  }
+
+  def render = {
+    id = S.param("t").openOr("0")
+    val newbie = id match {
+      case "0" => insert
+      case x => update(x)
+    }
+
+    (newbie match {
+      case true =>".title *" #> "Insert new Template"
+      case false =>".title *" #>  s"Edit the ${title} template"
+    }) &
+      "name=name" #> SHtml.text(title, title = _) &
+      "name=text" #> SHtml.textarea(keywords, keywords = _) &
+      "name=descr" #> SHtml.text(description, description = _) &
+      "name=css-class" #> SHtml.text(cssClass, cssClass = _) &
+      "type=submit" #> SHtml.onSubmitUnit(process)
+
+
   }
 
   private def process(){
-    if(name == "") {
+    if(title == "") {
       S.error("error", <div class="alert alert-danger" role="alert">You must define the name!</div>)
       return
     }
@@ -77,14 +91,17 @@ class EditPage extends StatefulSnippet {
     val db = DB.getDatabase
     try {
 
-      val q = TemplateV.view.insertOrUpdate(TemplateV(
+      val q = PageV.view.insertOrUpdate(PageV(
         id match {
           case "0" => None
           case x: String => Some(x.toInt)
         },
-        name,
+        templateId.toInt,
+        title,
         Some(description),
-        markup
+        Some(keywords),
+        "general" ,
+        Some(cssClass)
       ))
 
       Await.result(
