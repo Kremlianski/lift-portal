@@ -21,6 +21,7 @@ class Boot {
       Menu.i("Templates") /"cms"/ "templates",
       Menu.i("Containers") /"cms"/ "containers",
       Menu.i("Pages") /"cms"/ "pages",
+      Menu.i("Edit Page") /"cms"/ "edit-page",
       Menu.i("Template") /"cms"/ "template" >> Hidden,
       Menu.i("Template Preview") /"cms"/ "template-preview" >> Hidden,
       Menu.i("Page Preview") /"cms"/ "page-preview" >> Hidden

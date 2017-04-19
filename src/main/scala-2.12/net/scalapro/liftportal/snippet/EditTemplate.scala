@@ -22,14 +22,18 @@ class EditTemplate extends StatefulSnippet {
     case "render" => render
   }
 
-  def render = {
-    id = S.param("t").openOr("0")
-    val i = id match {
-      case "0" => "1"
-      case x => x
-    }
+  private def insert: Boolean = {
 
-  // Something wrong. Why DB request when 0 !!!!!!!!!!!!!!!
+    name = ""
+    description = ""
+    markup = ""
+
+
+    true
+  }
+
+  private def update(i: String): Boolean = {
+
     val db = DB.getDatabase
     try {
       val q = TemplateV.view.filter(_.id === i.toInt) //The Query
@@ -37,27 +41,10 @@ class EditTemplate extends StatefulSnippet {
 
       Await.result(
         db.run(q.result.head).map { pt => //PageTemplate
-          name = id match {
-            case "0" => ""
-            case _ => pt.name
-          }
-          description = id match {
-            case "0" => ""
-            case _ => pt.description.getOrElse("")
-          }
-          markup = id match {
-            case "0" => ""
-            case _ => pt.markup
-          }
 
-          (id match {
-            case "0" =>".title *" #> "Insert new Template"
-            case _ =>".title *" #>  s"Edit the ${name} template"
-          }) &
-          "name=name" #> SHtml.text(name, name = _) &
-            "name=text" #> SHtml.textarea(markup, markup = _) &
-            "name=descr" #> SHtml.text(description, description = _) &
-            "type=submit" #> SHtml.onSubmitUnit(process)
+          name = pt.name
+          description =  pt.description.getOrElse("")
+          markup =  pt.markup
 
         }, Duration(2, "second")
       )
@@ -66,6 +53,28 @@ class EditTemplate extends StatefulSnippet {
     finally {
       db.close
     }
+
+
+    false
+  }
+
+  def render = {
+    id = S.param("t").openOr("0")
+    val newbie = id match {
+      case "0" => insert
+      case x => update(x)
+    }
+
+    (newbie match {
+      case true =>".title *" #> "Insert new Template"
+      case false =>".title *" #>  s"Edit the ${name} template"
+    }) &
+      "name=name" #> SHtml.text(name, name = _) &
+      "name=text" #> SHtml.textarea(markup, markup = _) &
+      "name=descr" #> SHtml.text(description, description = _) &
+      "type=submit" #> SHtml.onSubmitUnit(process)
+
+
   }
 
   private def process(){

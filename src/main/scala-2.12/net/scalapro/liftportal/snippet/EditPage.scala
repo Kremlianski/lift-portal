@@ -23,7 +23,7 @@ class EditPage extends StatefulSnippet {
   }
 
   def render = {
-    id = S.param("t").openOr("0")
+    id = S.param("p").openOr("0")
     val i = id match {
       case "0" => "1"
       case x => x
