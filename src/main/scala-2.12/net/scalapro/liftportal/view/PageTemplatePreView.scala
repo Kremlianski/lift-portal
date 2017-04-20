@@ -12,12 +12,9 @@ import scala.xml.{NodeSeq, XML}
 import net.scalapro.liftportal.util.Vars.{templateId, spacesStorage}
 
 
-/**
-  * Created by kreml on 21.03.2017.
-  */
-
 
 object PageTemplatePreView {
+  //is needed for page-preview
 
   type WidgetsMap = Map[Int, Seq[TWidgetV]]
 

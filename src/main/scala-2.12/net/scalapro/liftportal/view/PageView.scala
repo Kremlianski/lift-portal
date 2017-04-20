@@ -9,7 +9,7 @@ import net.scalapro.liftportal.util.Vars.templateId
 object PageView {
 
   def render(): NodeSeq = {
-    templateId("3")
+    templateId("1")
 
     <lift:surround with="cms/page-template-preview" at="xx-page">
       <div>The Page content will appear here!</div>
