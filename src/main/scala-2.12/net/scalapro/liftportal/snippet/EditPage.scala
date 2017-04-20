@@ -3,6 +3,7 @@ package net.scalapro.liftportal.snippet
 import net.liftweb.common.{Empty, Full}
 import net.liftweb.http.{S, SHtml, StatefulSnippet}
 import net.liftweb.util.Helpers._
+import net.scalapro.liftportal.cms.tables.Space
 import net.scalapro.liftportal.cms.views.{PageV, TemplateV}
 import net.scalapro.liftportal.util.DB
 
@@ -96,6 +97,8 @@ class EditPage extends StatefulSnippet {
 
   }
 
+
+
   private def process(){
     if(title == "") {
       S.error("error", <div class="alert alert-danger" role="alert">You must define the title!</div>)
@@ -105,7 +108,7 @@ class EditPage extends StatefulSnippet {
     val db = DB.getDatabase
     try {
 
-      val q = PageV.view.insertOrUpdate(PageV(
+      val page = PageV (
         id match {
           case "0" => None
           case x: String => Some(x.toInt)
@@ -116,12 +119,28 @@ class EditPage extends StatefulSnippet {
         Some(keywords),
         "general" ,
         Some(cssClass)
-      ))
+      )
+      val view = PageV.view
 
-      Await.result(
+
+      val q = (view returning view.map(_.id)).insertOrUpdate(page)
+
+      val newId = Await.result(
         db.run(q)
         , Duration.Inf)
+
+      newId match {
+
+        case Some(x) => {
+          val space = Space(None, None, None, Some(x), true)
+          Await.result(db.run(Space.table += space), Duration.Inf)
+
+        }
+        case None =>
+      }
     }
+
+
     finally {
       db.close
       S.redirectTo("pages")
