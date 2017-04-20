@@ -55,11 +55,6 @@ object Pages {
               }, <span class="glyphicon glyphicon-remove"></span>,
                 "class"->"btn btn-default btn-sm")
                 }
-                {SHtml.link("page-preview", ()=>{
-                templateId(x.id.getOrElse(1).toString)
-              }, <span class="glyphicon glyphicon-search"></span>,
-                "class"->"btn btn-default btn-sm")
-                }
 
                 {SHtml.link("page-containers", ()=>{
                 templateId(x.id.getOrElse(1).toString)
@@ -70,6 +65,12 @@ object Pages {
                 {SHtml.link("page-widgets", ()=>{
                 templateId(x.id.getOrElse(1).toString)
               }, <span class="glyphicon glyphicon-th"></span>,
+                "class"->"btn btn-default btn-sm")
+                }
+
+                {SHtml.link("page-preview", ()=>{
+                templateId(x.id.getOrElse(1).toString)
+              }, <span class="glyphicon glyphicon-search"></span>,
                 "class"->"btn btn-default btn-sm")
                 }
 

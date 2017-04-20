@@ -9,7 +9,7 @@ It's a version of TemplateView
 package net.scalapro.liftportal.view
 
 import net.liftweb.common.{Box, Empty, Full}
-import net.liftweb.http.{JsContext, JsonContext, SHtml}
+import net.liftweb.http.{JsContext, JsonContext, S, SHtml}
 import net.liftweb.http.js.JE.{Call, JsRaw, JsVal, JsVar}
 import net.liftweb.http.js.JsCmds.{Alert, Function, Noop, Replace, Script, SetHtml}
 import net.liftweb.http.js.jquery.JqJsCmds.JqSetHtml
@@ -19,6 +19,8 @@ import net.liftweb.util.Helpers._
 import net.scalapro.liftportal.cms.views.{TempContainerV, TemplateV}
 import net.scalapro.liftportal.util.DB
 import net.scalapro.liftportal.cms.views._
+import net.scalapro.liftportal.util.Vars.pageId
+
 import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
 
@@ -31,7 +33,10 @@ import scala.xml.{NodeSeq, Text, XML}
 object PageContainersView {
 
 
-  def edit(id: String): NodeSeq = {
+  def edit(): NodeSeq = {
+    val id: String = S.param("id").getOrElse(pageId.is)
+
+    pageId(id)
     val db = DB.getDatabase
     try {
       val q = TemplateV.view.filter(_.id === 1).map(_.markup) //The Query
