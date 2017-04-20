@@ -18,11 +18,8 @@ import net.scalapro.liftportal.util.Vars.{pageId, templateId}
 object Pages {
 
   private def removePage(id: String): Unit = {
-    if (id == "1") {
-      S.error("error", <div class="alert alert-danger" role="alert">You can't remove the default template!</div>)
-      return
-    }
-    val q = TemplateV.view.filter(_.id === id.toInt)
+
+    val q = PageV.view.filter(_.id === id.toInt)
     val action = q.delete
     val db = DB.getDatabase
     try {
@@ -32,16 +29,13 @@ object Pages {
     }
     finally {
       db.close
-      S.redirectTo("templates")
+      S.redirectTo("pages")
     }
   }
 
 
   def render = {
-    S.param("d") match {
-      case Full(x) => removePage(pageId(x))
-      case _ =>
-    }
+
     val db = DB.getDatabase
     try {
       val q = PageV.view.map(o => o)
