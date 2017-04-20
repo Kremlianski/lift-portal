@@ -40,11 +40,11 @@ class EditPage extends StatefulSnippet {
 
     val db = DB.getDatabase
     try {
-      val q = PageV.view.filter(_.id === i.toInt) //The Query
+      val q = PageV.view.filter(_.id === i.toInt)
 
 
       Await.result(
-        db.run(q.result.head).map { pt => //PageTemplate
+        db.run(q.result.head).map { pt =>
 
           title = pt.title
           templateId = pt.template_id.toString
