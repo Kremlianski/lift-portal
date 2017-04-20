@@ -20,7 +20,7 @@ class Boot {
       Menu.i("Edit Container") /"cms"/ "edit-container",
       Menu.i("Templates") /"cms"/ "templates",
       Menu.i("Containers") /"cms"/ "containers",
-      Menu.i("Containers") /"cms"/ "page-containers" >> Hidden,
+      Menu.i("Page Containers") /"cms"/ "page-containers" >> Hidden,
       Menu.i("Pages") /"cms"/ "pages",
       Menu.i("Edit Page") /"cms"/ "edit-page",
       Menu.i("Template") /"cms"/ "template" >> Hidden,
