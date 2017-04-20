@@ -12,7 +12,7 @@ import slick.jdbc.PostgresProfile.api._
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import net.scalapro.liftportal.util.Tags
-import net.scalapro.liftportal.util.Vars.templateId
+import net.scalapro.liftportal.util.Vars.{pageId, templateId}
 
 
 object Pages {
@@ -39,7 +39,7 @@ object Pages {
 
   def render = {
     S.param("d") match {
-      case Full(x) => removePage(templateId(x))
+      case Full(x) => removePage(pageId(x))
       case _ =>
     }
     val db = DB.getDatabase

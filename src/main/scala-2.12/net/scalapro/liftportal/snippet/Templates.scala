@@ -38,10 +38,6 @@ object Templates {
 
 
   def render = {
-    S.param("d") match {
-      case Full(x) => removeTemplate(templateId(x))
-      case _ =>
-    }
     val db = DB.getDatabase
     try {
       val q = TemplateV.view.map(o => o)
