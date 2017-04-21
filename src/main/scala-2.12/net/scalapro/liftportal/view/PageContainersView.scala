@@ -1,11 +1,3 @@
-/*
-
-Reserve for the future
-It's a version of TemplateView
- */
-
-
-
 package net.scalapro.liftportal.view
 
 import net.liftweb.common.{Box, Empty, Full}
@@ -16,6 +8,7 @@ import net.liftweb.http.js.jquery.JqJsCmds.JqSetHtml
 import net.liftweb.json.JsonAST.JValue
 import net.liftweb.json.JsonDSL._
 import net.liftweb.util.Helpers._
+import net.scalapro.liftportal.cms.tables.Space
 import net.scalapro.liftportal.cms.views.{TempContainerV, TemplateV}
 import net.scalapro.liftportal.util.DB
 import net.scalapro.liftportal.cms.views._
@@ -39,14 +32,25 @@ object PageContainersView {
     pageId(id)
     val db = DB.getDatabase
     try {
-      val q = TemplateV.view.filter(_.id === 1).map(_.markup) //The Query
+      val q = Space.table.filter(s => s.main === true).filter(s => s.page_id === id.toInt).map(_.id)
 
 
-      val result = Await.result(
-        db.run(q.result) // Future[Seq[String]]
-          .map(i => XML.loadString(i.head)) // parse XML
-        , Duration(2, "second")
+      val spaceId: Int = Await.result(
+        db.run(q.result)
+          .map(_.head)
+        , Duration.Inf
       )
+
+
+      val result = <html>
+        <head>
+          <link href="/classpath/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
+          <script src="/classpath/lib/jquery.min.js" type="text/javascript"></script>
+        </head>
+        <body>
+          <div class="space" lift={"SpaceSnippet?id=" + spaceId}></div>
+        </body>
+      </html>
 
       transform(result)
 
@@ -128,9 +132,10 @@ object PageContainersView {
       "#controlles-panel *+" #> {
         selectContainer
       } andThen
-      "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/template.js"></script> &
+      "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/page-containers.js"></script> &
         "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/lib/Sortable.min.js"></script> &
         "body -*" #> <lift:head>
+          <link href="/classpath/css/template.css" rel="stylesheet"></link>
           {Script(
 
             Function("loadHtml", List("id"),
