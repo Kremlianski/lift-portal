@@ -150,6 +150,7 @@ object PageContainersView {
                     "data-xx-role=c [data-xx-cid]" #> {
                       containerV.tempId
                     } andThen
+                      "data-xx-role=c [data-xx-container]" #> {id} andThen
                       "data-xx-role=c [data-xx-role]" #> (Empty: Box[String])
                   } andThen
                     ".space [data-xx-c]" #> {containerV.tempId}

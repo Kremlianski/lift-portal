@@ -133,6 +133,7 @@ declare function loadHtml(id: string):void
                 const content: string[] = []
                 
                 $('[data-xx-cid]', this).each(function(){
+                   
                    content.push($(this).attr('data-xx-cid'))
                 })
 
