@@ -63,16 +63,45 @@ window.createSpace = function (item) {
         spaces = [];
     });
     function calculate() {
-        $('.space').each(function () {
-            var id = $(this).attr('data-xx-sid');
-            var container = $(this).attr('data-xx-c');
+        var top = $('.space-top');
+        function setTop(t) {
+            var id = t.attr('data-xx-sid');
+            var container = t.attr('data-xx-c');
             var content = [];
             var level = 0;
-            $('[data-xx-cid]', this).each(function () {
+            $('[data-xx-cid]', t.get(0)).each(function () {
                 content.push($(this).attr('data-xx-cid'));
             });
             spaces.push({ id: id, container: container, content: content, level: level });
-        });
+        }
+        function findLevel(t) {
+            t.addClass('space-in-work').find('.space:not(.space:not(.space-in-work) .space)').each(function () {
+                var id = $(this).attr('data-xx-sid');
+                var container = $(this).attr('data-xx-c');
+                var content = [];
+                var level = 0;
+                $('[data-xx-cid]', this).each(function () {
+                    content.push($(this).attr('data-xx-cid'));
+                });
+                spaces.push({ id: id, container: container, content: content, level: level });
+                findLevel($(this));
+            });
+            t.removeClass('space-in-work');
+        }
+        // need level calculation!
+        setTop(top);
+        findLevel(top);
+        // $('.space').each(function(){
+        //     const id = $(this).attr('data-xx-sid')
+        //     const container = $(this).attr('data-xx-c')
+        //     const content: string[] = []
+        //     const level = 0
+        //     $('[data-xx-cid]', this).each(function(){
+        //        content.push($(this).attr('data-xx-cid'))
+        //     })
+        //     spaces.push({id, container, content, level})
+        //    }
+        // )
     }
 });
 

@@ -127,7 +127,26 @@ declare function loadHtml(id: string):void
         })
 
         function calculate() {
-            $('.space').each(function(){
+
+
+            const top = $('.space-top')
+
+            function setTop(t:JQuery) {
+              const id = t.attr('data-xx-sid')
+              const container = t.attr('data-xx-c')
+              
+              const content: string[] = []
+              const level = 0
+              
+              $('[data-xx-cid]', t.get(0)).each(function(){
+                  
+                  content.push($(this).attr('data-xx-cid'))
+              })
+
+              spaces.push({id, container, content, level})
+            }
+            function findLevel(t: JQuery) {
+              t.addClass('space-in-work').find('.space:not(.space:not(.space-in-work) .space)').each(function(){
                 const id = $(this).attr('data-xx-sid')
                 const container = $(this).attr('data-xx-c')
                 
@@ -135,14 +154,37 @@ declare function loadHtml(id: string):void
                 const level = 0
                 
                 $('[data-xx-cid]', this).each(function(){
-                   
-                   content.push($(this).attr('data-xx-cid'))
+                    
+                    content.push($(this).attr('data-xx-cid'))
                 })
 
                 spaces.push({id, container, content, level})
 
-               }
-            )
+                findLevel($(this))
+
+              })
+              t.removeClass('space-in-work')
+            }
+          // need level calculation!
+            setTop(top)
+            findLevel(top)
+
+            // $('.space').each(function(){
+            //     const id = $(this).attr('data-xx-sid')
+            //     const container = $(this).attr('data-xx-c')
+                
+            //     const content: string[] = []
+            //     const level = 0
+                
+            //     $('[data-xx-cid]', this).each(function(){
+                   
+            //        content.push($(this).attr('data-xx-cid'))
+            //     })
+
+            //     spaces.push({id, container, content, level})
+
+            //    }
+            // )
         }
         
         
