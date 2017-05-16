@@ -67,10 +67,11 @@ window.createSpace = function (item) {
             var id = $(this).attr('data-xx-sid');
             var container = $(this).attr('data-xx-c');
             var content = [];
+            var level = 0;
             $('[data-xx-cid]', this).each(function () {
                 content.push($(this).attr('data-xx-cid'));
             });
-            spaces.push({ id: id, container: container, content: content });
+            spaces.push({ id: id, container: container, content: content, level: level });
         });
     }
 });

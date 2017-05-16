@@ -13,6 +13,7 @@ interface Space {
     id: string
     container?: string
     content?: string[]
+    level: number
 
 }
 
@@ -131,13 +132,14 @@ declare function loadHtml(id: string):void
                 const container = $(this).attr('data-xx-c')
                 
                 const content: string[] = []
+                const level = 0
                 
                 $('[data-xx-cid]', this).each(function(){
                    
                    content.push($(this).attr('data-xx-cid'))
                 })
 
-                spaces.push({id, container, content})
+                spaces.push({id, container, content, level})
 
                }
             )
