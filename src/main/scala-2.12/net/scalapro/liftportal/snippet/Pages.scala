@@ -57,7 +57,7 @@ object Pages {
                 }
 
                 {SHtml.link("page-containers", ()=>{
-                templateId(x.id.getOrElse(1).toString)
+                pageId(x.id.getOrElse(1).toString)
               }, <span class="glyphicon glyphicon-th-large"></span>,
                 "class"->"btn btn-default btn-sm")
                 }
