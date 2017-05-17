@@ -29,7 +29,7 @@ declare function createSpaces():void
 
 declare function loadHtml(id: string):void
 
-
+declare function save(containers: Space[]):void
 
 //global functions
 
@@ -127,8 +127,8 @@ declare function loadHtml(id: string):void
 
         $('#calculate').on('click', function(){
             calculate()
-
-            console.log(spaces)
+            // console.log(JSON.stringify(spaces))
+            save(spaces)
             spaces = []
         })
 
@@ -156,7 +156,9 @@ declare function loadHtml(id: string):void
               spaces.push({id, container, content, level})
             }
             function findLevel(t: JQuery, l: number) {
-              t.addClass('space-in-work').find('.space:not(.space:not(.space-in-work) .space)').each(function(){
+              t.addClass('space-in-work')
+              .find('.space:not(.space:not(.space-in-work) .space)')
+              .each(function(){
                 const id = $(this).attr('data-xx-sid')
                 const container = $(this).attr('data-xx-c')
                 

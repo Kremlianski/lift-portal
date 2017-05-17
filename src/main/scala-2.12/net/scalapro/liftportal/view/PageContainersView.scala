@@ -1,30 +1,40 @@
 package net.scalapro.liftportal.view
 
-import net.liftweb.common.{Box, Empty, Full}
-import net.liftweb.http.{JsContext, JsonContext, S, SHtml}
-import net.liftweb.http.js.JE.{Call, JsRaw, JsVal, JsVar}
-import net.liftweb.http.js.JsCmds.{Alert, Function, Noop, Replace, Script, SetHtml}
-import net.liftweb.http.js.jquery.JqJsCmds.JqSetHtml
-import net.liftweb.json.JsonAST.JValue
-import net.liftweb.json.JsonDSL._
+import net.liftweb.common.{Box, Empty}
+import net.liftweb.http.{S, SHtml}
+import net.liftweb.http.js.JE.{JsRaw, JsVar}
+import net.liftweb.http.js.JsCmds.{Function, Noop, Replace, Script}
+import net.liftweb.json.DefaultFormats
 import net.liftweb.util.Helpers._
 import net.scalapro.liftportal.cms.tables.Space
-import net.scalapro.liftportal.cms.views.{TempContainerV, TemplateV}
+import net.scalapro.liftportal.cms.views.{TempContainerV}
 import net.scalapro.liftportal.util.DB
 import net.scalapro.liftportal.cms.views._
 import net.scalapro.liftportal.util.Vars.pageId
-
 import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
-
-import scala.collection.immutable.WrappedString
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.xml.{NodeSeq, Text, XML}
+import scala.xml.{NodeSeq, XML}
 
 
 object PageContainersView {
 
+  case class ContainerTemplate(
+
+                             ctype: String,
+                             cid: String,
+                             isNew: Boolean = false
+                           )
+
+  case class SpaceContainer(
+                            id: String,
+                            container: Option[String],
+                            content: Seq[ContainerTemplate],
+                            level: Int
+                          )
+
+  implicit val formats = DefaultFormats
 
   def edit(): NodeSeq = {
     val id: String = S.param("id").getOrElse(pageId.is)
@@ -166,6 +176,17 @@ object PageContainersView {
                     ).cmd
                 }
               ).cmd
+            )& Function("save", List("containers"),
+              SHtml.jsonCall(JsVar("containers"), containers => {
+
+                val spaces = containers.extract[List[SpaceContainer]]
+
+                println(spaces)
+
+//                updateDB(spaces, id)
+
+                Noop
+              }).cmd
             )
           )}
         </lift:head>
