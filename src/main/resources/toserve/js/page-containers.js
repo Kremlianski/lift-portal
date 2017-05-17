@@ -74,23 +74,22 @@ window.createSpace = function (item) {
             });
             spaces.push({ id: id, container: container, content: content, level: level });
         }
-        function findLevel(t) {
+        function findLevel(t, l) {
             t.addClass('space-in-work').find('.space:not(.space:not(.space-in-work) .space)').each(function () {
                 var id = $(this).attr('data-xx-sid');
                 var container = $(this).attr('data-xx-c');
                 var content = [];
-                var level = 0;
+                var level = l + 1;
                 $('[data-xx-cid]', this).each(function () {
                     content.push($(this).attr('data-xx-cid'));
                 });
                 spaces.push({ id: id, container: container, content: content, level: level });
-                findLevel($(this));
+                findLevel($(this), level);
             });
             t.removeClass('space-in-work');
         }
-        // need level calculation!
         setTop(top);
-        findLevel(top);
+        findLevel(top, 0);
         // $('.space').each(function(){
         //     const id = $(this).attr('data-xx-sid')
         //     const container = $(this).attr('data-xx-c')

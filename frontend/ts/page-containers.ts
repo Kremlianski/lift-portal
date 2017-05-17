@@ -145,13 +145,13 @@ declare function loadHtml(id: string):void
 
               spaces.push({id, container, content, level})
             }
-            function findLevel(t: JQuery) {
+            function findLevel(t: JQuery, l: number) {
               t.addClass('space-in-work').find('.space:not(.space:not(.space-in-work) .space)').each(function(){
                 const id = $(this).attr('data-xx-sid')
                 const container = $(this).attr('data-xx-c')
                 
                 const content: string[] = []
-                const level = 0
+                const level = l + 1
                 
                 $('[data-xx-cid]', this).each(function(){
                     
@@ -160,14 +160,14 @@ declare function loadHtml(id: string):void
 
                 spaces.push({id, container, content, level})
 
-                findLevel($(this))
+                findLevel($(this), level)
 
               })
               t.removeClass('space-in-work')
             }
-          // need level calculation!
+
             setTop(top)
-            findLevel(top)
+            findLevel(top, 0)
 
             // $('.space').each(function(){
             //     const id = $(this).attr('data-xx-sid')
