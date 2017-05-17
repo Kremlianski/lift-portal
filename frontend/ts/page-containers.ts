@@ -12,9 +12,15 @@ declare interface SEvent {
 interface Space {
     id: string
     container?: string
-    content?: string[]
+    content?: Container[]
     level: number
 
+}
+
+interface Container {
+    ctype: string
+    cid: string
+    isNew?: boolean
 }
 
 declare function createSpace(item: Element): void
@@ -135,12 +141,16 @@ declare function loadHtml(id: string):void
               const id = t.attr('data-xx-sid')
               const container = t.attr('data-xx-c')
               
-              const content: string[] = []
+              const content: Container[] = []
               const level = 0
               
               $('[data-xx-cid]', t.get(0)).each(function(){
-                  
-                  content.push($(this).attr('data-xx-cid'))
+                  const element:Element = this
+                  content.push({
+                    cid: $(element).attr('data-xx-cid'),
+                    ctype: $(element).attr('data-xx-container'),
+                    isNew: $(element).hasClass('xx-new')
+                  })
               })
 
               spaces.push({id, container, content, level})
@@ -150,12 +160,17 @@ declare function loadHtml(id: string):void
                 const id = $(this).attr('data-xx-sid')
                 const container = $(this).attr('data-xx-c')
                 
-                const content: string[] = []
+                const content: Container[] = []
                 const level = l + 1
                 
                 $('[data-xx-cid]', this).each(function(){
                     
-                    content.push($(this).attr('data-xx-cid'))
+                  const element:Element = this
+                  content.push({
+                    cid: $(element).attr('data-xx-cid'),
+                    ctype: $(element).attr('data-xx-container'),
+                    isNew: $(element).hasClass('xx-new')
+                  })
                 })
 
                 spaces.push({id, container, content, level})
@@ -169,22 +184,6 @@ declare function loadHtml(id: string):void
             setTop(top)
             findLevel(top, 0)
 
-            // $('.space').each(function(){
-            //     const id = $(this).attr('data-xx-sid')
-            //     const container = $(this).attr('data-xx-c')
-                
-            //     const content: string[] = []
-            //     const level = 0
-                
-            //     $('[data-xx-cid]', this).each(function(){
-                   
-            //        content.push($(this).attr('data-xx-cid'))
-            //     })
-
-            //     spaces.push({id, container, content, level})
-
-            //    }
-            // )
         }
         
         

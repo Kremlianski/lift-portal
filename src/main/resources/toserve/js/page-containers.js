@@ -70,7 +70,12 @@ window.createSpace = function (item) {
             var content = [];
             var level = 0;
             $('[data-xx-cid]', t.get(0)).each(function () {
-                content.push($(this).attr('data-xx-cid'));
+                var element = this;
+                content.push({
+                    cid: $(element).attr('data-xx-cid'),
+                    ctype: $(element).attr('data-xx-container'),
+                    isNew: $(element).hasClass('xx-new')
+                });
             });
             spaces.push({ id: id, container: container, content: content, level: level });
         }
@@ -81,7 +86,12 @@ window.createSpace = function (item) {
                 var content = [];
                 var level = l + 1;
                 $('[data-xx-cid]', this).each(function () {
-                    content.push($(this).attr('data-xx-cid'));
+                    var element = this;
+                    content.push({
+                        cid: $(element).attr('data-xx-cid'),
+                        ctype: $(element).attr('data-xx-container'),
+                        isNew: $(element).hasClass('xx-new')
+                    });
                 });
                 spaces.push({ id: id, container: container, content: content, level: level });
                 findLevel($(this), level);
@@ -90,17 +100,6 @@ window.createSpace = function (item) {
         }
         setTop(top);
         findLevel(top, 0);
-        // $('.space').each(function(){
-        //     const id = $(this).attr('data-xx-sid')
-        //     const container = $(this).attr('data-xx-c')
-        //     const content: string[] = []
-        //     const level = 0
-        //     $('[data-xx-cid]', this).each(function(){
-        //        content.push($(this).attr('data-xx-cid'))
-        //     })
-        //     spaces.push({id, container, content, level})
-        //    }
-        // )
     }
 });
 
