@@ -7,7 +7,7 @@ case class PContainer (
                         id: String,
                         container_id: Int,
                         page_id: Int,
-                        p_container_id: String,
+                        p_container_id: Option[String],
                         space_id: Int,
                         ord: Int,
                         container_class: Option[String]
@@ -22,7 +22,7 @@ object PContainer {
 
     def page_id = column[Int]("page_id")
 
-    def p_container_id = column[String]("p_container_id")
+    def p_container_id = column[Option[String]]("p_container_id", Nullable)
 
     def space_id = column[Int]("space_id")
 

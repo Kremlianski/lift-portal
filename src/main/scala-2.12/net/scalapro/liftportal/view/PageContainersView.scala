@@ -188,10 +188,11 @@ object PageContainersView {
                   .zipWithIndex
                   .map(cc => (cc._1, sc.container, sc.id, sc.level, cc._2)))
                   .groupBy(_._1)
-                  .map(x => {
-                    val co = x._2.maxBy(_._4)
-                    PContainerV(co._1.cid, co._1.ctype.toInt, pageId.is.toInt, co._2.getOrElse("0"), co._3.toInt, co._5, None)
-                  }).toSeq
+                  .map(x => x._2.maxBy(_._4)).toSeq
+                  .sortBy(_._4)
+                  .map(co =>
+                    PContainerV(co._1.cid, co._1.ctype.toInt, pageId.is.toInt, co._2, co._3.toInt, co._5, None)
+                  )
 
 
                 updateDB(containers)
