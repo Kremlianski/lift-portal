@@ -10,7 +10,7 @@ import net.scalapro.liftportal.cms.tables.Space
 import net.scalapro.liftportal.cms.views.TempContainerV
 import net.scalapro.liftportal.util.DB
 import net.scalapro.liftportal.cms.views._
-import net.scalapro.liftportal.util.Vars.pageId
+import net.scalapro.liftportal.util.Vars.{containersStorage, pageId}
 
 import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
@@ -43,7 +43,7 @@ object PageContainersView {
 
     pageId(id)
 
-    println(setStorage(id))
+    containersStorage(setStorage(id))
     val db = DB.getDatabase
     try {
       val q = Space.table.filter(s => s.main === true).filter(s => s.page_id === id.toInt).map(_.id)
