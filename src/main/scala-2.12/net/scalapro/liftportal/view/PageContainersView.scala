@@ -42,6 +42,8 @@ object PageContainersView {
     val id: String = S.param("id").getOrElse(pageId.is)
 
     pageId(id)
+
+    println(setStorage(id))
     val db = DB.getDatabase
     try {
       val q = Space.table.filter(s => s.main === true).filter(s => s.page_id === id.toInt).map(_.id)
@@ -216,6 +218,26 @@ object PageContainersView {
 
     finally db.close
 
+
+  }
+
+  private def setStorage(id: String): Map[(Int, Option[String]), Seq[PContainerV]] = {
+    val db = DB.getDatabase
+    val q = PContainerV.view.filter(_.page_id === id.toInt)
+
+    try {
+
+      val cont = Await.result(db.run(q.result), Duration.Inf)
+
+
+
+      cont.size == 0 match {
+        case false => cont.groupBy(x => (x.space_id, x.p_container_id))
+        case true => Map.empty[(Int, Option[String]), Seq[PContainerV]]
+      }
+    }
+
+    finally db.close
 
   }
 }

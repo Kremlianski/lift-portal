@@ -2,7 +2,7 @@ package net.scalapro.liftportal.setup
 
 import net.scalapro.liftportal.util.DB
 
-import scala.concurrent.{Await}
+import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.duration.Duration
@@ -14,7 +14,7 @@ import net.scalapro.liftportal.cms.views._
 
 object DBSetup {
 
-  private val setup_? = true
+  private val setup_? = false
 
 
   def setup: Unit = {

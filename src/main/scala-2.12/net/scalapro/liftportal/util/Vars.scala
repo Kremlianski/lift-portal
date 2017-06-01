@@ -1,6 +1,7 @@
 package net.scalapro.liftportal.util
 
 import net.liftweb.http.RequestVar
+import net.scalapro.liftportal.cms.views.PContainerV
 import net.scalapro.liftportal.view.TemplatePreView.WidgetsMap
 
 /**
@@ -8,6 +9,8 @@ import net.scalapro.liftportal.view.TemplatePreView.WidgetsMap
   */
 object Vars {
   object spacesStorage extends RequestVar[WidgetsMap](Map.empty)
+  object containersStorage extends RequestVar[Map[(Int, Option[String]), Seq[PContainerV]]](Map.empty)
+
   object templateId extends RequestVar[String]("1")
   object pageId extends RequestVar[String]("1")
 }
