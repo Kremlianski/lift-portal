@@ -191,17 +191,30 @@ object PageContainersView {
                   .map(x => {
                     val co = x._2.maxBy(_._4)
                     PContainerV(co._1.cid, co._1.ctype.toInt, pageId.is.toInt, co._2.getOrElse("0"), co._3.toInt, co._5, None)
-                  })
+                  }).toSeq
 
 
-                println(containers)
-
-//                updateDB(spaces, id)
+                updateDB(containers)
 
                 Noop
               }).cmd
             )
           )}
         </lift:head>
+  }
+  private def updateDB(containers: Seq[PContainerV]): Unit = {
+
+    val db = DB.getDatabase
+
+    val action = db.run(DBIO.seq(
+
+      PContainerV.view ++= containers
+
+    ))
+    try Await.result(action, Duration.Inf)
+
+    finally db.close
+
+
   }
 }
