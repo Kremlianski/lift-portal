@@ -6,13 +6,15 @@ import net.liftweb.http.js.JE.{JsRaw, JsVar}
 import net.liftweb.http.js.JsCmds.{Function, Noop, Replace, Script}
 import net.liftweb.json.DefaultFormats
 import net.liftweb.util.Helpers._
-import net.scalapro.liftportal.cms.tables.Space
-import net.scalapro.liftportal.cms.views.{TempContainerV}
+import net.scalapro.liftportal.cms.tables.{PContainer, Space}
+import net.scalapro.liftportal.cms.views.TempContainerV
 import net.scalapro.liftportal.util.DB
 import net.scalapro.liftportal.cms.views._
 import net.scalapro.liftportal.util.Vars.pageId
+
 import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
+
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.xml.{NodeSeq, XML}
@@ -186,7 +188,10 @@ object PageContainersView {
                   .zipWithIndex
                   .map(cc => (cc._1, sc.container, sc.id, sc.level, cc._2)))
                   .groupBy(_._1)
-                  .map(x=>x._2.maxBy(_._4))
+                  .map(x => {
+                    val co = x._2.maxBy(_._4)
+                    PContainer(co._1.cid, co._1.ctype.toInt, pageId.is.toInt, co._2.getOrElse("0"), co._3.toInt, co._5, None)
+                  })
 
 
                 println(c)
