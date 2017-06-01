@@ -181,7 +181,15 @@ object PageContainersView {
 
                 val spaces = containers.extract[List[SpaceContainer]]
 
-                println(spaces)
+
+                val c = spaces.flatMap(sc => sc.content
+                  .zipWithIndex
+                  .map(cc => (cc._1, sc.container, sc.id, sc.level, cc._2)))
+                  .groupBy(_._1)
+                  .map(x=>x._2.maxBy(_._4))
+
+
+                println(c)
 
 //                updateDB(spaces, id)
 
