@@ -13,6 +13,14 @@ class ContainerSnippet {
 
   def render = {
 
+    val containerId = S.attr("containerId").getOrElse("0")
+    val spaceId = S.attr("spaceId").getOrElse(0)
+
+
+//    val container
+
+
+
     "*" #> <div class="container"></div>
 
   }

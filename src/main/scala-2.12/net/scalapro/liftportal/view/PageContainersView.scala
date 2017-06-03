@@ -10,9 +10,11 @@ import net.scalapro.liftportal.cms.tables.Space
 import net.scalapro.liftportal.cms.views.TempContainerV
 import net.scalapro.liftportal.util.DB
 import net.scalapro.liftportal.cms.views._
-import net.scalapro.liftportal.util.Vars.{containersStorage, pageId}
+import net.scalapro.liftportal.util.Vars.{containersStorage, markupStorage, pageId}
+
 import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
+
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.xml.{NodeSeq, XML}
@@ -41,7 +43,7 @@ object PageContainersView {
 
     pageId(id)
 
-    containersStorage(setStorage(id))
+    setStorage(id)
 
 
     val db = DB.getDatabase
@@ -221,20 +223,32 @@ object PageContainersView {
 
   }
 
-  private def setStorage(id: String): Map[(Int, Option[String]), Seq[PContainerV]] = {
+  private def setStorage(id: String) {
     val db = DB.getDatabase
     val q = PContainerV.view.filter(_.page_id === id.toInt)
+    val q1 = q.map(_.container_id)
+    val q2 = ContainerV.view.filter(_.id in q1).distinct
 
     try {
 
       val cont = Await.result(db.run(q.result), Duration.Inf)
 
-
-
-      cont.size == 0 match {
+      val pContainers = cont.size == 0 match {
         case false => cont.groupBy(x => (x.space_id, x.p_container_id))
         case true => Map.empty[(Int, Option[String]), Seq[PContainerV]]
       }
+
+      val markupsResult = Await.result(db.run(q2.result), Duration.Inf)
+
+      val markups = markupsResult.size == 0 match {
+        case false => markupsResult.map(x => (x.id.getOrElse(0), x.markup)).toMap
+        case true => Map.empty[Int, String]
+      }
+
+      containersStorage(pContainers)
+      markupStorage(markups)
+
+
     }
 
     finally db.close
