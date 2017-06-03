@@ -1,5 +1,6 @@
 package net.scalapro.liftportal.snippet
 
+import net.liftweb.common.{Box, Empty}
 import net.liftweb.http.S
 import net.liftweb.util.Helpers._
 import net.scalapro.liftportal.util.Vars.{containersStorage, markupStorage}
@@ -20,18 +21,34 @@ class SpaceContainerSnippet {
 
     val space = spaces.get((id.toInt, containerId)).getOrElse(Seq.empty).sortBy(_.ord)
 
-    println(space)
+
+
     "*" #> <div class="space" data-xx-sid={id}>
       {space.map { i =>
         val markup = XML.loadString(markups.get(i.container_id).getOrElse(""))
 
         val classSnippet = "lift:ContainerSnippet?id="+containerId.getOrElse("")
+
+        val transform = {
+          "data-xx-role=c [data-xx-cid]" #> {
+            i.id
+          } andThen
+            "data-xx-role=c [data-xx-container]" #> {i.container_id} andThen
+            "data-xx-role=c [data-xx-role]" #> (Empty: Box[String])
+        } andThen
+          ".space [data-xx-c]" #> {i.id}
+        
+
 //        <div class="container-init">
 //          <div class={classSnippet} data-xx-cid={i.id.toString} data-xx-container={i.container_id.toString}></div>
 //        </div>
-        markup
+        transform(markup)
       }}
     </div>
 
   }
+
+
+
+
 }
