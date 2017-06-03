@@ -20,8 +20,6 @@ class SpaceContainerSnippet {
     val containerId = S.attr("container-id").toOption
 
     val space = spaces.get((id.toInt, containerId)).getOrElse(Seq.empty).sortBy(_.ord)
-    println("////////////////")
-    println(space)
 
     "*" #> <div class="space" data-xx-sid={id}>
       {space.map { i =>
