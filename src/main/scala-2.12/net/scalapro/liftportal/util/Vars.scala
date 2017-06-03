@@ -14,4 +14,9 @@ object Vars {
 
   object templateId extends RequestVar[String]("1")
   object pageId extends RequestVar[String]("1")
+
+
+  object isContainerEdit extends RequestVar[Boolean](false)
+
+
 }

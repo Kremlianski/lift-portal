@@ -37,7 +37,7 @@ class SpaceContainerSnippet {
             "data-xx-role=c [data-xx-role]" #> (Empty: Box[String])
         } andThen
           ".space [data-xx-c]" #> {i.id}
-        
+
 
 //        <div class="container-init">
 //          <div class={classSnippet} data-xx-cid={i.id.toString} data-xx-container={i.container_id.toString}></div>

@@ -3,7 +3,7 @@ package net.scalapro.liftportal.snippet
 import net.liftweb.http.S
 import net.liftweb.util.Helpers._
 import net.scalapro.liftportal.cms.tables.Widgets
-import net.scalapro.liftportal.util.Vars.spacesStorage
+import net.scalapro.liftportal.util.Vars.{isContainerEdit, spacesStorage}
 
 /**
   * Created by kreml on 21.03.2017.
@@ -11,7 +11,13 @@ import net.scalapro.liftportal.util.Vars.spacesStorage
 class SpaceSnippet {
 
 
-  def render = {
+  def render = isContainerEdit.is match {
+    case false => commonRender
+    case true => containerEditRender
+  }
+  private def commonRender = {
+
+
     val spaces = spacesStorage.is
     val id = S.attr("id").openOr("0")
 
@@ -29,5 +35,11 @@ class SpaceSnippet {
       }}
     </div>
 
+  }
+
+  private def containerEditRender = {
+    val id = S.attr("id").openOr("0")
+    val classSnippet = "lift:SpaceContainerSnippet?id=" + id
+    "*" #> <div class={classSnippet}></div>
   }
 }
