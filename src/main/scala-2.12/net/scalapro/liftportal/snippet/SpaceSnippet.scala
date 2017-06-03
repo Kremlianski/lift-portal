@@ -17,7 +17,6 @@ class SpaceSnippet {
   }
   private def commonRender = {
 
-
     val spaces = spacesStorage.is
     val id = S.attr("id").openOr("0")
 
@@ -38,6 +37,7 @@ class SpaceSnippet {
   }
 
   private def containerEditRender = {
+
     val id = S.attr("id").openOr("0")
     val classSnippet = "lift:SpaceContainerSnippet?id=" + id
     "*" #> <div class={classSnippet}></div>
