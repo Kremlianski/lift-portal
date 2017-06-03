@@ -62,7 +62,7 @@ object PageContainersView {
           <script src="/classpath/lib/jquery.min.js" type="text/javascript"></script>
         </head>
         <body>
-          <div class="space space-top" lift={"SpaceSnippet?id=" + spaceId}></div>
+          <div class="space space-top" lift={"SpaceContainerSnippet?id=" + spaceId}></div>
         </body>
       </html>
 
