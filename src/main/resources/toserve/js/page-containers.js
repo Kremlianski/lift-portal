@@ -1,6 +1,14 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+window.initWidget = function (item) {
+    var containerStr = '\n        <div class="panel-heading">\n            <button class="btn btn-primary btn-sm edit-button">\n               <span class="glyphicon glyphicon-cog"></span>\n            </button>\n            <button class="btn btn-primary btn-sm close-button">\n               <span class="glyphicon glyphicon-remove"></span>\n            </button>\n        </div>\n        <div class="panel-body">\n            <div id="target"></div>\n        </div>\n        ';
+    var children = $(item).children().get(0);
+    $(item).removeAttr('id').addClass('panel panel-primary widget').html(containerStr).find('.close-button').on('click', function () {
+        item.remove();
+    });
+    if (children) $(item).find('.panel-body').append(children);
+};
 window.createSpaces = function () {
     $('.space').filter(function () {
         return !$(this).hasClass('space-init');
@@ -9,7 +17,6 @@ window.createSpaces = function () {
     });
 };
 window.createSpace = function (item) {
-    var containerStr = '\n        <div class="panel-heading">\n            <button class="btn btn-primary btn-sm close-button">\n               <span class="glyphicon glyphicon-remove"></span>\n            </button>\n        </div>\n        <div class="panel-body">\n            <div id="target"></div>\n        </div>\n        ';
     Sortable.create(item, {
         group: {
             name: 'space',
@@ -21,9 +28,7 @@ window.createSpace = function (item) {
         onAdd: function onAdd(event) {
             if (event.from.id == 'editor-panel') {
                 var _item = event.item;
-                $(_item).removeAttr('id').addClass('panel panel-primary widget').html(containerStr).find('.close-button').on('click', function () {
-                    _item.remove();
-                });
+                initWidget(_item);
                 loadHtml($('#widget').attr('data-xx-w'));
                 //  createSpaces()
             }
@@ -63,6 +68,7 @@ window.createSpace = function (item) {
         save(spaces);
         spaces = [];
     });
+    init();
     function calculate() {
         var top = $('.space-top');
         function setTop(t) {
@@ -101,6 +107,12 @@ window.createSpace = function (item) {
         }
         setTop(top);
         findLevel(top, 0);
+    }
+    function init() {
+        $('[data-xx-container]').each(function () {
+            initWidget(this);
+            $('#target').remove();
+        });
     }
 });
 
