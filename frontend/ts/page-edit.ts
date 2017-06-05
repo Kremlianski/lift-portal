@@ -136,9 +136,8 @@ declare function save(containers: Space[]):void
         onAdd: function(event: SEvent) {
             if(event.from.id == 'editor-panel') {
                 const item = event.item
-    
                 initContainer(item)
-                loadContainer($('#container').attr('data-xx-w'))
+                loadContainer($(item).attr('data-xx-con'))
             //  createSpaces()
             }
         },
@@ -178,7 +177,7 @@ declare function save(containers: Space[]):void
         createSpaces()
 
         $('#containers').on('change', function(){
-            $('#container').attr('data-xx-w', this.value)
+            $('#container').attr('data-xx-con', this.value)
         })
 
         $('#widgets').on('change', function(){

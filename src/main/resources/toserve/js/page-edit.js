@@ -46,7 +46,7 @@ window.createSpace = function (item) {
             if (event.from.id == 'editor-panel') {
                 var _item = event.item;
                 initContainer(_item);
-                loadContainer($('#container').attr('data-xx-w'));
+                loadContainer($(_item).attr('data-xx-con'));
                 //  createSpaces()
             }
         },
@@ -76,7 +76,7 @@ window.createSpace = function (item) {
     });
     createSpaces();
     $('#containers').on('change', function () {
-        $('#container').attr('data-xx-w', this.value);
+        $('#container').attr('data-xx-con', this.value);
     });
     $('#widgets').on('change', function () {
         $('#widget').attr('data-xx-w', this.value);
