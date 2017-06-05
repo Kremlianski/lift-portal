@@ -13,7 +13,8 @@
   min-height: 50px;
   padding: 10px 20px;
 }
-#widget {
+#widget,
+#container {
   width: 200px;
   padding: 0;
   background-color: white;
@@ -21,7 +22,8 @@
   border-radius: 4px;
   text-align: center;
 }
-#widget[data-xx-w="0"] {
+#widget[data-xx-w="0"],
+#container[data-xx-w="0"] {
   visibility: hidden;
 }
 .dragging .panel-body {
@@ -39,7 +41,8 @@
   margin-bottom: 20px;
 }
 #widget.ghost,
-.widget.ghost {
+.widget.ghost,
+#container.ghost {
   overflow: hidden;
   height: 4px;
   border: 2px solid red;

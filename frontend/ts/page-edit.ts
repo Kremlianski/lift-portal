@@ -27,14 +27,14 @@ declare function createSpace(item: Element): void
 
 declare function createSpaces():void
 
-declare function initWidget(item: Element): void
+declare function initContainer(item: Element): void
 
 declare function loadHtml(id: string):void
 
 declare function save(containers: Space[]):void
 
 //global functions
-;(<any> window).initWidget = function(item: Element):void {
+;(<any> window).initContainer = function(item: Element):void {
 
     const containerStr: string = `
         <div class="panel-heading">
@@ -91,8 +91,8 @@ declare function save(containers: Space[]):void
             if(event.from.id == 'editor-panel') {
                 const item = event.item
     
-                initWidget(item)
-                loadHtml($('#widget').attr('data-xx-w'))
+                initContainer(item)
+                loadHtml($('#container').attr('data-xx-w'))
             //  createSpaces()
             }
         },
@@ -132,7 +132,7 @@ declare function save(containers: Space[]):void
         createSpaces()
 
         $('#containers').on('change', function(){
-            $('#widget').attr('data-xx-w', this.value)
+            $('#container').attr('data-xx-w', this.value)
         })
 
         let spaces:Space[] = []
@@ -205,7 +205,7 @@ declare function save(containers: Space[]):void
         function init():void {
             $('[data-xx-container]').each(function(){
 
-                initWidget(this)
+                initContainer(this)
                 $('#target').remove()
 
             })

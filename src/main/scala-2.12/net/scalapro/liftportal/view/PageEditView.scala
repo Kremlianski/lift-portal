@@ -157,7 +157,7 @@ object PageEditView {
       <div class="container-fluid">
         <div class="row" id="top-panel">
           <div id="editor-panel" class="col-md-6">
-            <div id="widget" data-xx-w="0">Snippet</div>
+            <div id="container" data-xx-w="0">Container</div>
           </div>
           <div id="controlles-panel" class="col-md-6">
           </div>
@@ -166,7 +166,7 @@ object PageEditView {
       "#controlles-panel *+" #> {
         selectContainer
       } andThen
-      "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/page-containers.js"></script> &
+      "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/js/page-edit.js"></script> &
         "body -*" #> <script data-lift="head" type="text/javascript" src="/classpath/lib/Sortable.min.js"></script> &
         "body -*" #> <lift:head>
           <link href="/classpath/css/template.css" rel="stylesheet"></link>
