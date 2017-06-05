@@ -23,7 +23,9 @@
   text-align: center;
 }
 #widget[data-xx-w="0"],
-#container[data-xx-w="0"] {
+#container[data-xx-w="0"],
+#widget[data-xx-con="0"],
+#container[data-xx-con="0"] {
   visibility: hidden;
 }
 .dragging .panel-body {

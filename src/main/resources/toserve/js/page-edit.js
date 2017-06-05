@@ -45,8 +45,14 @@ window.createSpace = function (item) {
         onAdd: function onAdd(event) {
             if (event.from.id == 'editor-panel') {
                 var _item = event.item;
-                initContainer(_item);
-                loadContainer($(_item).attr('data-xx-con'));
+                if ($(_item).attr('data-xx-con')) {
+                    initContainer(_item);
+                    loadContainer($(_item).attr('data-xx-con'));
+                } else if ($(_item).attr('data-xx-w')) {
+                    initWidget(_item);
+                    console.log($(_item).attr('data-xx-w'));
+                    loadWidget($(_item).attr('data-xx-w'));
+                } else console.log('Error!');
                 //  createSpaces()
             }
         },
