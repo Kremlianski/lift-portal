@@ -18,7 +18,7 @@ const buffer = require('vinyl-buffer');
 const watchedBrowserify = watchify(browserify({
         basedir: '.',
         debug: true,
-        entries: ['frontend/ts/page-containers.ts'],
+        entries: ['frontend/ts/page-edit.ts'],
         cache: {},
         packageCache: {}
     }).plugin(tsify)
@@ -33,7 +33,7 @@ function bundle() {
     // process.env.NODE_ENV = 'production';
     return watchedBrowserify
         .bundle()
-        .pipe(source('page-containers.js'))
+        .pipe(source('page-edit.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
         // .pipe(uglify())

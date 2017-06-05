@@ -21,6 +21,7 @@ class Boot {
       Menu.i("Templates") /"cms"/ "templates",
       Menu.i("Containers") /"cms"/ "containers",
       Menu.i("Page Containers") /"cms"/ "page-containers" >> Hidden,
+      Menu.i("Page Edit") /"cms"/ "page-edit" >> Hidden,
       Menu.i("Pages") /"cms"/ "pages",
       Menu.i("Edit Page") /"cms"/ "edit-page",
       Menu.i("Template") /"cms"/ "template" >> Hidden,
@@ -38,6 +39,8 @@ class Boot {
         Left(() => Full(PageView.render))
       case List("cms", "page-containers") =>
         Left(() => Full(PageContainersView.edit))
+      case List("cms", "page-edit") =>
+        Left(() => Full(PageEditView.edit))
       case List("cms", "page-template-preview") =>
         Left(() => Full(PageTemplatePreView.render))
     }

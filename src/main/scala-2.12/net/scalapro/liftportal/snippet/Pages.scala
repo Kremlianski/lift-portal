@@ -56,7 +56,7 @@ object Pages {
                 "class"->"btn btn-default btn-sm")
                 }
 
-                {SHtml.link("page-containers", ()=>{
+                {SHtml.link("page-edit", ()=>{
                 pageId(x.id.getOrElse(1).toString)
               }, <span class="glyphicon glyphicon-th-large"></span>,
                 "class"->"btn btn-default btn-sm")
