@@ -6,7 +6,7 @@ import net.liftweb.http.js.JE.{JsRaw, JsVar}
 import net.liftweb.http.js.JsCmds.{Function, Noop, Replace, Script}
 import net.liftweb.json.DefaultFormats
 import net.liftweb.util.Helpers._
-import net.scalapro.liftportal.cms.tables.Space
+import net.scalapro.liftportal.cms.tables.{Space, Widget, Widgets}
 import net.scalapro.liftportal.cms.views.TempContainerV
 import net.scalapro.liftportal.util.DB
 import net.scalapro.liftportal.cms.views._
@@ -130,11 +130,18 @@ object PageEditView {
 
 
   private def selectContainer(): NodeSeq = {
+    val w: Seq[Widget] = Widgets.get
     val s: Seq[ContainerV] = containers()
     val ns = <div class="form-group">
       <select id="containers"  class="form-control">
         <option value="0">-------------</option>{s.map(i =>
         <option value={i.id.getOrElse(0).toString}>
+          {i.name}
+        </option>)}
+      </select>
+      <select id="widgets"  class="form-control">
+        <option value="0">-------------</option>{w.map(i =>
+        <option value={i.id.toString}>
           {i.name}
         </option>)}
       </select>
