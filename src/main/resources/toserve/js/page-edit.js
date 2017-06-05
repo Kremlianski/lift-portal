@@ -29,7 +29,7 @@ window.createSpace = function (item) {
             if (event.from.id == 'editor-panel') {
                 var _item = event.item;
                 initContainer(_item);
-                loadHtml($('#container').attr('data-xx-w'));
+                loadContainer($('#container').attr('data-xx-w'));
                 //  createSpaces()
             }
         },

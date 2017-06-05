@@ -29,7 +29,7 @@ declare function createSpaces():void
 
 declare function initContainer(item: Element): void
 
-declare function loadHtml(id: string):void
+declare function loadContainer(id: string):void
 
 declare function save(containers: Space[]):void
 
@@ -92,7 +92,7 @@ declare function save(containers: Space[]):void
                 const item = event.item
     
                 initContainer(item)
-                loadHtml($('#container').attr('data-xx-w'))
+                loadContainer($('#container').attr('data-xx-w'))
             //  createSpaces()
             }
         },

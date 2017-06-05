@@ -172,7 +172,34 @@ object PageEditView {
           <link href="/classpath/css/template.css" rel="stylesheet"></link>
           {Script(
 
-            Function("loadHtml", List("id"),
+            Function("loadWidget", List("id"),
+              SHtml.ajaxCall(
+                JsVar("id"),
+                id => {
+                  val classSnippet = "lift:WidgetSnippet?" + id
+                  val container = <div class={classSnippet}></div>
+                  val delim = id.indexOf(';')
+
+
+                  var i: Int = 0
+
+                  if (delim >= 0) i = id.substring(3, delim).toInt
+                  else i = id.substring(3).toInt
+
+                  val func: String = Widgets.get(i).jsFunc
+
+                  if (func != "") {
+                    Replace("target", container) &
+                      JsRaw(
+                        s"${func}(${i})"
+                      ).cmd
+                  }
+                  else {
+                    Replace("target", container)
+                  }
+                }
+              ).cmd
+            ) & Function("loadContainer", List("id"),
               SHtml.ajaxCall(
                 JsVar("id"),
                 id => {
@@ -200,7 +227,7 @@ object PageEditView {
                     ).cmd
                 }
               ).cmd
-            )& Function("save", List("containers"),
+            ) & Function("save", List("containers"),
               SHtml.jsonCall(JsVar("containers"), spacesJson => {
 
                 val spaces = spacesJson.extract[List[SpaceContainer]]
