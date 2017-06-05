@@ -9,14 +9,14 @@ window.initContainer = function (item) {
     });
     if (children) $(item).find('.panel-body').append(children);
 };
-window.createSpaces = function () {
+window.createSpacesC = function () {
     $('.space').filter(function () {
         return !$(this).hasClass('space-init');
     }).addClass('space-init').each(function () {
-        createSpace(this);
+        createSpaceC(this);
     });
 };
-window.createSpace = function (item) {
+window.createSpaceC = function (item) {
     Sortable.create(item, {
         group: {
             name: 'space',
@@ -57,7 +57,7 @@ window.createSpace = function (item) {
         animation: 100,
         ghostClass: "ghost"
     });
-    createSpaces();
+    createSpacesC();
     $('#containers').on('change', function () {
         $('#container').attr('data-xx-w', this.value);
     });

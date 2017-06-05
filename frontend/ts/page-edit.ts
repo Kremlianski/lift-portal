@@ -23,9 +23,9 @@ interface Container {
     isNew?: boolean
 }
 
-declare function createSpace(item: Element): void
+declare function createSpaceC(item: Element): void
 
-declare function createSpaces():void
+declare function createSpacesC():void
 
 declare function initContainer(item: Element): void
 
@@ -65,7 +65,7 @@ declare function save(containers: Space[]):void
     if(children) $(item).find('.panel-body').append(children)
 
 }
-;(<any> window).createSpaces = function():void {
+;(<any> window).createSpacesC = function():void {
 
     $('.space')
     
@@ -74,12 +74,12 @@ declare function save(containers: Space[]):void
     })
     .addClass('space-init')
     .each(function(){
-        createSpace(this)
+        createSpaceC(this)
     })
 
 }
 
-;(<any> window).createSpace = function(item:Element):void {
+;(<any> window).createSpaceC = function(item:Element):void {
   
     Sortable.create(item, {
         group: {
@@ -131,7 +131,7 @@ declare function save(containers: Space[]):void
             ghostClass: "ghost"
         })
 
-        createSpaces()
+        createSpacesC()
 
         $('#containers').on('change', function(){
             $('#container').attr('data-xx-w', this.value)
