@@ -31,6 +31,8 @@ declare function initContainer(item: Element): void
 
 declare function loadContainer(id: string):void
 
+declare function loadWidget(id: string):void
+
 declare function save(containers: Space[]):void
 
 //global functions
@@ -133,6 +135,10 @@ declare function save(containers: Space[]):void
 
         $('#containers').on('change', function(){
             $('#container').attr('data-xx-w', this.value)
+        })
+
+        $('#widgets').on('change', function(){
+            $('#widget').attr('data-xx-w', this.value)
         })
 
         let spaces:Space[] = []

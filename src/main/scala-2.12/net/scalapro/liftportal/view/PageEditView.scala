@@ -158,6 +158,7 @@ object PageEditView {
         <div class="row" id="top-panel">
           <div id="editor-panel" class="col-md-6">
             <div id="container" data-xx-w="0">Container</div>
+            <div id="widget" data-xx-w="0">Widget</div>
           </div>
           <div id="controlles-panel" class="col-md-6">
           </div>

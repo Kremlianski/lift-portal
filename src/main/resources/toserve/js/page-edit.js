@@ -61,6 +61,9 @@ window.createSpace = function (item) {
     $('#containers').on('change', function () {
         $('#container').attr('data-xx-w', this.value);
     });
+    $('#widgets').on('change', function () {
+        $('#widget').attr('data-xx-w', this.value);
+    });
     var spaces = [];
     $('#calculate').on('click', function () {
         calculate();
