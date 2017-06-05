@@ -19,15 +19,7 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.xml.{NodeSeq, XML}
 
-/*
 
-
-This page must be replaced with PageEditView !!!!!
-
-There is no reason to edit containers separately from widgets
-
-
- */
 
 object PageEditView {
 
