@@ -23,11 +23,13 @@ interface Container {
     isNew?: boolean
 }
 
-declare function createSpaceC(item: Element): void
+declare function createSpace(item: Element): void
 
-declare function createSpacesC():void
+declare function createSpaces():void
 
 declare function initContainer(item: Element): void
+
+declare function initWidget(item: Element): void
 
 declare function loadContainer(id: string):void
 
@@ -36,6 +38,48 @@ declare function loadWidget(id: string):void
 declare function save(containers: Space[]):void
 
 //global functions
+
+
+;(<any> window).initWidget = function(item: Element):void {
+
+    const containerStr: string = `
+        <div class="panel-heading">
+            <button class="btn btn-primary btn-sm edit-button">
+               <span class="glyphicon glyphicon-cog"></span>
+            </button>
+            <button class="btn btn-primary btn-sm close-button">
+               <span class="glyphicon glyphicon-remove"></span>
+            </button>
+        </div>
+        <div class="panel-body">
+            <div id="target"></div>
+        </div>
+        `
+
+    const children = $(item).children().get(0)
+    $(item)
+    .removeAttr('id')
+    .removeClass('init-widget')
+    .addClass('panel panel-primary widget')
+    .html(containerStr)
+    .find('.close-button')
+    .on('click', function(){
+        item.remove()
+    })
+
+    if(children) $(item).find('.panel-body').append(children)
+
+    $(item).find('.edit-button')
+    .on('click', function(){
+        const widget = $(item).find('[data-xx-wid]')
+        let str = ''
+        if(widget.hasClass('xx-new')) {
+            str=`&new=1`
+        }
+        alert(`?id=${widget.attr('data-xx-wid')}${str}`)
+        //window.location()
+    })
+}
 ;(<any> window).initContainer = function(item: Element):void {
 
     const containerStr: string = `
@@ -65,7 +109,7 @@ declare function save(containers: Space[]):void
     if(children) $(item).find('.panel-body').append(children)
 
 }
-;(<any> window).createSpacesC = function():void {
+;(<any> window).createSpaces = function():void {
 
     $('.space')
     
@@ -74,12 +118,12 @@ declare function save(containers: Space[]):void
     })
     .addClass('space-init')
     .each(function(){
-        createSpaceC(this)
+        createSpace(this)
     })
 
 }
 
-;(<any> window).createSpaceC = function(item:Element):void {
+;(<any> window).createSpace = function(item:Element):void {
   
     Sortable.create(item, {
         group: {
@@ -131,7 +175,7 @@ declare function save(containers: Space[]):void
             ghostClass: "ghost"
         })
 
-        createSpacesC()
+        createSpaces()
 
         $('#containers').on('change', function(){
             $('#container').attr('data-xx-w', this.value)

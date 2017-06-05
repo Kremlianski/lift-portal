@@ -223,7 +223,7 @@ object PageEditView {
 
                   Replace("target", container) &
                     JsRaw(
-                      "createSpacesC();"
+                      "createSpaces();"
 
                     ).cmd
                 }
