@@ -51,7 +51,7 @@ window.createSpace = function (item) {
                 } else if ($(_item).attr('data-xx-w')) {
                     initWidget(_item);
                     console.log($(_item).attr('data-xx-w'));
-                    loadWidget($(_item).attr('data-xx-w'));
+                    loadWidget('id=' + $(_item).attr('data-xx-w'));
                 } else console.log('Error!');
                 //  createSpaces()
             }

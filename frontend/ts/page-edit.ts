@@ -144,7 +144,7 @@ declare function save(containers: Space[]):void
                 } else if ($(item).attr('data-xx-w')) {
                     initWidget(item)
                     console.log($(item).attr('data-xx-w'))
-                    loadWidget($(item).attr('data-xx-w'))
+                    loadWidget('id=' + $(item).attr('data-xx-w'))
 
                 } else console.log('Error!');
                 
