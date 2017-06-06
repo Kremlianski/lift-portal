@@ -9,19 +9,23 @@ declare interface SEvent {
 }
 
 
-interface Space {
+interface SpaceI {
     id: string
     container?: string
-    content?: Container[]
+    content?: Item[]
     level: number
 
 }
 
-interface Container {
-    ctype: string
-    cid: string
+interface Item {
+    ctype?: string
+    cid?: string
+    wid?: string
+    wtype?: string
     isNew?: boolean
 }
+
+declare function initWidget(item: Element): void
 
 declare function createSpace(item: Element): void
 
@@ -35,11 +39,13 @@ declare function loadContainer(id: string):void
 
 declare function loadWidget(id: string):void
 
-declare function save(containers: Space[]):void
+declare function save(containers: SpaceI[]):void
 
 //global functions
 
-
+;(<any> window).menuInit = function(id: string):void { 
+    //alert(id)
+}
 ;(<any> window).initWidget = function(item: Element):void {
 
     const containerStr: string = `
@@ -196,12 +202,12 @@ declare function save(containers: Space[]):void
             $('#widget').attr('data-xx-w', this.value)
         })
 
-        let spaces:Space[] = []
+        let spaces:SpaceI[] = []
 
         $('#calculate').on('click', function(){
             calculate()
-            // console.log(JSON.stringify(spaces))
-            save(spaces)
+            console.log(JSON.stringify(spaces))
+            // save(spaces)
             spaces = []
         })
 
@@ -216,14 +222,22 @@ declare function save(containers: Space[]):void
               const id = t.attr('data-xx-sid')
               const container = t.attr('data-xx-c')
               
-              const content: Container[] = []
+              const content: Item[] = []
               const level = 0
               
-              $('[data-xx-cid]', t.get(0)).each(function(){
+              $('[data-xx-cid], [data-xx-wid]', t.get(0)).each(function(){
                   const element:Element = this
+
+                  const cid = $(element).attr('data-xx-cid')
+                  const ctype = $(element).attr('data-xx-container')
+                  const wid = $(element).attr('data-xx-wid')
+                  const wtype = $(element).attr('data-xx-widget')
+
                   content.push({
-                    cid: $(element).attr('data-xx-cid'),
-                    ctype: $(element).attr('data-xx-container'),
+                    cid: cid,
+                    ctype: ctype,
+                    wid: wid,
+                    wtype: wtype,
                     isNew: $(element).hasClass('xx-new')
                   })
               })
@@ -237,15 +251,22 @@ declare function save(containers: Space[]):void
                 const id = $(this).attr('data-xx-sid')
                 const container = $(this).attr('data-xx-c')
                 
-                const content: Container[] = []
+                const content: Item[] = []
                 const level = l + 1
                 
-                $('[data-xx-cid]', this).each(function(){
+                $('[data-xx-cid], [data-xx-wid]', this).each(function(){
                     
                   const element:Element = this
+                  const cid = $(element).attr('data-xx-cid')
+                  const ctype = $(element).attr('data-xx-container')
+                  const wid = $(element).attr('data-xx-wid')
+                  const wtype = $(element).attr('data-xx-widget')
+
                   content.push({
-                    cid: $(element).attr('data-xx-cid'),
-                    ctype: $(element).attr('data-xx-container'),
+                    cid: cid,
+                    ctype: ctype,
+                    wid: wid,
+                    wtype: wtype,
                     isNew: $(element).hasClass('xx-new')
                   })
                 })

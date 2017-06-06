@@ -1,6 +1,9 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+window.menuInit = function (id) {
+    //alert(id)
+};
 window.initWidget = function (item) {
     var containerStr = '\n        <div class="panel-heading">\n            <button class="btn btn-primary btn-sm edit-button">\n               <span class="glyphicon glyphicon-cog"></span>\n            </button>\n            <button class="btn btn-primary btn-sm close-button">\n               <span class="glyphicon glyphicon-remove"></span>\n            </button>\n        </div>\n        <div class="panel-body">\n            <div id="target"></div>\n        </div>\n        ';
     var children = $(item).children().get(0);
@@ -90,8 +93,8 @@ window.createSpace = function (item) {
     var spaces = [];
     $('#calculate').on('click', function () {
         calculate();
-        // console.log(JSON.stringify(spaces))
-        save(spaces);
+        console.log(JSON.stringify(spaces));
+        // save(spaces)
         spaces = [];
     });
     init();
@@ -102,11 +105,17 @@ window.createSpace = function (item) {
             var container = t.attr('data-xx-c');
             var content = [];
             var level = 0;
-            $('[data-xx-cid]', t.get(0)).each(function () {
+            $('[data-xx-cid], [data-xx-wid]', t.get(0)).each(function () {
                 var element = this;
+                var cid = $(element).attr('data-xx-cid');
+                var ctype = $(element).attr('data-xx-container');
+                var wid = $(element).attr('data-xx-wid');
+                var wtype = $(element).attr('data-xx-widget');
                 content.push({
-                    cid: $(element).attr('data-xx-cid'),
-                    ctype: $(element).attr('data-xx-container'),
+                    cid: cid,
+                    ctype: ctype,
+                    wid: wid,
+                    wtype: wtype,
                     isNew: $(element).hasClass('xx-new')
                 });
             });
@@ -118,11 +127,17 @@ window.createSpace = function (item) {
                 var container = $(this).attr('data-xx-c');
                 var content = [];
                 var level = l + 1;
-                $('[data-xx-cid]', this).each(function () {
+                $('[data-xx-cid], [data-xx-wid]', this).each(function () {
                     var element = this;
+                    var cid = $(element).attr('data-xx-cid');
+                    var ctype = $(element).attr('data-xx-container');
+                    var wid = $(element).attr('data-xx-wid');
+                    var wtype = $(element).attr('data-xx-widget');
                     content.push({
-                        cid: $(element).attr('data-xx-cid'),
-                        ctype: $(element).attr('data-xx-container'),
+                        cid: cid,
+                        ctype: ctype,
+                        wid: wid,
+                        wtype: wtype,
                         isNew: $(element).hasClass('xx-new')
                     });
                 });
