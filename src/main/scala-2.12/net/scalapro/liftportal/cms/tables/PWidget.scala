@@ -6,7 +6,7 @@ import slick.sql.SqlProfile.ColumnOption.{Nullable, SqlType}
 case class PWidget (
                      id: String,
                      widget_id: Int,
-                     template_id: Int,
+                     page_id: Int,
                      space_id: Int,
                      p_container_id: String,
                      params: Option[String],

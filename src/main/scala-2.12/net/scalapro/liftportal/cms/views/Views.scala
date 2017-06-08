@@ -11,6 +11,7 @@ object Views {
       TemplateV.createView() >>
       TempContainerV.createView() >>
       TWidgetV.createView() >>
+      PWidgetV.createView() >>
       TemplateWidgetsV.createView()
 
   def drop =
@@ -20,6 +21,7 @@ object Views {
       TemplateV.dropView() >>
       TempContainerV.dropView() >>
       TWidgetV.dropView() >>
+      PWidgetV.dropView() >>
       TemplateWidgetsV.dropView()
 }
 
