@@ -206,8 +206,8 @@ declare function save(containers: SpaceI[]):void
 
         $('#calculate').on('click', function(){
             calculate()
-            console.log(JSON.stringify(spaces))
-            // save(spaces)
+            // console.log(JSON.stringify(spaces))
+            save(spaces)
             spaces = []
         })
 

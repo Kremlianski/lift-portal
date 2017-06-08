@@ -25,8 +25,10 @@ object PageEditView {
 
   case class ContainerTemplate(
 
-                                ctype: String,
-                                cid: String,
+                                ctype: Option[String],
+                                cid: Option[String],
+                                wid: Option[String],
+                                wtype: Option[String],
                                 isNew: Boolean = false
                               )
 
@@ -223,21 +225,25 @@ object PageEditView {
             ) & Function("save", List("containers"),
               SHtml.jsonCall(JsVar("containers"), spacesJson => {
 
+
+
                 val spaces = spacesJson.extract[List[SpaceContainer]]
 
-
-                val containers = spaces.flatMap(sc => sc.content
-                  .zipWithIndex
-                  .map(cc => (cc._1, sc.container, sc.id, sc.level, cc._2)))
-                  .groupBy(_._1)
-                  .map(x => x._2.maxBy(_._4)).toSeq
-                  .sortBy(_._4)
-                  .map(co =>
-                    PContainerV(co._1.cid, co._1.ctype.toInt, pageId.is.toInt, co._2, co._3.toInt, co._5, None)
-                  )
+                println(spaces)
 
 
-                updateDB(containers)
+//                val containers = spaces.flatMap(sc => sc.content
+//                  .zipWithIndex
+//                  .map(cc => (cc._1, sc.container, sc.id, sc.level, cc._2)))
+//                  .groupBy(_._1)
+//                  .map(x => x._2.maxBy(_._4)).toSeq
+//                  .sortBy(_._4)
+//                  .map(co =>
+//                    PContainerV(co._1.cid, co._1.ctype.toInt, pageId.is.toInt, co._2, co._3.toInt, co._5, None)
+//                  )
+
+
+//                updateDB(containers)
 
                 Noop
               }).cmd

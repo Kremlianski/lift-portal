@@ -93,8 +93,8 @@ window.createSpace = function (item) {
     var spaces = [];
     $('#calculate').on('click', function () {
         calculate();
-        console.log(JSON.stringify(spaces));
-        // save(spaces)
+        // console.log(JSON.stringify(spaces))
+        save(spaces);
         spaces = [];
     });
     init();
