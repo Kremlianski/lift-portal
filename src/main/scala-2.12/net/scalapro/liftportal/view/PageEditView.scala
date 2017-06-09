@@ -24,9 +24,8 @@ import scala.xml.{NodeSeq, XML}
 object PageEditView {
 
   case class ContainerTemplate(
-
-                                ctype: Option[String],
                                 cid: Option[String],
+                                ctype: Option[String],
                                 wid: Option[String],
                                 wtype: Option[String],
                                 isNew: Boolean = false

@@ -8,7 +8,7 @@ case class PWidget (
                      widget_id: Int,
                      page_id: Int,
                      space_id: Int,
-                     p_container_id: String,
+                     p_container_id: Option[String],
                      params: Option[String],
                      ord: Int,
                      widget_class: Option[String]
@@ -25,7 +25,7 @@ object PWidget {
 
     def space_id = column[Int]("space_id")
 
-    def p_container_id = column[String]("p_container_id")
+    def p_container_id = column[Option[String]]("p_container_id", Nullable)
 
     def ord = column[Int]("ord")
 
