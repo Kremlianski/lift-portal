@@ -232,15 +232,25 @@ object PageEditView {
                 println(spaces)
 
 
-//                val containers = spaces.flatMap(sc => sc.content
-//                  .zipWithIndex
-//                  .map(cc => (cc._1, sc.container, sc.id, sc.level, cc._2)))
-//                  .groupBy(_._1)
-//                  .map(x => x._2.maxBy(_._4)).toSeq
-//                  .sortBy(_._4)
-//                  .map(co =>
+                val containers = spaces.flatMap(sc => sc.content
+                  .zipWithIndex
+                  .map(cc => (cc._1, sc.container, sc.id, sc.level, cc._2)))
+                  .groupBy(_._1)
+                  .map(x => x._2.maxBy(_._4)).toSeq
+                  .sortBy(_._4)
+                  .map(co =>
+                    co match {
+                      case (ContainerTemplate(Some(cid),Some(ctype), None, None, _ ), c2, c3, _, c5) =>
+                        PContainerV(cid, ctype.toInt, pageId.is.toInt, c2, c3.toInt, c5, None)
+                      case (ContainerTemplate(None, None, Some(wid),Some(wtype), _ ), c2, c3, _, c5) =>
+                        PWidgetV(wid, wtype.toInt, pageId.is.toInt, c3.toInt, c2, None, c5, None)
+
+                    }
 //                    PContainerV(co._1.cid, co._1.ctype.toInt, pageId.is.toInt, co._2, co._3.toInt, co._5, None)
-//                  )
+                  )
+
+
+                println(containers)
 
 
 //                updateDB(containers)
