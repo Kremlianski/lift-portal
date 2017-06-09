@@ -228,8 +228,6 @@ object PageEditView {
 
                 val spaces = spacesJson.extract[List[SpaceContainer]]
 
-                println(spaces)
-
 
                 val containers = spaces.flatMap(sc => sc.content
                   .zipWithIndex
@@ -245,14 +243,10 @@ object PageEditView {
                         PWidgetV(wid, wtype.toInt, pageId.is.toInt, c3.toInt, c2, None, c5, None)
 
                     }
-//                    PContainerV(co._1.cid, co._1.ctype.toInt, pageId.is.toInt, co._2, co._3.toInt, co._5, None)
                   )
 
 
-                println(containers)
-
-
-//                updateDB(containers)
+                updateDB(containers)
 
                 Noop
               }).cmd
@@ -260,15 +254,28 @@ object PageEditView {
           )}
         </lift:head>
   }
-  private def updateDB(containers: Seq[PContainerV]): Unit = {
+  private def updateDB(containers: Seq[PItemV]): Unit = {
 
     val db = DB.getDatabase
 
+    var pContainers = List.empty[PContainerV]
+    var pWidgets = List.empty[PWidgetV]
+
+    containers.foreach( _ match {
+      case x: PContainerV => pContainers :+= x
+      case x: PWidgetV => pWidgets :+= x
+    })
+
+
+
     val action = db.run(DBIO.seq(
 
-      PContainerV.view ++= containers
+      PContainerV.view ++= pContainers,
+
+      PWidgetV.view ++= pWidgets
 
     ))
+    
     try Await.result(action, Duration.Inf)
 
     finally db.close
