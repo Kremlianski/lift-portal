@@ -292,14 +292,14 @@ object PageEditView {
 
       val cont = Await.result(db.run(q.result), Duration.Inf)
 
-      val pContainers = cont.size == 0 match {
+      val pContainers = cont.isEmpty match {
         case false => cont.groupBy(x => (x.space_id, x.p_container_id))
         case true => Map.empty[(Int, Option[String]), Seq[PContainerV]]
       }
 
       val markupsResult = Await.result(db.run(q2.result), Duration.Inf)
 
-      val markups = markupsResult.size == 0 match {
+      val markups = markupsResult.isEmpty match {
         case false => markupsResult.map(x => (x.id.getOrElse(0), x.markup)).toMap
         case true => Map.empty[Int, String]
       }
