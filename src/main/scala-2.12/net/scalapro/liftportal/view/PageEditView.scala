@@ -281,6 +281,26 @@ object PageEditView {
   }
 
   private def setStorage(id: String) {
+
+    /*
+    a view must be created for this query:
+
+
+    select co.id as c_id, container_id, co.page_id as c_page_id,
+co.p_container_id as c_p_container_id, co.space_id as c_space_id,
+co.ord as c_ord, co.container_class as c_container_class,
+w.id as w_id, widget_id, w.page_id as w_page_id, w.space_id as w_space_id,
+w.p_container_id as w_p_container_id, params, w.ord as w_ord, w.container_class as w_container_class
+from p_containers_v as co full join p_widgets_v as w on co.id = w.id
+
+
+
+     */
+
+
+
+
+
     val db = DB.getDatabase
     val q = PContainerV.view.filter(_.page_id === id.toInt)
     val q1 = q.map(_.container_id)
