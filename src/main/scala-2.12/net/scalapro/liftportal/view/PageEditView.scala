@@ -306,9 +306,16 @@ from p_containers_v as co full join p_widgets_v as w on co.id = w.id
     val q1 = q.map(_.container_id)
     val q2 = ContainerV.view.filter(_.id in q1).distinct
 
+    val q3 = for {
+      (c, w) <- PContainerV.view joinFull PWidgetV.view
+    } yield (c.map(x=> (x.id, x.space_id)), w.map(x=>(x.id, x.space_id)))
+
     try {
 
       val cont = Await.result(db.run(q.result), Duration.Inf)
+
+      val items = Await.result(db.run(q3.result), Duration.Inf)
+      println(items)
 
       val pContainers = cont.isEmpty match {
         case false => cont.groupBy(x => (x.space_id, x.p_container_id))
