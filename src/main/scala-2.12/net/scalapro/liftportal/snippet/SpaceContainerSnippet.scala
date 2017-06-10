@@ -20,7 +20,7 @@ class SpaceContainerSnippet {
     val id = S.attr("id").openOr("0")
     val containerId = S.attr("container-id").toOption
 
-    val space = spaces.get((id.toInt, containerId)).getOrElse(Seq.empty).sortBy(_.ord)
+    val space = spaces.getOrElse((id.toInt, containerId), Seq.empty).sortBy(_.ord)
 
     "*" #> <div class="space" data-xx-sid={id}>
       {space.map {
@@ -28,7 +28,7 @@ class SpaceContainerSnippet {
 
           case i: PContainerV => {
 
-            val markup = XML.loadString(markups.get(i.container_id).getOrElse(""))
+            val markup = XML.loadString(markups.getOrElse(i.container_id, ""))
 
             //        val classSnippet = "lift:ContainerSnippet?id="+containerId.getOrElse("")
             var lift = ""
@@ -60,7 +60,9 @@ class SpaceContainerSnippet {
             println(r)
             r
         }
-          case i:PWidgetV =>
+          case i:PWidgetV => {
+
+          }
         }
       }}
     </div>
