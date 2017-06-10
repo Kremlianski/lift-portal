@@ -3,6 +3,7 @@ package net.scalapro.liftportal.snippet
 import net.liftweb.common.{Box, Empty}
 import net.liftweb.http.S
 import net.liftweb.util.Helpers._
+import net.scalapro.liftportal.cms.tables.Widgets
 import net.scalapro.liftportal.cms.views.{PContainerV, PWidgetV}
 import net.scalapro.liftportal.util.Vars.{containersStorage, markupStorage}
 
@@ -61,7 +62,12 @@ class SpaceContainerSnippet {
             r
         }
           case i:PWidgetV => {
-
+            println(i)
+            val snippet = Widgets.get(i.widget_id).snippet
+            val classSnippet = "lift:" + snippet
+            <div class="widget-init">
+              <div class={classSnippet} data-xx-wid={i.id} data-xx-widget={i.widget_id.toString}></div>
+            </div>
           }
         }
       }}
