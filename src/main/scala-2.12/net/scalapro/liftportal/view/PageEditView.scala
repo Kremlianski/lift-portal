@@ -307,8 +307,8 @@ from p_containers_v as co full join p_widgets_v as w on co.id = w.id
     val q2 = ContainerV.view.filter(_.id in q1).distinct
 
     val q3 = for {
-      (c, w) <- PContainerV.view joinFull PWidgetV.view
-    } yield (c.map(x=> (x.id, x.space_id)), w.map(x=>(x.id, x.space_id)))
+      (c, w) <- PContainerV.view joinFull PWidgetV.view on (_.id === _.id)
+    } yield (c, w)
 
     try {
 
