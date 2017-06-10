@@ -235,8 +235,7 @@ object PageEditView {
                   .groupBy(_._1)
                   .map(x => x._2.maxBy(_._4)).toSeq
                   .sortBy(_._4)
-                  .map(co =>
-                    co match {
+                  .map( _ match {
                       case (ContainerTemplate(Some(cid),Some(ctype), None, None, _ ), c2, c3, _, c5) =>
                         PContainerV(cid, ctype.toInt, pageId.is.toInt, c2, c3.toInt, c5, None)
                       case (ContainerTemplate(None, None, Some(wid),Some(wtype), _ ), c2, c3, _, c5) =>
@@ -275,7 +274,7 @@ object PageEditView {
       PWidgetV.view ++= pWidgets
 
     ))
-    
+
     try Await.result(action, Duration.Inf)
 
     finally db.close
