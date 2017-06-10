@@ -205,7 +205,7 @@ object PageEditView {
                     "data-xx-role=c [data-xx-cid]" #> {
                       containerV.tempId
                     } andThen
-                      "data-xx-role=c [data-xx-container]" #> {id} andThen
+                      "data-xx-role=c [data-xx-container]" #> id andThen
                       "data-xx-role=c [data-xx-role]" #> (Empty: Box[String])
                   } andThen
                     ".space [data-xx-c]" #> {containerV.tempId}
@@ -235,14 +235,12 @@ object PageEditView {
                   .groupBy(_._1)
                   .map(x => x._2.maxBy(_._4)).toSeq
                   .sortBy(_._4)
-                  .map( _ match {
-                      case (ContainerTemplate(Some(cid),Some(ctype), None, None, _ ), c2, c3, _, c5) =>
-                        PContainerV(cid, ctype.toInt, pageId.is.toInt, c2, c3.toInt, c5, None)
-                      case (ContainerTemplate(None, None, Some(wid),Some(wtype), _ ), c2, c3, _, c5) =>
-                        PWidgetV(wid, wtype.toInt, pageId.is.toInt, c3.toInt, c2, None, c5, None)
-
-                    }
-                  )
+                  .map {
+                    case (ContainerTemplate(Some(cid), Some(ctype), None, None, _), c2, c3, _, c5) =>
+                      PContainerV(cid, ctype.toInt, pageId.is.toInt, c2, c3.toInt, c5, None)
+                    case (ContainerTemplate(None, None, Some(wid), Some(wtype), _), c2, c3, _, c5) =>
+                      PWidgetV(wid, wtype.toInt, pageId.is.toInt, c3.toInt, c2, None, c5, None)
+                  }
 
 
                 updateDB(containers)
@@ -260,10 +258,10 @@ object PageEditView {
     var pContainers = List.empty[PContainerV]
     var pWidgets = List.empty[PWidgetV]
 
-    containers.foreach( _ match {
+    containers.foreach {
       case x: PContainerV => pContainers :+= x
       case x: PWidgetV => pWidgets :+= x
-    })
+    }
 
 
 
