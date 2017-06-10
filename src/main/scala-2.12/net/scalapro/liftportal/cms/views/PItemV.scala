@@ -5,7 +5,9 @@ import slick.jdbc.PostgresProfile.api._
 /**
   * Created by kreml on 08.06.2017.
   */
-sealed trait PItemV
+sealed trait PItemV {
+  def ord: Int
+}
 
 
 case class PContainerV  (
