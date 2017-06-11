@@ -7,6 +7,8 @@ import slick.jdbc.PostgresProfile.api._
   */
 sealed trait PItemV {
   def ord: Int
+  def p_container_id: Option[String]
+  def space_id: Int
 }
 
 

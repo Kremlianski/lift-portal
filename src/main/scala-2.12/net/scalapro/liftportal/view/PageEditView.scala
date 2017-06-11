@@ -312,14 +312,18 @@ from p_containers_v as co full join p_widgets_v as w on co.id = w.id
 
     try {
 
-      val cont = Await.result(db.run(q.result), Duration.Inf)
+//      val cont = Await.result(db.run(q.result), Duration.Inf)
 
-      val items = Await.result(db.run(q3.result), Duration.Inf)
+      val items = Await.result(db.run(q3.result), Duration.Inf).map {
+        case (Some(x), None) => x
+        case (None, Some(x)) => x
+        case _ =>
+      }.asInstanceOf[Seq[PItemV]]
       println(items)
 
-      val pContainers = cont.isEmpty match {
-        case false => cont.groupBy(x => (x.space_id, x.p_container_id))
-        case true => Map.empty[(Int, Option[String]), Seq[PContainerV]]
+      val pContainers = items.isEmpty match {
+        case false => items.groupBy(x => (x.space_id, x.p_container_id))
+        case true => Map.empty[(Int, Option[String]), Seq[PItemV]]
       }
 
       val markupsResult = Await.result(db.run(q2.result), Duration.Inf)
