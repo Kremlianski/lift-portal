@@ -154,6 +154,10 @@ window.createSpace = function (item) {
             initContainer(this);
             $('#target').remove();
         });
+        $('.widget-init').each(function () {
+            initWidget(this);
+            $('#target').remove();
+        });
     }
 });
 

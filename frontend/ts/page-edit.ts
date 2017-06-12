@@ -33,7 +33,6 @@ declare function createSpaces():void
 
 declare function initContainer(item: Element): void
 
-declare function initWidget(item: Element): void
 
 declare function loadContainer(id: string):void
 
@@ -288,6 +287,15 @@ declare function save(containers: SpaceI[]):void
             $('[data-xx-container]').each(function(){
 
                 initContainer(this)
+                
+                $('#target').remove()
+
+            })
+
+            $('.widget-init').each(function(){
+
+                   initWidget(this)
+                
                 $('#target').remove()
 
             })
@@ -298,4 +306,3 @@ declare function save(containers: SpaceI[]):void
         
     }
 )
-
