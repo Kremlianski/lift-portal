@@ -251,8 +251,6 @@ object PageEditView {
   }
   private def updateDB(items: Seq[PItemV]): Unit = {
 
-//    val db = DB.getDatabase
-
     var isContainers = List.empty[PContainerV]
     var isWidgets = List.empty[PWidgetV]
 
@@ -295,24 +293,42 @@ object PageEditView {
 
     doUpdate(toDeleteIds, toAdd, toUpdate)
 
-//    val action = db.run(DBIO.seq(
-//
-//      PContainerV.view ++= isContainers,
-//
-//      PWidgetV.view ++= isWidgets
-//
-//    ))
-//
-//    try Await.result(action, Duration.Inf)
-
-//    finally db.close
-
-
   }
 
   private def doUpdate(d: (List[String], List[String]),
                        i: (List[PContainerV],List[PWidgetV]),
                        up: (List[PContainerV],List[PWidgetV])): Unit ={
+
+    val q1 = PWidgetV.view.filter(_.id inSet d._2)
+    val q2 = PContainerV.view.filter(_.id inSet d._1)
+
+    val update1 = DBIO.sequence(
+      up._2.map(u => {
+        PWidgetV.view.filter( w => w.id === u.id).map(x => (x.space_id, x.ord)).update(u.space_id, u.ord)
+      }))
+
+    val update2 = DBIO.sequence(
+      up._1.map(u => {
+        PContainerV.view.filter( w => w.id === u.id).map(x => (x.space_id, x.ord)).update(u.space_id, u.ord)
+      }))
+
+    val db = DB.getDatabase
+        val action = db.run(DBIO.seq(
+
+          PContainerV.view ++= i._1,
+          PWidgetV.view ++= i._2,
+          q1.delete,
+          q2.delete,
+          update1,
+          update2
+          
+        ))
+
+        try Await.result(action, Duration.Inf)
+
+        finally db.close
+
+
 
   }
 
