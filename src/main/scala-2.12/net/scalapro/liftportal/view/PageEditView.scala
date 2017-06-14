@@ -11,10 +11,8 @@ import net.scalapro.liftportal.cms.views.TempContainerV
 import net.scalapro.liftportal.util.DB
 import net.scalapro.liftportal.cms.views._
 import net.scalapro.liftportal.util.Vars.{containersStorage, isContainerEdit, markupStorage, pageId}
-
 import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
-
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.xml.{NodeSeq, XML}
@@ -251,31 +249,59 @@ object PageEditView {
           )}
         </lift:head>
   }
-  private def updateDB(containers: Seq[PItemV]): Unit = {
+  private def updateDB(items: Seq[PItemV]): Unit = {
 
-    val db = DB.getDatabase
+//    val db = DB.getDatabase
 
-    var pContainers = List.empty[PContainerV]
-    var pWidgets = List.empty[PWidgetV]
+    var isContainers = List.empty[PContainerV]
+    var isWidgets = List.empty[PWidgetV]
 
-    containers.foreach {
-      case x: PContainerV => pContainers :+= x
-      case x: PWidgetV => pWidgets :+= x
+    var isContainerIds = List.empty[String]
+    var isWidgetIds = List.empty[String]
+
+    items.foreach {
+      case x: PContainerV => {
+        isContainers :+= x
+        isContainerIds :+= x.id
+      }
+      case x: PWidgetV => {
+        isWidgets :+= x
+        isWidgetIds :+= x.id
+      }
     }
 
+    val wasItems = containersStorage.is.values.flatten
+    val (wasContainers, wasWidgets) = wasItems.partition(_.isInstanceOf[PContainerV])
+    val wasContainerIds = wasContainers.asInstanceOf[List[PContainerV]].map(_.id)
+    val wasWidgetIds = wasWidgets.asInstanceOf[List[PWidgetV]].map(_.id)
 
 
-    val action = db.run(DBIO.seq(
+    val toAddWidgetIds = isWidgetIds diff wasWidgetIds
+    val toAddContainerIds = isContainerIds diff wasContainerIds
 
-      PContainerV.view ++= pContainers,
+    val toDeleteWidgetIds = wasWidgetIds diff isWidgetIds
+    val toDeleteContainerIds = wasContainerIds diff isContainerIds
 
-      PWidgetV.view ++= pWidgets
+    val toUpdateWidgetIds = wasWidgetIds diff toDeleteWidgetIds
+    val toUpdateContainerIds = wasContainerIds diff toDeleteContainerIds
 
-    ))
+    val toAdd = (isContainers.filter(x=>toAddContainerIds.contains(x.id)),
+      isWidgets.filter(x=>toAddWidgetIds.contains(x.id)))
 
-    try Await.result(action, Duration.Inf)
+    val toUpdate = (isContainers.filter(x=>toUpdateContainerIds.contains(x.id)),
+      isWidgets.filter(x=>toUpdateWidgetIds.contains(x.id)))
 
-    finally db.close
+//    val action = db.run(DBIO.seq(
+//
+//      PContainerV.view ++= isContainers,
+//
+//      PWidgetV.view ++= isWidgets
+//
+//    ))
+//
+//    try Await.result(action, Duration.Inf)
+
+//    finally db.close
 
 
   }
@@ -300,7 +326,7 @@ object PageEditView {
         case _ =>
       }.asInstanceOf[Seq[PItemV]]
 
-      val pContainers = items.isEmpty match {
+      val pItems = items.isEmpty match {
         case false => items.groupBy(x => (x.space_id, x.p_container_id))
         case true => Map.empty[(Int, Option[String]), Seq[PItemV]]
       }
@@ -312,7 +338,7 @@ object PageEditView {
         case true => Map.empty[Int, String]
       }
 
-      containersStorage(pContainers)
+      containersStorage(pItems)
       markupStorage(markups)
 
 
