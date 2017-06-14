@@ -57,12 +57,9 @@ class SpaceContainerSnippet {
             //        <div class="container-init">
             //          <div class={classSnippet} data-xx-cid={i.id.toString} data-xx-container={i.container_id.toString}></div>
             //        </div>
-            val r = transform(markup)
-            println(r)
-            r
+            transform(markup)
         }
           case i:PWidgetV => {
-            println(i)
             val snippet = Widgets.get(i.widget_id).snippet
             val classSnippet = "lift:" + snippet
             <div class="widget-init">

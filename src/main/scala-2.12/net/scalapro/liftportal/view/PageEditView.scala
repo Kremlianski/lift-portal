@@ -299,7 +299,6 @@ object PageEditView {
         case (None, Some(x)) => x
         case _ =>
       }.asInstanceOf[Seq[PItemV]]
-      println(items)
 
       val pContainers = items.isEmpty match {
         case false => items.groupBy(x => (x.space_id, x.p_container_id))
