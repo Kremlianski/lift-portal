@@ -285,11 +285,15 @@ object PageEditView {
     val toUpdateWidgetIds = wasWidgetIds diff toDeleteWidgetIds
     val toUpdateContainerIds = wasContainerIds diff toDeleteContainerIds
 
+
+    val toDeleteIds = (toDeleteContainerIds, toDeleteWidgetIds)
     val toAdd = (isContainers.filter(x=>toAddContainerIds.contains(x.id)),
       isWidgets.filter(x=>toAddWidgetIds.contains(x.id)))
 
-    val toUpdate = (isContainers.filter(x=>toUpdateContainerIds.contains(x.id)),
+    val toUpdate = (isContainers.filter(x => toUpdateContainerIds.contains(x.id)),
       isWidgets.filter(x=>toUpdateWidgetIds.contains(x.id)))
+
+    doUpdate(toDeleteIds, toAdd, toUpdate)
 
 //    val action = db.run(DBIO.seq(
 //
@@ -303,6 +307,12 @@ object PageEditView {
 
 //    finally db.close
 
+
+  }
+
+  private def doUpdate(d: (List[String], List[String]),
+                       i: (List[PContainerV],List[PWidgetV]),
+                       up: (List[PContainerV],List[PWidgetV])): Unit ={
 
   }
 
