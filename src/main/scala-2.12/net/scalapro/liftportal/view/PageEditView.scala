@@ -304,12 +304,13 @@ object PageEditView {
 
     val update1 = DBIO.sequence(
       up._2.map(u => {
-        PWidgetV.view.filter( w => w.id === u.id).map(x => (x.space_id, x.ord)).update(u.space_id, u.ord)
+        PWidgetV.view.filter( w => w.id === u.id).map(x => (x.space_id, x.ord, x.p_container_id)).update(u.space_id, u.ord, u.p_container_id)
       }))
 
     val update2 = DBIO.sequence(
       up._1.map(u => {
-        PContainerV.view.filter( w => w.id === u.id).map(x => (x.space_id, x.ord)).update(u.space_id, u.ord)
+        PContainerV.view.filter( w => w.id === u.id).map(x =>
+          (x.space_id, x.ord, x.p_container_id)).update(u.space_id, u.ord, u.p_container_id)
       }))
 
     val db = DB.getDatabase
@@ -317,11 +318,12 @@ object PageEditView {
 
           PContainerV.view ++= i._1,
           PWidgetV.view ++= i._2,
-          q1.delete,
-          q2.delete,
+          update2,
           update1,
-          update2
-          
+          q1.delete,
+          q2.delete
+
+
         ))
 
         try Await.result(action, Duration.Inf)
