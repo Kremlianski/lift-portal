@@ -354,17 +354,17 @@ object PageEditView {
         case _ =>
       }.asInstanceOf[Seq[PItemV]]
 
-      val pItems = items.isEmpty match {
-        case false => items.groupBy(x => (x.space_id, x.p_container_id))
-        case true => Map.empty[(Int, Option[String]), Seq[PItemV]]
-      }
+      val pItems = if(items.isEmpty)
+        Map.empty[(Int, Option[String]), Seq[PItemV]]
+      else items.groupBy(x => (x.space_id, x.p_container_id))
+
 
       val markupsResult = Await.result(db.run(q2.result), Duration.Inf)
 
-      val markups = markupsResult.isEmpty match {
-        case false => markupsResult.map(x => (x.id.getOrElse(0), x.markup)).toMap
-        case true => Map.empty[Int, String]
-      }
+      val markups = if(markupsResult.isEmpty)
+         Map.empty[Int, String]
+      else markupsResult.map(x => (x.id.getOrElse(0), x.markup)).toMap
+
 
       containersStorage(pItems)
       markupStorage(markups)
