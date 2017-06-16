@@ -24,8 +24,7 @@ class SpaceContainerSnippet {
     val space = spaces.getOrElse((id.toInt, containerId), Seq.empty).sortBy(_.ord)
 
     "*" #> <div class="space" data-xx-sid={id}>
-      {space.map {
-        _ match {
+      {space.map{
 
           case i: PContainerV => {
 
@@ -66,7 +65,7 @@ class SpaceContainerSnippet {
               <div class={classSnippet} data-xx-wid={i.id} data-xx-widget={i.widget_id.toString}></div>
             </div>
           }
-        }
+
       }}
     </div>
 

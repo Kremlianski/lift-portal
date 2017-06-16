@@ -70,21 +70,15 @@ object TemplateView {
 
     val markup = XML.loadString(template.head.markup)
 
-    val widgets = template.map(i => i.extractWidget).filterNot(_ == None).map(_.get)
+    val widgets = template.map(i => i.extractWidget()).filterNot(_.isEmpty).map(_.get)
 
 
-    val spaces = widgets.size == 0 match {
-      case false => widgets.groupBy(_.space_id)
-      case true => Map.empty[Int, Seq[TWidgetV]]
-    }
-
+    val spaces = if(widgets.isEmpty) Map.empty[Int, Seq[TWidgetV]]
+    else widgets.groupBy(_.space_id)
 
     spacesStorage(spaces)
 
-
     transform(markup)
-
-
   }
 
 
@@ -110,7 +104,7 @@ object TemplateView {
 
 
   private def selectContainer(id: String): NodeSeq = {
-    val s: Seq[Widget] = Widgets.get
+    val s: Seq[Widget] = Widgets.get()
     val ns = <div class="form-group">
       <select id="containers" class="form-control">
         <option value="0">-------------</option>{s.map(i =>
@@ -125,7 +119,7 @@ object TemplateView {
       SHtml.link("", () => {
 
         templateId(id)
-        clearAll
+        clearAll()
 
 
 
