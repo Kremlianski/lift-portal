@@ -1,14 +1,11 @@
 package net.scalapro.liftportal.snippet
 
-import net.liftweb.common.Full
 import net.liftweb.http.{S, SHtml}
 import net.liftweb.util.Helpers._
-import net.scalapro.liftportal.cms.views.{PageV, TemplateV}
+import net.scalapro.liftportal.cms.views.PageV
 import net.scalapro.liftportal.util.DB
-
 import scala.concurrent.Await
 import slick.jdbc.PostgresProfile.api._
-
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 import net.scalapro.liftportal.util.Tags

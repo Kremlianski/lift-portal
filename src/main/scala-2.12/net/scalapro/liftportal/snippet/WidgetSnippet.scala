@@ -18,7 +18,7 @@ class WidgetSnippet {
 
     "*" #> <div class={classSnippet}></div> andThen
     "div [class+]" #> "xx-new" &
-    "div [data-xx-wid]" #> {Sequences.newUniversalSeq} &
-    "div [data-xx-widget]" #> {id}
+    "div [data-xx-wid]" #> {Sequences.newUniversalSeq()} &
+    "div [data-xx-widget]" #> id
   }
 }

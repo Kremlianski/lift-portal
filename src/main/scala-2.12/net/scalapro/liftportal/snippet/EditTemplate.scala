@@ -67,7 +67,7 @@ class EditTemplate extends StatefulSnippet {
 
     (newbie match {
       case true =>".title *" #> "Insert new Template"
-      case false =>".title *" #>  s"Edit the ${name} template"
+      case false =>".title *" #>  s"Edit the $name template"
     }) &
       "name=name" #> SHtml.text(name, name = _) &
       "name=text" #> SHtml.textarea(markup, markup = _) &
