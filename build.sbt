@@ -4,9 +4,9 @@ name := "lift-portal"
 
 version := "0.1"
 
-scalaVersion := "2.12.1"
+scalaVersion := "2.12.2"
 
-val liftVer = "3.0.1"
+val liftVer = "3.1.0-RC1"
 
 libraryDependencies +="net.liftweb"       %% "lift-webkit"        % liftVer       % "compile"
 
